@@ -14,7 +14,7 @@ setup(
     ],
     author='brgkdm',
     description='GitHub repo & user analyzer with secret scanner',
-    url='https://github.com/exc-analyzer',
+    url='https://github.com/exc-analyzer/exc',
     classifiers=[
         'Programming Language :: Python :: 3',
         'Operating System :: OS Independent',

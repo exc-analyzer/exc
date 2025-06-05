@@ -67,4 +67,4 @@ The author does not accept any responsibility for misuse or damage caused by thi
 
 ## License
 
-See the [LICENSE](LICENSE) file for details.
+See the [LICENSE](https://github.com/exc-analyzer/exc/blob/main/exc-analyzer/LICENSE) file for details.

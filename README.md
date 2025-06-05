@@ -29,6 +29,9 @@ pip install exc-analyzer
 exc [command] [arguments] [options]
 ```
 
+## Definitive Requirement File
+[requirements.txt](https://github.com/exc-analyzer/exc/blob/main/exc-analyzer/requirements.txt)
+
 ### Commands
 
 | Command                      | Description                                       |

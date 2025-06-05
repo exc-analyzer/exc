@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: exc-analyzer
+Version: 1.0.0
+Summary: GitHub repo & user analyzer with secret scanner
+Home-page: https://github.com/exc-analyzer
+Author: brgkdm
+Author-email: Berat <brgkdm@proton.me>
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file

@@ -14,6 +14,10 @@ jobs:
     name: Build and Publish to PyPI
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: exc-analyzer
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

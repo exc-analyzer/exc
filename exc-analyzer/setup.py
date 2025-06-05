@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='exc-analyzer',
-    version='1.0.0',
+    version='1.0.6',
     py_modules=['exc_analyzer'],
     entry_points={
         'console_scripts': [

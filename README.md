@@ -31,14 +31,13 @@ exc [command] [arguments] [options]
 
 ### Commands
 
-| Command                      | Description                                       |
-|-----------------------------|---------------------------------------------------|
-| `key`                       | Save or reset your GitHub API token              |
-| `analysis owner/repo`       | Analyze a GitHub repository                      |
-| `user-a username`           | Analyze a GitHub user's profile                  |
-| `scan-secrets owner/repo`   | Scan recent commits for potential secrets        |
-| `file-history owner/repo file.py` | Show commit history for a specific file |
-| `contrib-impact owner/repo` | Measure contributor impact                       |
+| Command                           | Description                                      |
+|-----------------------------------|--------------------------------------------------|
+| `key`                             | Save or reset your GitHub API token              |
+| `analysis owner/repo`             | Analyze a GitHub repository                      |
+| `user-a username`                 | Analyze a GitHub user's profile                  |
+| `scan-secrets owner/repo`         | Scan recent commits for potential secrets        |
+| `file-history owner/repo file.py` | Show commit history for a specific file          |
 
 ---
 

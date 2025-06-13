@@ -1,9 +1,9 @@
 [project]
 name = "exc-analyzer"
-version = "1.1.5"
+version = "1.1.6"
 description = "exc"
 authors = [
-    { name="Berat", email="brgkdm@proton.me" }
+    { name="brgkdm", email="brgkdm@proton.me" }
 ]
 readme = "README.md"
 requires-python = ">=3.7"

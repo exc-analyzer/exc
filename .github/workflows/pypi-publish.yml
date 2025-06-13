@@ -3,7 +3,7 @@ name: Publish Python 🐍 distribution 📦 to PyPI
 on:
   push:
     tags:
-      - 'v*'  # Sadece v1.0.0 gibi tag'lerde çalışır
+      - 'v*'
 
 jobs:
   build-and-publish:

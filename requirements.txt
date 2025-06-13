@@ -1,10 +1,5 @@
-argparse
-os
-sys
 requests
-json
-datetime
-time
-base64
-getpass
-re
+toml
+packaging
+colorama
+tabulate

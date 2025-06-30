@@ -148,7 +148,7 @@ pip3 install exc-analyzer
 ### 6. Dork Scan
 - Search public GitHub code for sensitive patterns:
   ```sh
-  exc dork-scan "password filename:.env" -n 20 --ext py --filename config
+  exc dork-scan "dork query"
   ```
   - Supports advanced queries, file extension and filename filters.
 

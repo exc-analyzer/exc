@@ -144,6 +144,7 @@ def save_key(key: str):
     with open(KEY_FILE, "w") as f:
         f.write(encoded)
     os.chmod(KEY_FILE, 0o600)
+    print("")
     print("[!] API key securely saved.")
 
 def load_key():
@@ -572,8 +573,7 @@ def cmd_file_history(args):
 def cmd_dork_scan(args):
     if not args.query:
         Print.error("Missing required argument: <dork_query>")
-        print("\nUsage: exc dork-scan <dork_query> [-n N] [--ext EXT] [--filename NAME]")
-        print("Example: exc dork-scan password filename:.env -n 20 --ext py --filename config")
+        print("Example: exc dork-scan brgkdm")
         print("\nScans public GitHub code for sensitive keywords or patterns (dorking). Useful for finding exposed secrets or config files.")
         return
     headers = get_auth_header()
@@ -961,18 +961,18 @@ class SilentArgumentParser(argparse.ArgumentParser):
                 attempted = None
         # List of valid commands and their aliases
         commands = {
-            'key': ['k'],
-            'analysis': ['a', 'ana'],
-            'user-a': ['u', 'user', 'usera'],
-            'scan-secrets': ['scan', 'secrets', 'ss'],
-            'file-history': ['file', 'history', 'fh'],
-            'dork-scan': ['dork', 'ds'],
-            'advanced-secrets': ['advsec', 'as'],
-            'security-score': ['secscore', 'sscore'],
-            'commit-anomaly': ['commanom', 'ca'],
-            'user-anomaly': ['useranom', 'ua'],
-            'content-audit': ['audit', 'caudit'],
-            'actions-audit': ['workflow-audit', 'waudit']
+            'key': ['k', 'kei', 'kee', 'ky', 'kk', 'keey', 'keyy', 'ket', 'keu', 'keg', 'ker'],
+            'user-a': ['u', 'user', 'usera', 'user-audit', 'usr', 'userr', 'usra', 'usr-a'],
+            'analysis': ['a', 'ana', 'analys', 'analyzis', 'analiz', 'anlys', 'anyl', 'anali', 'analy'],
+            'scan-secrets': ['scan', 'secrets', 'scn', 'scret', 'scrt', 'ss', 's-scan', 'scretscan', 'secscan'],
+            'file-history': ['file', 'fileh', 'flhist', 'histfile', 'fh', 'filehist', 'filehis', 'f-history'],
+            'dork-scan': ['dork', 'dorkscan', 'drk', 'ds', 'dscan', 'dorks', 'd-sc'],
+            'advanced-secrets': ['advsec', 'advsecrets', 'advscrt', 'as', 'adv-s', 'advs', 'advsercet'],
+            'security-score': ['secscore', 'sscore', 'sec-score', 'securiscore', 'securityscor', 'ssec', 'securscore'],
+            'commit-anomaly': ['commanom', 'commitanom', 'c-anom', 'c-anomaly', 'ca', 'cm-anom', 'comm-anom'],
+            'user-anomaly': ['useranom', 'usranom', 'u-anom', 'user-anom', 'ua', 'useranomaly'],
+            'content-audit': ['audit', 'contentaudit', 'cntaudit', 'caudit', 'cnt-aud', 'cont-audit'],
+            'actions-audit': ['workflow-audit', 'waudit', 'actaudit', 'actionaudit', 'wf-audit', 'wkaudit']
         }
         all_cmds = list(commands.keys()) + [alias for v in commands.values() for alias in v]
         suggestion = None
@@ -986,9 +986,9 @@ class SilentArgumentParser(argparse.ArgumentParser):
                     if matches[0] == main or matches[0] in aliases:
                         suggestion = main
                         break
-        print(f"\033[91m[!] ERROR: Invalid command or argument!\033[0m")
+        print(f"\033[91m[!] Invalid command or argument!\033[0m")
         if suggestion:
-            print(f"\033[93m[*] Did you mean: exc {suggestion}?\033[0m")
+            print(f"\033[93m[?] Did you mean: exc {suggestion}\033[0m")
         print(f"\033[93m[*] For correct usage, see: exc --help or exc <module> --help\033[0m")
         sys.exit(2)
 
@@ -998,16 +998,19 @@ def print_custom_help():
     bold = '1' if COLOR_ENABLED else None
     def c(text, code):
         return colorize(text, code) if code else text
-    print(c("\n[*] EXC ANALYZER", bold))
-    print("")
-    print("Usage:")
-    print(c("  exc key [API_KEY] [-r] [--reset]      ", cyan) + c("# Manage GitHub API key", yellow))
+    print("""
+┏━━━━[ EXC ANALYZER ]━━━━┓
+┃ github.com/exc-analyzer┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+""")
+    print("Common Usage:")
+    print(c("  exc key {your_api_key}                ", cyan) + c("# Manage GitHub API key", yellow))
     print(c("  exc analysis <owner/repo>             ", cyan) + c("# Analyze a repository", yellow))
     print(c("  exc scan-secrets <owner/repo>         ", cyan) + c("# Scan for leaked secrets", yellow))
     print(c("  exc file-history <owner/repo> <file>  ", cyan) + c("# Show file change history", yellow))
     print(c("  exc user-a <username>                 ", cyan) + c("# Analyze a GitHub user", yellow))
     print("")
-    print(c("Security & Intelligence:", bold))
+    print("Security & Intelligence:")
     print(c("  exc dork-scan <dork_query>            ", cyan) + c("# GitHub dorking for secrets/configs", yellow))
     print(c("  exc advanced-secrets <owner/repo>     ", cyan) + c("# Advanced secret/config scan", yellow))
     print(c("  exc security-score <owner/repo>       ", cyan) + c("# Repo security scoring", yellow))
@@ -1016,9 +1019,10 @@ def print_custom_help():
     print(c("  exc content-audit <owner/repo>        ", cyan) + c("# Audit repo content/docs", yellow))
     print(c("  exc actions-audit <owner/repo>        ", cyan) + c("# Audit GitHub Actions/CI security", yellow))
     print("")
-    print("General options:")
+    print("General Options:")
     print(c("  --version  (-v)    Show version & update info", cyan))
     print(c("  --verbose  (-V)    Verbose/debug output", cyan))
+    print(c("  --reset    (-r)    API Key Reset", cyan))
     print("")
     print(c("For detailed help: exc <command> --help", yellow))
     print("")
@@ -1169,8 +1173,6 @@ Displays the full change history of a specific file (commit, author, date, messa
     )
     dork_parser.add_argument("query", nargs="*", help=argparse.SUPPRESS)
     dork_parser.add_argument("-n", "--num", type=int, default=10, help="Number of results to show (max 100)")
-    dork_parser.add_argument("--ext", type=str, help="Filter by file extension (e.g. py, env)")
-    dork_parser.add_argument("--filename", type=str, help="Filter by filename substring")
     dork_parser.add_argument("-h", "--help", action="store_true", help=argparse.SUPPRESS)
     def dork_help(args):
         print("""
@@ -1179,15 +1181,11 @@ Displays the full change history of a specific file (commit, author, date, messa
 Scan public GitHub code for sensitive keywords, secrets, or configuration files using advanced dorking techniques.
 
 \033[93mExamples:\033[0m
-  exc dork-scan password filename:.env -n 20 --ext py --filename config
-  exc dork-scan "AWS_SECRET_ACCESS_KEY" --ext js
-  exc dork-scan 'token' --num 50
+  exc dork-scan brgkdm
 
 \033[93mOptions:\033[0m
   <dork_query>         The search query (can be multiple words, quoted if needed)
   -n, --num N          Number of results to show (default: 10, max: 100)
-  --ext EXT            Filter by file extension (e.g. py, js, env)
-  --filename NAME      Filter by filename substring (e.g. config, .env)
   -h, --help           Show this help message and exit
 
 \033[93mDescription:\033[0m
@@ -1196,7 +1194,6 @@ Scan public GitHub code for sensitive keywords, secrets, or configuration files 
 
 \033[93mTips:\033[0m
   - Use quotes for multi-word queries (e.g. "sensitive key")
-  - Combine with --ext or --filename for targeted searches
   - Results include repository, file path, and direct link to the file on GitHub
 
 \033[96mFor more info: https://github.com/exc-analyzer/exc\033[0m
@@ -1344,7 +1341,7 @@ Analyzes GitHub Actions/CI workflow files for security risks and best practices.
     except SystemExit:
         return
 
-    # Komutlar için özel help kontrolü
+    # Special help control for commands
     if hasattr(args, 'help') and args.help:
         if hasattr(args, 'help_func'):
             args.help_func(args)

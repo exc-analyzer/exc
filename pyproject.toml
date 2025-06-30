@@ -1,14 +1,17 @@
 [project]
 name = "exc-analyzer"
-version = "1.1.6"
-description = "exc"
-authors = [
-    { name="brgkdm", email="brgkdm@proton.me" }
-]
+version = "1.1.7"
+description = "Powerful Python tool for in-depth GitHub analysis, designed for multiple platforms and still in development."
 readme = "README.md"
 requires-python = ">=3.7"
+license = { text = "MIT" }
 dependencies = [
     "requests"
+]
+urls = { "Homepage" = "https://exc-analyzer.web.app/", "Repository" = "https://github.com/brgkdm/exc-analyzer" }
+
+authors = [
+    { name = "EXC", email = "exc-analyzer@outlook.com" }
 ]
 
 [project.scripts]

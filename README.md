@@ -32,18 +32,21 @@ EXC-Analyzer is a professional command-line tool for advanced GitHub repository 
 
 ## Installation
 
-### On Kali Linux / Debian / Ubuntu
+<img width="48" height="48" src="https://img.icons8.com/color/48/kali-linux.png" alt="kali-linux"/>
+
+### On Kali Linux / Debian / Ubuntu 
 
 **Recommended (Global) Installation:**
 Install globally using [pipx](https://pypa.github.io/pipx/):
 
 ```sh
-python3 -m pip install --user pipx
+python3 -m pip install pipx
 python3 -m pipx ensurepath
 pipx install exc-analyzer
 ```
 
 **Alternative (Local/Virtual Environment) Installation:**
+
 If you prefer to install only in your current directory (not globally), use a Python virtual environment:
 
 ```sh
@@ -51,17 +54,29 @@ python3 -m venv env
 source env/bin/activate
 pip install exc-analyzer
 ```
+---
+
+<img width="48" height="48" src="https://img.icons8.com/color/48/windows-10.png" alt="windows-10"/>
 
 ### On Windows
 ```sh
 pip install exc-analyzer
 ```
+---
+
+<img width="48" height="48" src="https://img.icons8.com/color/48/mac-logo.png" alt="mac-logo"/> 
 
 ### On macOS
 ```sh
 brew install python3
 pip3 install exc-analyzer
 ```
+---
+
+![icons8-pypi-48](https://github.com/user-attachments/assets/0df8811b-bb20-415e-a05d-b8571d76fcd8)
+
+### To browse the PYPI page and access detailed information:
+[PyPI Project Page](https://pypi.org/project/exc-analyzer/)
 
 ---
 

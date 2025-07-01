@@ -38,10 +38,9 @@ classifiers = [
 
 keywords = ["github", "security", "audit", "scanner", "developer-tools", "exc-analyzer"]
 
-urls = {
-    "Homepage" = "https://exc-analyzer.web.app/",
-    "Repository" = "https://github.com/brgkdm/exc-analyzer"
-}
+[urls]
+Homepage = "https://exc-analyzer.web.app/"
+Repository = "https://github.com/brgkdm/exc-analyzer"
 
 [project.scripts]
 exc = "exc_analyzer:main"

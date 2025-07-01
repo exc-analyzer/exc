@@ -1,4 +1,10 @@
 # EXC-Analyzer
+![GitHub release](https://img.shields.io/github/v/release/exc-analyzer/exc)
+![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc)
+![License](https://img.shields.io/pypi/l/exc-analyzer)
+![Downloads](https://img.shields.io/pypi/dm/exc-analyzer)
+![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc)
+
 
 EXC-Analyzer is a professional command-line tool for advanced GitHub repository and user analysis, security auditing, and secret scanning. Designed for penetration testers, security researchers, and open-source maintainers, EXC-Analyzer provides deep insights into repository health, contributor activity, and potential security risks.
 
@@ -231,3 +237,5 @@ This tool is intended for professional security auditing, research, and authoriz
 
 ## License
 See the [LICENSE](LICENSE) file for details.
+
+

@@ -1,5 +1,75 @@
 #!/usr/bin/env python3
 import argparse
+import sys
+import os
+import platform
+import shutil
+import stat
+def setup_linux_desktop_shortcut():
+    """
+    pipx ile kurulu exc-analyzer için masaüstü uygulama menüsüne .desktop kısayolu ve ikonunu otomatik ekler.
+    """
+    try:
+        # Sadece Linux ve masaüstü ortamı için
+        if platform.system() != "Linux":
+            return
+        # pipx ile kurulu olup olmadığını anlamak için sys.argv[0] veya __file__ yolu pipx dizininde mi bakılır
+        pipx_home = os.environ.get("PIPX_HOME", os.path.expanduser("~/.local/pipx"))
+        if pipx_home not in sys.argv[0] and "pipx" not in sys.argv[0]:
+            return
+        # .desktop dosyası ve ikon yolu
+        desktop_dir = os.path.expanduser("~/.local/share/applications")
+        icon_dir = os.path.expanduser("~/.local/share/icons")
+        os.makedirs(desktop_dir, exist_ok=True)
+        os.makedirs(icon_dir, exist_ok=True)
+        desktop_file = os.path.join(desktop_dir, "exc-analyzer.desktop")
+        icon_file = os.path.join(icon_dir, "exc-analyzer.png")
+        # İkonu paket içinden çıkar (importlib.resources ile)
+        try:
+            import importlib.resources as pkg_resources
+        except ImportError:
+            import importlib_resources as pkg_resources
+        try:
+            # exc_analyzer.png dosyasının exc_analyzer modülünde olduğunu varsayıyoruz
+            with pkg_resources.files("exc_analyzer").joinpath("exc-analyzer.png").open("rb") as src, open(icon_file, "wb") as dst:
+                shutil.copyfileobj(src, dst)
+        except Exception:
+            # Alternatif: build/lib/exc_analyzer.png veya exc_analyzer.png kökteyse
+            possible_paths = [
+                os.path.join(os.path.dirname(__file__), "exc-analyzer.png"),
+                os.path.join(os.path.dirname(__file__), "build", "lib", "exc-analyzer.png"),
+            ]
+            for p in possible_paths:
+                if os.path.isfile(p):
+                    shutil.copyfile(p, icon_file)
+                    break
+        # .desktop dosyası içeriği
+        exec_path = shutil.which("exc") or sys.argv[0]
+        desktop_content = f"""
+        [Desktop Entry]
+        Type=Application
+        Name=EXC Analyzer
+        Comment=GitHub Security & Intelligence Toolkit
+        Exec={exec_path}
+        Icon={icon_file}
+        Terminal=true
+        Categories=Development;Security;
+        """.strip() + "\n"
+        # Eğer .desktop dosyası yoksa veya eskiyse oluştur
+        need_write = True
+        if os.path.isfile(desktop_file):
+            try:
+                with open(desktop_file, "r") as f:
+                    if f"Exec={exec_path}" in f.read():
+                        need_write = False
+            except Exception:
+                pass
+        if need_write:
+            with open(desktop_file, "w") as f:
+                f.write(desktop_content)
+            os.chmod(desktop_file, os.stat(desktop_file).st_mode | stat.S_IXUSR)
+    except Exception:
+        pass
 import os
 import sys
 import requests
@@ -1361,4 +1431,5 @@ Analyzes GitHub Actions/CI workflow files for security risks and best practices.
         print_custom_help()
 
 if __name__ == "__main__":
+    setup_linux_desktop_shortcut()
     main()

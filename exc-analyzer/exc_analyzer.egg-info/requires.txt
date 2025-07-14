@@ -1,6 +1,0 @@
-requests
-toml
-packaging
-colorama
-tabulate
-importlib_resources

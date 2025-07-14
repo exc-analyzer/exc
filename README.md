@@ -1,4 +1,4 @@
-# EXC-Analyzer
+# EXC Analyzer
 ![GitHub release](https://img.shields.io/github/v/release/exc-analyzer/exc)
 ![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc)
 ![License](https://img.shields.io/pypi/l/exc-analyzer)
@@ -8,7 +8,6 @@
 
 EXC-Analyzer is a professional command-line tool for advanced GitHub repository and user analysis, security auditing, and secret scanning. Designed for penetration testers, security researchers, and open-source maintainers, EXC-Analyzer provides deep insights into repository health, contributor activity, and potential security risks.
 
----
 
 ## Table of Contents
 - [Website](https://exc-analyzer.web.app/)
@@ -22,7 +21,6 @@ EXC-Analyzer is a professional command-line tool for advanced GitHub repository 
 - [Disclaimer](#disclaimer)
 - [License](#license)
 
----
 
 ## Features
 - Repository Analysis: Extracts repository metadata, statistics, language usage, and contributor breakdown.
@@ -34,11 +32,8 @@ EXC-Analyzer is a professional command-line tool for advanced GitHub repository 
 - Workflow & Content Auditing: Audits repository documentation, policies, and CI/CD workflows for best practices.
 - API Key Security: Stores GitHub tokens securely with strict file permissions.
 
----
 
 ## Installation
-
-<img width="48" height="48" src="https://img.icons8.com/color/48/kali-linux.png" alt="kali-linux"/>
 
 ### On Kali Linux / Debian / Ubuntu 
 
@@ -60,31 +55,17 @@ python3 -m venv env
 source env/bin/activate
 pip install exc-analyzer
 ```
----
-
-<img width="48" height="48" src="https://img.icons8.com/color/48/windows-10.png" alt="windows-10"/>
 
 ### On Windows
 ```sh
 pip install exc-analyzer
 ```
----
-
-<img width="48" height="48" src="https://img.icons8.com/color/48/mac-logo.png" alt="mac-logo"/> 
 
 ### On macOS
 ```sh
 brew install python3
 pip3 install exc-analyzer
 ```
----
-
-![icons8-pypi-48](https://github.com/user-attachments/assets/0df8811b-bb20-415e-a05d-b8571d76fcd8)
-
-### To browse the PYPI page and access detailed information:
-[PyPI Project Page](https://pypi.org/project/exc-analyzer/)
-
----
 
 ## Quick Start
 1. Obtain a GitHub Personal Access Token ([instructions](https://github.com/settings/tokens)).
@@ -98,7 +79,6 @@ pip3 install exc-analyzer
    exc analysis owner/repo
    ```
 
----
 
 ## Command Overview
 | Command                        | Purpose                                      |
@@ -116,7 +96,6 @@ pip3 install exc-analyzer
 | `content-audit <owner/repo>`   | Audit repo docs, policies, and content       |
 | `actions-audit <owner/repo>`   | Audit GitHub Actions/CI workflows            |
 
----
 
 ## Detailed Command Reference
 
@@ -213,14 +192,12 @@ pip3 install exc-analyzer
   ```
   - Reviews workflow files for security risks and best practices.
 
----
 
 ## API Key Management
 - Your GitHub token is required for all API operations.
 - The token is stored securely and never transmitted except to GitHub.
 - If you lose or wish to rotate your token, use `exc key --reset`.
 
----
 
 ## Troubleshooting
 - API Rate Limits: If you hit GitHub API rate limits, wait and retry later. Use a personal access token with sufficient permissions.
@@ -228,14 +205,10 @@ pip3 install exc-analyzer
 - Color Output Issues: If you do not see colored output, ensure your terminal supports ANSI colors (e.g., use modern terminals on Windows or Linux).
 - Permission Errors: Ensure you have write access to your home directory for API key storage.
 
----
 
 ## Disclaimer
 This tool is intended for professional security auditing, research, and authorized analysis only. Unauthorized use on systems or repositories you do not own or have explicit permission to analyze is strictly prohibited. The author assumes no liability for misuse or damage caused by this tool.
 
----
 
 ## License
 See the [LICENSE](LICENSE) file for details.
-
-

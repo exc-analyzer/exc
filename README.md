@@ -109,8 +109,8 @@ pip3 install exc-analyzer
   exc key --reset
   ```
 - Storage:
-  - Linux: `~/.exc/apikey.sec` (permissions: 0600)
-  - Windows: `%USERPROFILE%\.exc\apikey.sec`
+  - Linux: `~/.exc/build.sec` (permissions: 0600)
+  - Windows: `%USERPROFILE%\.exc\build.sec`
 
 ### 2. Repository Analysis
 - Analyze repository health, stats, and contributors:

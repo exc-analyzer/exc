@@ -2,7 +2,7 @@
 ![GitHub release](https://img.shields.io/github/v/release/exc-analyzer/exc)
 ![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc)
 ![License](https://img.shields.io/pypi/l/exc-analyzer)
-![Downloads](https://img.shields.io/pypi/dm/exc-analyzer)
+[![Downloads](https://static.pepy.tech/badge/exc-analyzer)](https://pepy.tech/project/exc-analyzer)
 ![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc)
 
 

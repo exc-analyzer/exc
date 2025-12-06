@@ -1,9 +1,9 @@
 # EXC Analyzer
-![GitHub release](https://img.shields.io/github/v/release/exc-analyzer/exc)
-![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc)
-![License](https://img.shields.io/pypi/l/exc-analyzer)
-[![Downloads](https://static.pepy.tech/badge/exc-analyzer)](https://pepy.tech/project/exc-analyzer)
-![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc)
+[![GitHub Release](https://img.shields.io/github/v/release/exc-analyzer/exc?label=release&labelColor=black)](https://github.com/exc-analyzer/exc/releases)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/exc-analyzer?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=BRIGHTGREEN&left_text=downloads)](https://pepy.tech/projects/exc-analyzer)
+[![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc?label=release%20date&labelColor=black&color=blue)](https://github.com/exc-analyzer/exc/releases)
+[![License](https://img.shields.io/pypi/l/exc-analyzer?label=license&labelColor=black&color=blue)](https://pypi.org/project/exc-analyzer/)
+[![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc?label=code%20size&labelColor=black)](https://github.com/exc-analyzer/exc)
 
 
 EXC-Analyzer is a professional command-line tool for advanced GitHub repository and user analysis, security auditing, and secret scanning. Designed for penetration testers, security researchers, and open-source maintainers, EXC-Analyzer provides deep insights into repository health, contributor activity, and potential security risks.

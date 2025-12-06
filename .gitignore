@@ -7,6 +7,7 @@ env/
 .env/
 build/
 dist/
+dist-deb/
 *.egg-info/
 .eggs/
 lib/

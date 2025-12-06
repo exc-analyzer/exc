@@ -1,3 +1,9 @@
+exc-analyzer (1.2.1-1) unstable; urgency=medium
+
+  * Rebuild packages and PyPI upload to ensure CLI reports 1.2.1.
+
+ -- EXC Team <exc-analyzer@outlook.com>  Sat, 06 Dec 2025 23:15:00 +0000
+
 exc-analyzer (1.2.0-1) unstable; urgency=medium
 
   * Ship bilingual CLI (EN/TR) with persisted locale preferences.

@@ -1,6 +1,6 @@
 [project]
 name = "exc-analyzer"
-version = "1.1.9"
+version = "1.2.0"
 description = "Powerful Python tool for in-depth GitHub analysis, designed for multiple platforms and still in development."
 readme = "README.md"
 requires-python = ">=3.7"
@@ -17,7 +17,8 @@ dependencies = [
     "packaging",
     "colorama",
     "tabulate",
-    "importlib_resources"
+    "importlib_resources",
+    "keyring"
 ]
 
 classifiers = [
@@ -30,6 +31,12 @@ classifiers = [
 
 keywords = ["github", "security", "audit", "scanner", "developer-tools", "exc-analyzer"]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "responses>=0.25"
+]
+
 [urls]
 Homepage = "https://exc-analyzer.web.app/"
 Repository = "https://github.com/exc-analyzer/exc"
@@ -38,4 +45,4 @@ Repository = "https://github.com/exc-analyzer/exc"
 exc = "exc_analyzer.main:main"
 
 [tool.setuptools.package-data]
-"exc_analyzer" = ["exc-analyzer.png"]
+"exc_analyzer" = ["exc-analyzer.png", "locale/*/*.json"]

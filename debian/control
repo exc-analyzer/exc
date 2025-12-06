@@ -1,0 +1,19 @@
+Source: exc-analyzer
+Section: utils
+Priority: optional
+Maintainer: EXC Team <exc-analyzer@outlook.com>
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools, python3-wheel, python3-build, pybuild-plugin-pyproject
+Standards-Version: 4.7.0
+Homepage: https://exc-analyzer.web.app/
+Vcs-Git: https://github.com/exc-analyzer/exc.git
+Vcs-Browser: https://github.com/exc-analyzer/exc
+Rules-Requires-Root: no
+
+Package: exc-analyzer
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}, python3-requests, python3-toml, python3-packaging, python3-colorama, python3-tabulate, python3-importlib-resources, python3-keyring
+Description: GitHub security auditing and intelligence CLI
+ EXC Analyzer provides repository and user analysis, secret scanning,
+ content and workflow auditing, and anomaly detection for GitHub. The
+ CLI targets Kali/Debian environments with colorized output, rate-limit
+ resilience, localization, and credential-store integration.

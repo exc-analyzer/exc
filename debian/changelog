@@ -1,0 +1,12 @@
+exc-analyzer (1.2.0-1) unstable; urgency=medium
+
+  * Ship bilingual CLI (EN/TR) with persisted locale preferences.
+  * Polish Debian packaging for Kali submission and document clean build.
+
+ -- EXC Team <exc-analyzer@outlook.com>  Sat, 06 Dec 2025 22:15:00 +0000
+
+exc-analyzer (1.1.9-1) unstable; urgency=medium
+
+  * Initial Debian packaging to support Kali Linux inclusion.
+
+ -- EXC Team <exc-analyzer@outlook.com>  Sat, 06 Dec 2025 12:00:00 +0000

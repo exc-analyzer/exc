@@ -5,7 +5,7 @@ from exc_analyzer.logging_utils import main as logging_main
 from exc_analyzer.print_utils import Print, COLOR_ENABLED, colorize
 from exc_analyzer.logging_utils import log
 from exc_analyzer.config import delete_key
-from exc_analyzer.api import notify_new_version, get_version_from_pyproject
+from exc_analyzer.api import notify_new_version
 from exc_analyzer.commands.key import cmd_key
 from exc_analyzer.commands.analysis import cmd_analysis
 from exc_analyzer.commands.user_a import cmd_user_a
@@ -18,6 +18,7 @@ from exc_analyzer.commands.commit_anomaly import cmd_commit_anomaly
 from exc_analyzer.commands.user_anomaly import cmd_user_anomaly
 from exc_analyzer.commands.content_audit import cmd_content_audit
 from exc_analyzer.commands.actions_audit import cmd_actions_audit
+from exc_analyzer.i18n import t
 
 
 
@@ -60,10 +61,12 @@ class SilentArgumentParser(argparse.ArgumentParser):
                         suggestion = main
                         break
         print("")
-        print(f"\033[91m[!] Invalid command.\033[0m")
+        error_text = t("cli.invalid_command")
+        print(colorize(error_text, '91') if COLOR_ENABLED else error_text)
         if suggestion:
             print("")
-            print(f"\033[93m[?] Did you mean: exc {suggestion}\033[0m")
+            suggestion_text = t("cli.invalid_command_suggestion", command=suggestion)
+            print(colorize(suggestion_text, '93') if COLOR_ENABLED else suggestion_text)
             print("")
         sys.exit(2)
 
@@ -91,12 +94,13 @@ def print_minimal_help():
       d88P   Y88b 
 
 """, bold))
-    Print.success(c("  exc key      <your_api_key> ", cyan) + c("# Manage GitHub API key", yellow))
-    Print.success(c("  exc analysis <owner/repo> ", cyan) + c("  # Analyze a repository", yellow))
-    Print.success(c("  exc user-a   <username> ", cyan) + c("    # Analyze a GitHub user", yellow))
+    Print.success(c("  exc key      <your_api_key> ", cyan) + c(t("cli.min_help.key_desc"), yellow))
+    Print.success(c("  exc key --migrate (-m)    ", cyan) + c(t("cli.min_help.migrate_desc"), yellow))
+    Print.success(c("  exc analysis <owner/repo> ", cyan) + c(t("cli.min_help.analysis_desc"), yellow))
+    Print.success(c("  exc user-a   <username> ", cyan) + c(t("cli.min_help.user_desc"), yellow))
     print("")
-    Print.info(c("  For all commands : exc --help or -h", yellow))
-    Print.info(c("  For detailed help: exc <command> --help", yellow))
+    Print.info(c(t("cli.min_help.help_hint"), yellow))
+    Print.info(c(t("cli.min_help.detail_hint"), yellow))
     print("")
     sys.exit(0)
 
@@ -109,38 +113,51 @@ def print_full_help():
         return colorize(text, code) if code else text
 
     print("")
-    Print.success("EXC Help")
+    Print.success(t("cli.full_help.title"))
     print("")
-    print("Common Usage:")
-    print(c("  exc key {your_api_key}                ", cyan) + c("# Manage GitHub API key", yellow))
-    print(c("  exc analysis <owner/repo>             ", cyan) + c("# Analyze a repository", yellow))
-    print(c("  exc scan-secrets <owner/repo>         ", cyan) + c("# Scan for leaked secrets", yellow))
-    print(c("  exc file-history <owner/repo> <file>  ", cyan) + c("# Show file change history", yellow))
-    print(c("  exc user-a <username>                 ", cyan) + c("# Analyze a GitHub user", yellow))
+    print(t("cli.full_help.common_header"))
+    print(c("  exc key {your_api_key}                ", cyan) + c(t("commands.key.desc_short"), yellow))
+    print(c("  exc analysis <owner/repo>             ", cyan) + c(t("commands.analysis.desc_short"), yellow))
+    print(c("  exc scan-secrets <owner/repo>         ", cyan) + c(t("commands.scan_secrets.desc_short"), yellow))
+    print(c("  exc file-history <owner/repo> <file>  ", cyan) + c(t("commands.file_history.desc_short"), yellow))
+    print(c("  exc user-a <username>                 ", cyan) + c(t("commands.user_a.desc_short"), yellow))
     print("")
-    print("Security & Intelligence:")
-    print(c("  exc dork-scan <dork_query>            ", cyan) + c("# GitHub dorking for secrets/configs", yellow))
-    print(c("  exc advanced-secrets <owner/repo>     ", cyan) + c("# Advanced secret/config scan", yellow))
-    print(c("  exc security-score <owner/repo>       ", cyan) + c("# Repo security scoring", yellow))
-    print(c("  exc commit-anomaly <owner/repo>       ", cyan) + c("# Commit/PR anomaly detection", yellow))
-    print(c("  exc user-anomaly <username>           ", cyan) + c("# User activity anomaly detection", yellow))
-    print(c("  exc content-audit <owner/repo>        ", cyan) + c("# Audit repo content/docs", yellow))
-    print(c("  exc actions-audit <owner/repo>        ", cyan) + c("# Audit GitHub Actions/CI security", yellow))
+    print(t("cli.full_help.security_header"))
+    print(c("  exc dork-scan <dork_query>            ", cyan) + c(t("commands.dork_scan.desc_short"), yellow))
+    print(c("  exc advanced-secrets <owner/repo>     ", cyan) + c(t("commands.advanced_secrets.desc_short"), yellow))
+    print(c("  exc security-score <owner/repo>       ", cyan) + c(t("commands.security_score.desc_short"), yellow))
+    print(c("  exc commit-anomaly <owner/repo>       ", cyan) + c(t("commands.commit_anomaly.desc_short"), yellow))
+    print(c("  exc user-anomaly <username>           ", cyan) + c(t("commands.user_anomaly.desc_short"), yellow))
+    print(c("  exc content-audit <owner/repo>        ", cyan) + c(t("commands.content_audit.desc_short"), yellow))
+    print(c("  exc actions-audit <owner/repo>        ", cyan) + c(t("commands.actions_audit.desc_short"), yellow))
     print("")
-    print("General Options:")
-    print(c("  --version  (-v)    Show version & update info", cyan))
-    print(c("  --verbose  (-V)    Verbose/debug output", cyan))
-    print(c("  --reset    (-r)    API Key Reset", cyan))
+    print(t("cli.full_help.general_options_header"))
+    print(c("  --version  (-v)    ", cyan) + c(t("cli.general_options.version"), yellow))
+    print(c("  --verbose  (-V)    ", cyan) + c(t("cli.general_options.verbose"), yellow))
+    print(c("  --reset    (-r)    ", cyan) + c(t("cli.general_options.reset"), yellow))
+    print(c("  --migrate  (-m)    ", cyan) + c(t("cli.general_options.migrate"), yellow))
+    print(c("  --lang     (-L)    ", cyan) + c(t("cli.general_options.lang"), yellow))
     print("")
-    Print.info(c("For detailed help: exc <command> --help", yellow))
+    Print.info(c(t("cli.full_help.info_hint"), yellow))
     print("")
     notify_new_version()
     print("")
     sys.exit(0)
     
 def main():
-    notify_new_version()
-    logging_main()
+    try:
+        logging_main()
+    except Exception as e:
+        try:
+            from exc_analyzer.errors import ExcAnalyzerError
+            from exc_analyzer.print_utils import Print
+            if isinstance(e, ExcAnalyzerError):
+                Print.error(str(e))
+            else:
+                Print.error(f"Fatal error: {e}")
+        except Exception:
+            print(f"Fatal error: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

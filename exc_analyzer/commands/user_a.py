@@ -1,11 +1,12 @@
 # user_a.py
 from ..print_utils import Print
 from ..api import api_get, get_auth_header, get_all_pages
+from ..i18n import t
 
 def cmd_user_a(args):
     if not args.username:
-        Print.error("Owner Missing.")
-        Print.info("\nUsage: exc user-a <github_username>")
+        Print.error(t("commands.user_a.missing_username"))
+        Print.info(t("commands.user_a.usage"))
         return
     
     headers = get_auth_header()
@@ -21,20 +22,20 @@ def cmd_user_a(args):
         reset = "\033[0m"
         print(f"{color}{label:<17}: {value}{reset}")
 
-    Print.success("User Information")
+    Print.success(t("commands.user_a.sections.user_info"))
 
     user_info = [
-    ("Name",            user_data.get('name')),
-    ("Username",        user_data.get('login')),
-    ("Bio",             user_data.get('bio')),
-    ("Location",        user_data.get('location')),
-    ("Company",         user_data.get('company')),
-    ("Account created", user_data.get('created_at')),
-    ("Followers",       user_data.get('followers')),
-    ("Following",       user_data.get('following')),
-    ("Public repos",    user_data.get('public_repos')),
-    ("Public gists",    user_data.get('public_gists')),
-]
+        (t("commands.user_a.labels.name"), user_data.get('name')),
+        (t("commands.user_a.labels.username"), user_data.get('login')),
+        (t("commands.user_a.labels.bio"), user_data.get('bio')),
+        (t("commands.user_a.labels.location"), user_data.get('location')),
+        (t("commands.user_a.labels.company"), user_data.get('company')),
+        (t("commands.user_a.labels.account_created"), user_data.get('created_at')),
+        (t("commands.user_a.labels.followers"), user_data.get('followers')),
+        (t("commands.user_a.labels.following"), user_data.get('following')),
+        (t("commands.user_a.labels.public_repos"), user_data.get('public_repos')),
+        (t("commands.user_a.labels.public_gists"), user_data.get('public_gists')),
+    ]
 
     for i, (label, value) in enumerate(user_info):
         print_colored_info(label, value, use_light=(i % 2 == 0))
@@ -51,7 +52,7 @@ def cmd_user_a(args):
         print(f"{color}{index+1:>2}. * {stars:<4} - {name}{reset}")
 
     print("")
-    Print.success("User's Top Starred Repositories:")
+    Print.success(t("commands.user_a.sections.top_repos"))
 
     repos_sorted = sorted(repos, key=lambda r: r.get('stargazers_count', 0), reverse=True)
 
@@ -59,5 +60,5 @@ def cmd_user_a(args):
         print_bw_repo(i, repo, use_white=(i % 2 == 0))
 
     print("")
-    Print.info(f"Completed.")
+    Print.info(t("commands.user_a.completed"))
     print("")

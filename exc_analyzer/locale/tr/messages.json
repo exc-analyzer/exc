@@ -1,0 +1,188 @@
+{
+  "cli": {
+    "verbose_enabled": "Ayrıntılı (verbose) kip etkinleştirildi.",
+    "unknown_args": "Tanımsız argümanlar: {args}",
+    "invalid_command": "[!] Geçersiz komut.",
+    "invalid_command_suggestion": "[?] Bunu mu demek istediniz: exc {command}?",
+    "language_not_available": "'{lang}' dili kullanılabilir değil. {fallback} diline dönülüyor.",
+    "language_applied": "Dil {language} olarak ayarlandı.",
+    "lang_option_metavar": "DIL",
+    "min_help": {
+      "key_desc": "# GitHub API anahtarını yönet",
+      "migrate_desc": "# Anahtarı işletim sistemi kasasına taşı",
+      "analysis_desc": "# Bir deposu analiz et",
+      "user_desc": "# GitHub kullanıcısını analiz et",
+      "help_hint": "Tüm komutlar için: exc --help veya -h",
+      "detail_hint": "Detaylı yardım: exc <komut> --help"
+    },
+    "full_help": {
+      "title": "EXC Yardım",
+      "common_header": "Temel Kullanım:",
+      "security_header": "Güvenlik & İstihbarat:",
+      "general_options_header": "Genel Seçenekler:",
+      "info_hint": "Detaylı yardım: exc <komut> --help"
+    },
+    "general_options": {
+      "version": "Sürümü ve güncelleme bilgilerini göster",
+      "verbose": "Ayrıntılı/hata ayıklama çıktısı (büyük \"V\")",
+      "reset": "API anahtarını sıfırla",
+      "migrate": "Kayıtlı anahtarı işletim sistemi kasasına taşı",
+      "lang": "Bu çalıştırmada dili değiştir (tercihi de kaydeder)"
+    },
+    "version_missing": "Sürüm bilgisi bulunamadı."
+  },
+  "commands": {
+    "shared": {
+      "example_header": "Örnek:",
+      "examples_header": "Örnekler:",
+      "options_header": "Seçenekler:",
+      "details_header": "Detaylar:",
+      "tips_header": "İpuçları:",
+      "description_header": "Açıklama:"
+    },
+    "key": {
+      "desc_short": "# GitHub API anahtarını yönet",
+      "usage": "Kullanım: exc key [API_ANAHTARI] [--reset] [--migrate]",
+      "description": "GitHub API belirtecini güvenle kaydet, taşı veya sil.",
+      "examples": [
+        "exc key                 # Belirteci istemde gizli biçimde sorar ve kaydeder",
+        "exc key ghp_xxx         # Belirteci komuta satırında ver, isteme gerek kalmasın",
+        "exc key --reset         # Saklanan belirteci sil",
+        "exc key --migrate       # Belirteci işletim sistemi kasasına taşı"
+      ],
+      "prompt_hint": "Belirteci argüman olarak vermezsen EXC girişini gizleyerek sorar."
+    },
+    "analysis": {
+      "desc_short": "# Bir deposu analiz et",
+      "usage": "Kullanım: exc analysis <sahip/depo>",
+      "description": "Bir GitHub deposunu kod kalitesi, güvenlik, bağımlılıklar ve istatistikler açısından inceler.",
+      "examples": [
+        "exc analysis torvalds/linux"
+      ]
+    },
+    "user_a": {
+      "desc_short": "# GitHub kullanıcısını analiz et",
+      "usage": "Kullanım: exc user-a <github_kullanıcı_adı>",
+      "description": "Bir GitHub kullanıcısının profilini, takipçi verilerini ve öne çıkan depolarını inceler.",
+      "examples": [
+        "exc user-a octocat"
+      ],
+      "details": [
+        "- Profil metaverilerini çeker (bio, şirket, konum)",
+        "- Öne çıkan depoları ve katkı serilerini gösterir",
+        "- Anomali kontrolü için son etkinlikleri öne çıkarır"
+      ],
+      "tip": "İpucu: Kullanıcı adını GitHub'daki haliyle girin.",
+      "missing_username": "Kullanıcı adı eksik.",
+      "sections": {
+        "user_info": "Kullanıcı Bilgileri",
+        "top_repos": "En Çok Yıldızlanan Depolar:"
+      },
+      "labels": {
+        "name": "Ad",
+        "username": "Kullanıcı adı",
+        "bio": "Bio",
+        "location": "Konum",
+        "company": "Şirket",
+        "account_created": "Hesap oluşturma",
+        "followers": "Takipçi",
+        "following": "Takip edilen",
+        "public_repos": "Açık depo",
+        "public_gists": "Açık gist"
+      },
+      "completed": "Tamamlandı."
+    },
+    "scan_secrets": {
+      "desc_short": "# Sızan anahtarları tara",
+      "usage": "Kullanım: exc scan-secrets <sahip/depo> [-l N]",
+      "description": "Son N commit'i (varsayılan 10) API anahtarları, AWS kimlikleri, SSH anahtarları ve benzeri sırlar için tarar.",
+      "examples": [
+        "exc scan-secrets torvalds/linux -l 50"
+      ],
+      "options": [
+        "-l, --limit   Tarancak commit sayısı (varsayılan: 10)"
+      ]
+    },
+    "file_history": {
+      "desc_short": "# Dosya değişim geçmişini göster",
+      "usage": "Kullanım: exc file-history <sahip/depo> <dosya_yolu>",
+      "description": "Belirli bir dosyanın tüm değişim geçmişini (commit, yazar, tarih, mesaj) listeler.",
+      "examples": [
+        "exc file-history torvalds/linux kernel/sched/core.c"
+      ]
+    },
+    "dork_scan": {
+      "desc_short": "# GitHub dork taraması",
+      "usage": "Kullanım: exc dork-scan <dork_sorgusu> [seçenekler]",
+      "description": "GitHub üzerindeki herkese açık kodlarda kritik anahtar kelime, sır veya yapılandırma dosyalarını arar.",
+      "examples": [
+        "exc dork-scan brgkdm"
+      ],
+      "options": [
+        "<dork_sorgusu>        Arama ifadesi (birden çok kelime için tırnak kullanın)",
+        "-n, --num N          Gösterilecek sonuç sayısı (varsayılan: 10, en fazla: 100)",
+        "-h, --help           Bu yardım metnini göster"
+      ],
+      "details": [
+        "Bu komut; özel sorgular (dork) ile açığa çıkan sırları, API anahtarlarını veya hassas dosyaları bulmanıza yardım eder.",
+        "Anahtar kelimeleri, dosya uzantılarını ve dosya adlarını birleştirerek sonuçları hassaslaştırabilirsiniz."
+      ],
+      "tips": [
+        "Birden fazla kelime için tırnak kullanın (örn. \"sensitive key\")",
+        "Sonuçlarda depo adı, dosya yolu ve GitHub bağlantısı yer alır"
+      ],
+      "footer": "Daha fazla bilgi: https://github.com/exc-analyzer/exc"
+    },
+    "advanced_secrets": {
+      "desc_short": "# Gelişmiş sır taraması",
+      "usage": "Kullanım: exc advanced-secrets <sahip/depo> [-l N]",
+      "description": "Depo dosyalarını ve son N commit'i geniş secret desenlerine karşı tarar.",
+      "examples": [
+        "exc advanced-secrets torvalds/linux -l 30"
+      ],
+      "options": [
+        "-l, --limit   Tarancak commit sayısı (varsayılan: 20)"
+      ]
+    },
+    "security_score": {
+      "desc_short": "# Depo güvenlik puanlaması",
+      "usage": "Kullanım: exc security-score <sahip/depo>",
+      "description": "Açık issue'lar, branch koruması, security.md, lisans, dependabot, code scanning ve daha fazlasını inceleyerek güvenlik puanı hesaplar.",
+      "examples": [
+        "exc security-score torvalds/linux"
+      ]
+    },
+    "commit_anomaly": {
+      "desc_short": "# Commit/PR anomali analizi",
+      "usage": "Kullanım: exc commit-anomaly <sahip/depo>",
+      "description": "Commit mesajlarını ve PR'ları şüpheli veya riskli etkinlikler için inceler.",
+      "examples": [
+        "exc commit-anomaly torvalds/linux"
+      ]
+    },
+    "user_anomaly": {
+      "desc_short": "# Kullanıcı anomali tespiti",
+      "usage": "Kullanım: exc user-anomaly <github_kullanıcı_adı>",
+      "description": "Bir kullanıcının GitHub etkinliğindeki olağandışı hareketleri tespit eder.",
+      "examples": [
+        "exc user-anomaly octocat"
+      ]
+    },
+    "content_audit": {
+      "desc_short": "# İçerik/doküman denetimi",
+      "usage": "Kullanım: exc content-audit <sahip/depo>",
+      "description": "Lisans, security.md, davranış kuralları, contributing.md ve dokümantasyon kalitesini denetler.",
+      "examples": [
+        "exc content-audit torvalds/linux"
+      ]
+    },
+    "actions_audit": {
+      "desc_short": "# GitHub Actions güvenlik denetimi",
+      "usage": "Kullanım: exc actions-audit <sahip/depo>",
+      "description": "GitHub Actions/CI iş akışlarını güvenlik riski ve en iyi uygulamalar açısından analiz eder.",
+      "examples": [
+        "exc actions-audit torvalds/linux"
+      ]
+    }
+  }
+}

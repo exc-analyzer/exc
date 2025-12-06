@@ -1,8 +1,9 @@
 import sys
 import os
-CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".exc_analyzer")
+from exc_analyzer.constants import CONFIG_DIR, LOG_FILE
+
+# Verbose flag controlled by logging_utils
 VERBOSE = False
-LOG_FILE = os.path.join(CONFIG_DIR, "exc.log")
 # ---------------------
 # CliOutput and Color Support
 # ---------------------
@@ -47,5 +48,11 @@ class Print:
     @staticmethod
     def colorize(text, color_code):
         return f"\033[{color_code}m{text}\033[0m"
+
+
+def set_verbose(v: bool):
+    """Set verbose flag for printing/logging."""
+    global VERBOSE
+    VERBOSE = bool(v)
 
 

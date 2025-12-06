@@ -14,6 +14,8 @@ EXC-Analyzer is a professional command-line tool for advanced GitHub repository 
 - [Features](#features)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [Localization](#localization)
+- [Debian/Kali Packaging](#debiankali-packaging)
 - [Command Overview](#command-overview)
 - [Detailed Command Reference](#detailed-command-reference)
 - [API Key Management](#api-key-management)
@@ -31,6 +33,7 @@ EXC-Analyzer is a professional command-line tool for advanced GitHub repository 
 - Security Scoring: Evaluates repository security posture (branch protection, code scanning, etc.).
 - Workflow & Content Auditing: Audits repository documentation, policies, and CI/CD workflows for best practices.
 - API Key Security: Stores GitHub tokens securely with strict file permissions.
+- Intelligent Rate-Limit Handling: Automatically pauses and retries when GitHub API quotas are hit.
 
 
 ## Installation
@@ -78,6 +81,44 @@ pip3 install exc-analyzer
    ```sh
    exc analysis owner/repo
    ```
+
+## Localization
+- EXC Analyzer currently ships with English (`en`) and Turkish (`tr`) interface strings. English remains the default when no preference is set.
+- Override the language per invocation (and persist the choice) with `exc --lang tr ...` or `exc -L en ...`.
+- Alternatively set `EXC_LANG=tr` (or rely on your shell's `LANG` variable) to influence the default without adding CLI flags.
+- Language preferences are stored in `~/.exc/settings.json`. Delete or edit this file if you want to reset the remembered language.
+- Missing translations automatically fall back to English so the CLI remains usable even if a key is not localized yet.
+
+## Debian/Kali Packaging
+1. Prerequisites (on Debian/Ubuntu/Kali):
+  ```sh
+  sudo apt update
+  sudo apt install build-essential debhelper dh-python python3-all python3-build python3-setuptools python3-wheel pybuild-plugin-pyproject
+  ```
+2. Build the source package (tested on Ubuntu 22.04 / WSL):
+  ```sh
+  dpkg-buildpackage -us -uc
+  ```
+  This consumes the metadata under `debian/` and emits `exc-analyzer_*.deb` artifacts.
+  For traceability we publish sanitized logs, e.g. `exc-analyzer_1.2.0-1_build.log`.
+3. Test the resulting `.deb` locally:
+  ```sh
+  sudo apt install ./exc-analyzer_1.1.9-1_all.deb
+  ```
+4. The package is assembled via `dh --with python3 --buildsystem=pybuild`, so `pyproject.toml`, localization catalogs, and console scripts are bundled automatically. `Rules-Requires-Root: no` keeps the build user-friendly.
+
+> Note: `dpkg-buildpackage` is only available on Debian-like systems. Use WSL, a container, or a native Kali/Ubuntu machine rather than Windows PowerShell when producing the actual `.deb` for submission.
+
+## Testing
+1. Install development dependencies:
+  ```sh
+  pip install -e .[dev]
+  ```
+2. Execute the automated suite:
+  ```sh
+  pytest
+  ```
+GitHub Actions also runs these tests on every push/PR across Linux, macOS, and Windows environments to keep the CLI stable for Kali packaging requirements.
 
 
 ## Command Overview
@@ -197,6 +238,12 @@ pip3 install exc-analyzer
 - Your GitHub token is required for all API operations.
 - The token is stored securely and never transmitted except to GitHub.
 - If you lose or wish to rotate your token, use `exc key --reset`.
+
+Note on storage and security:
+
+- EXC attempts to use the operating system's secure credential storage when available (for example, Windows Credential Manager, macOS Keychain, or Linux Secret Service) via the optional `keyring` library. This provides the strongest local protection for tokens.
+- If OS credential storage is not available, EXC falls back to storing the token in a local file: `~/.exc/build.sec` (Linux/macOS) or `%USERPROFILE%\\.exc\\build.sec` (Windows). The app will attempt to set strict file permissions (0600) on Unix-like systems.
+- Important: base64 is used for a simple file-obfuscation fallback and is not a replacement for proper encryption. File permission protections (0600) reduce exposure, but the most robust option is OS credential storage; EXC will prefer that when possible.
 
 
 ## Troubleshooting

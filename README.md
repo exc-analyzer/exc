@@ -102,10 +102,10 @@ pip3 install exc-analyzer
   dpkg-buildpackage -us -uc
   ```
   This consumes the metadata under `debian/` and emits `exc-analyzer_*.deb` artifacts.
-  For traceability we publish sanitized logs, e.g. `exc-analyzer_1.2.0-1_build.log`.
+  For traceability we publish sanitized logs, e.g. `exc-analyzer_1.2.1-1_build.log`.
 3. Test the resulting `.deb` locally:
   ```sh
-  sudo apt install ./exc-analyzer_1.1.9-1_all.deb
+  sudo apt install ./exc-analyzer_1.2.1-1_all.deb
   ```
 4. The package is assembled via `dh --with python3 --buildsystem=pybuild`, so `pyproject.toml`, localization catalogs, and console scripts are bundled automatically. `Rules-Requires-Root: no` keeps the build user-friendly.
 

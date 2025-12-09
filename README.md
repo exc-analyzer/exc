@@ -143,17 +143,29 @@ GitHub Actions also runs these tests on every push/PR across Linux, macOS, and W
 ## Detailed Command Reference
 
 ### 1. API Key Management
-- Set or update your GitHub API key:
+
+- **Set or update your GitHub API key:**
   ```sh
   exc key
   ```
-- Reset (delete) your API key:
+
+- **Reset (delete) your API key:**
   ```sh
   exc key --reset
   ```
-- Storage:
-  - Linux: `~/.exc/build.sec` (permissions: 0600)
-  - Windows: `%USERPROFILE%\.exc\build.sec`
+
+- **Migrate key to the OS credential store:**
+  ```sh
+  exc key --migrate
+  ```
+### Storage
+
+By default, the API key is stored in the **OS credential store**.
+
+Alternatively, if the OS credential store is not available or migration is not performed, the key can be stored in:
+
+- **Linux:** `~/.exc/build.sec` (permissions: 0600)
+- **Windows:** `%USERPROFILE%\.exc\build.sec`
 
 ### 2. Repository Analysis
 - Analyze repository health, stats, and contributors:

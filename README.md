@@ -1,4 +1,5 @@
 # EXC Analyzer
+<<<<<<< HEAD
 [![GitHub Release](https://img.shields.io/github/v/release/exc-analyzer/exc?label=release&labelColor=black&cacheSeconds=0
 )](https://github.com/exc-analyzer/exc/releases)
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/exc-analyzer?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=BRIGHTGREEN&left_text=downloads)](https://pepy.tech/projects/exc-analyzer)
@@ -6,90 +7,124 @@
 [![License](https://img.shields.io/pypi/l/exc-analyzer?label=license&labelColor=black&color=blue)](https://pypi.org/project/exc-analyzer/)
 [![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc?label=code%20size&labelColor=black)](https://github.com/exc-analyzer/exc)
 [![Socket Badge](https://badge.socket.dev/pypi/package/exc-analyzer/1.2.1?artifact_id=tar-gz)](https://badge.socket.dev/pypi/package/exc-analyzer/1.2.1?artifact_id=tar-gz)
+=======
 
+[![GitHub Release](https://img.shields.io/github/v/release/exc-analyzer/exc?label=release&labelColor=black&cacheSeconds=0)](https://github.com/exc-analyzer/exc/releases)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/exc-analyzer?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=ORANGE&left_text=downloads)](https://pepy.tech/projects/exc-analyzer)
+[![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc?label=release%20date&labelColor=black&color=blue)](https://github.com/exc-analyzer/exc/releases)
+[![License](https://img.shields.io/pypi/l/exc-analyzer?label=license&labelColor=black&color=blue)](https://pypi.org/project/exc-analyzer/)
+[![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc?label=code%20size&labelColor=black)](https://github.com/exc-analyzer/exc)
+[![Socket Badge](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.0?artifact_id=tar-gz)](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.0?artifact_id=tar-gz)
+>>>>>>> ba1aa21 (chore: prepare release v1.3.0 with automated workflow)
 
-EXC-Analyzer is a professional command-line tool for advanced GitHub repository and user analysis, security auditing, and secret scanning. Designed for penetration testers, security researchers, and open-source maintainers, EXC-Analyzer provides deep insights into repository health, contributor activity, and potential security risks.
-
+**EXC Analyzer** is a professional command-line tool for advanced GitHub repository intelligence, security auditing, and content analysis. Designed for security researchers, penetration testers, and open-source maintainers, it bridges the gap between simple metadata and deep, actionable insights.
 
 ## Table of Contents
-- [Website](https://exc-analyzer.web.app/)
 - [Features](#features)
 - [Installation](#installation)
+- [Authentication](#authentication)
 - [Quick Start](#quick-start)
+- [Command Reference](#command-reference)
+- [Output & Reports](#output--reports)
 - [Localization](#localization)
-- [Debian/Kali Packaging](#debiankali-packaging)
-- [Command Overview](#command-overview)
-- [Detailed Command Reference](#detailed-command-reference)
-- [API Key Management](#api-key-management)
 - [Troubleshooting](#troubleshooting)
-- [Disclaimer](#disclaimer)
 - [License](#license)
 
-
 ## Features
-- Repository Analysis: Extracts repository metadata, statistics, language usage, and contributor breakdown.
-- User Analysis: Profiles GitHub users, including activity, top repositories, and contribution patterns.
-- Secret Scanning: Detects API keys, tokens, and sensitive data in recent commits and files.
-- File History: Displays granular commit history for any file in a repository.
-- Contributor Impact: Quantifies individual contributor impact based on code changes.
-- Security Scoring: Evaluates repository security posture (branch protection, code scanning, etc.).
-- Workflow & Content Auditing: Audits repository documentation, policies, and CI/CD workflows for best practices.
-- API Key Security: Stores GitHub tokens securely with strict file permissions.
-- Intelligent Rate-Limit Handling: Automatically pauses and retries when GitHub API quotas are hit.
 
+*   **Intelligence Gathering:** Deep-dive into repository metadata, contributor impact, and historical anomalies.
+*   **Security Auditing:** Score repository security posture, audit GitHub Actions workflows, and scan for secrets in commits/files.
+*   **Dork Scanning:** Powerfully search public code using GitHub dorks to find sensitive exposures.
+*   **User Profiling:** Analyze user activity patterns, potential anomalies, and contributions.
+*   **Smart Rate-Limiting:** Handles API quotas automatically with intelligent pausing and retries.
+*   **Localization:** Localization is currently available in English and Turkish, but the infrastructure is ready to expand to a wider range of languages ​​through community contributions.
 
 ## Installation
 
-### On Kali Linux / Debian / Ubuntu 
-
-**Recommended (Global) Installation:**
-Install globally using [pipx](https://pypa.github.io/pipx/):
-
-```sh
-python3 -m pip install pipx
-python3 -m pipx ensurepath
-pipx install exc-analyzer
+### Kali Linux / Debian
+Download the latest `.deb` from [Releases](https://github.com/exc-analyzer/exc/releases) and run:
+```bash
+sudo dpkg -i exc-analyzer_1.3.0-1_all.deb
+sudo apt-get install -f  # Fix dependencies if needed
 ```
 
-**Alternative (Local/Virtual Environment) Installation:**
-
-If you prefer to install only in your current directory (not globally), use a Python virtual environment:
-
-```sh
-python3 -m venv env
-source env/bin/activate
+### Windows
+```bash
 pip install exc-analyzer
 ```
+*(Requires Python 3.7+)*
 
-### On Windows
-```sh
-pip install exc-analyzer
-```
+## Authentication
 
-### On macOS
-```sh
-brew install python3
-pip3 install exc-analyzer
-```
+1.  **Login:**
+    ```bash
+    exc login
+    ```
+2.  **Authorize:** The tool will provide a code (and copy it to your clipboard). It will open your browser to GitHub activation.
+3.  **Ready:** Paste the code, approve the permissions, and you are done!
+
+The token behaves like a standard GitHub App connection and is stored securely in your OS credential manager.
 
 ## Quick Start
-1. Obtain a GitHub Personal Access Token ([instructions](https://github.com/settings/tokens)).
-   > **Note:** To avoid issues during analysis, ensure you grant all available permissions to the token. Insufficient permissions may cause errors or incomplete results.
-2. Initialize your API key:
-   ```sh
-   exc key
-   ```
-3. Run your first analysis:
-   ```sh
-   exc analysis owner/repo
-   ```
+
+**1. Analyze a Repository:**
+```bash
+exc analysis torvalds/linux
+```
+**2. Search for Sensitive Data (Dorks) (User's responsibility):**
+```bash
+exc dork-scan "filename:config.php 'db_password'"
+```
+
+**3. Scan for Secrets:**
+```bash
+exc scan-secrets microsoft/vscode -l 20
+```
+
+### Information Gathering
+*   **`analysis <owner>/<repo>`** - Get a comprehensive overview of repository health, stats, and top contributors.
+*   **`user-a <username>`** - Analyze public profile, top languages, and activity summary.
+*   **`contrib-impact <owner>/<repo>`** - Calculate impact scores for individual contributors to identify key maintainers.
+*   **`file-history <owner>/<repo> <path>`** - View granular commit history for a specific file.
+
+### Security & Auditing
+*   **`security-score <owner>/<repo>`** - Evaluate repository security (branch protection, code scanning, security policies).
+*   **`actions-audit <owner>/<repo>`** - Audit GitHub Actions workflows for dangerous triggers and insecure practices.
+*   **`scan-secrets <owner>/<repo>`** - Fast scan of recent commits for credentials and tokens.
+*   **`advanced-secrets <owner>/<repo>`** - Deep scan of current file contents and history for high-entropy secrets.
+*   **`dork-scan <query>`** - Search GitHub for sensitive sensitive code patterns (dorks). Supports export.
+
+### Anomaly Detection
+*   **`commit-anomaly <owner>/<repo>`** - Detect suspicious commit times, mass deletions, or unusual messages.
+*   **`user-anomaly <username>`** - Identify irregular activity spikes or behavioral outliers for a user.
+
+### Content Audit
+*   **`content-audit <owner>/<repo>`** - Check for essential community standards (LICENSE, CODE_OF_CONDUCT, CONTRIBUTING.md).
+
+### Utilities
+*   **`login`** - Log in with your GitHub account to start analyzing.
+*   **`logout`** - Log out from your GitHub account.
+
+## Output & Reports
+
+Most commands support the `-o` or `--output` flag to save results to a file:
+
+```bash
+# Save to a generated filename (e.g., analysis_owner_repo_date.txt)
+exc analysis owner/repo -o
+
+# Save to a specific file
+exc dork-scan "password" -o results.txt
+```
 
 ## Localization
-- EXC Analyzer currently ships with English (`en`) and Turkish (`tr`) interface strings. English remains the default when no preference is set.
-- Override the language per invocation (and persist the choice) with `exc --lang tr ...` or `exc -L en ...`.
-- Alternatively set `EXC_LANG=tr` (or rely on your shell's `LANG` variable) to influence the default without adding CLI flags.
-- Language preferences are stored in `~/.exc/settings.json`. Delete or edit this file if you want to reset the remembered language.
-- Missing translations automatically fall back to English so the CLI remains usable even if a key is not localized yet.
+
+Switch languages dynamically using `--lang` or the environment variable:
+
+*   **English (Default):** `exc --lang en analysis owner/repo`
+*   **Turkish:** `exc --lang tr analysis owner/repo`
+
+*(Selection is remembered for future commands.)*
 
 ## Debian/Kali Packaging
 1. Prerequisites (on Debian/Ubuntu/Kali):
@@ -259,17 +294,11 @@ Note on storage and security:
 - If OS credential storage is not available, EXC falls back to storing the token in a local file: `~/.exc/build.sec` (Linux/macOS) or `%USERPROFILE%\\.exc\\build.sec` (Windows). The app will attempt to set strict file permissions (0600) on Unix-like systems.
 - Important: base64 is used for a simple file-obfuscation fallback and is not a replacement for proper encryption. File permission protections (0600) reduce exposure, but the most robust option is OS credential storage; EXC will prefer that when possible.
 
-
 ## Troubleshooting
-- API Rate Limits: If you hit GitHub API rate limits, wait and retry later. Use a personal access token with sufficient permissions.
-- Missing Output or Slow Results: Large repositories or high API usage may cause delays. Try reducing the number of results or commit range.
-- Color Output Issues: If you do not see colored output, ensure your terminal supports ANSI colors (e.g., use modern terminals on Windows or Linux).
-- Permission Errors: Ensure you have write access to your home directory for API key storage.
 
-
-## Disclaimer
-This tool is intended for professional security auditing, research, and authorized analysis only. Unauthorized use on systems or repositories you do not own or have explicit permission to analyze is strictly prohibited. The author assumes no liability for misuse or damage caused by this tool.
-
+*   **Rate Limits:** If you hit API limits, the tool will automatically pause and retry. Using an authenticated token (`exc login`) increases your quota significantly.
+*   **Colors:** If output looks strange, ensure your terminal supports ANSI colors.
 
 ## License
-See the [LICENSE](LICENSE) file for details.
+
+MIT License. See `LICENSE` file for details.

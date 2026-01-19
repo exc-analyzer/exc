@@ -4,3 +4,10 @@ export PYBUILD_NAME=exc-analyzer
 
 %:
 	dh $@ --with python3 --buildsystem=pybuild
+
+override_dh_install:
+	chmod 0644 debian/install debian/exc-analyzer.desktop || true
+	dh_install
+	chmod 0755 debian/exc-analyzer/usr/lib/exc-analyzer/exc-gui-launcher || true
+	chmod 0644 debian/exc-analyzer/usr/share/pixmaps/exc-analyzer.png || true
+	dh_link usr/lib/exc-analyzer/exc-gui-launcher usr/bin/exc-gui-launcher

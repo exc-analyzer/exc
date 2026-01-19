@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=exc-analyzer
+Comment=GitHub Repository Security Analysis CLI
+Exec=x-terminal-emulator -e "bash -lc 'exc; exec bash'"
+Icon=exc-analyzer
+Terminal=false
+Type=Application
+Categories=Security;Development;
+StartupNotify=false

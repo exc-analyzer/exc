@@ -1,0 +1,64 @@
+#!/bin/sh
+set -e
+
+SCRIPT_PATH="/usr/lib/exc-analyzer/exc-gui-launcher"
+APP_TITLE="EXC Analyzer"
+CMD_RUN="exc $*; exec bash"
+
+run_cli() {
+    if ! command -v exc >/dev/null 2>&1; then
+        printf 'exc command not found in PATH.\n'
+        exit 127
+    fi
+
+    exc "$@"
+    exit $?
+}
+
+if [ "$1" = "--cli" ]; then
+    shift
+    run_cli "$@"
+fi
+
+if command -v xfce4-terminal >/dev/null 2>&1; then
+    exec xfce4-terminal --command "bash -lc '$CMD_RUN'"
+fi
+
+if command -v gnome-terminal >/dev/null 2>&1; then
+    exec gnome-terminal -- bash -lc "$CMD_RUN"
+fi
+
+if command -v mate-terminal >/dev/null 2>&1; then
+    exec mate-terminal -- bash -lc "$CMD_RUN"
+fi
+
+if command -v konsole >/dev/null 2>&1; then
+    exec konsole -e bash -lc "$CMD_RUN"
+fi
+
+if command -v x-terminal-emulator >/dev/null 2>&1; then
+    exec x-terminal-emulator -e bash -lc "$CMD_RUN"
+fi
+
+if command -v tilix >/dev/null 2>&1; then
+    exec tilix -e "bash -lc '$CMD_RUN'"
+fi
+
+if command -v kitty >/dev/null 2>&1; then
+    exec kitty -e "bash -lc '$CMD_RUN'"
+fi
+
+if command -v alacritty >/dev/null 2>&1; then
+    exec alacritty -e bash -lc "$CMD_RUN"
+fi
+
+if command -v lxterminal >/dev/null 2>&1; then
+    exec lxterminal -e "bash -lc '$CMD_RUN'"
+fi
+
+if command -v xterm >/dev/null 2>&1; then
+    exec xterm -e bash -lc "$CMD_RUN"
+fi
+
+printf 'No graphical terminal emulator found. Running in current session.\n'
+run_cli "$@"

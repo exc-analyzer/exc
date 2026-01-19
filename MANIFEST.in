@@ -1,0 +1,10 @@
+include exc_analyzer/exc-analyzer.png
+recursive-include exc_analyzer/locale *.json
+include README.md
+include LICENSE
+include pyproject.toml
+exclude merge_json.py
+exclude tests/*
+global-exclude *.pyc
+global-exclude __pycache__
+exclude .gitignore

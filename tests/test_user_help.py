@@ -1,8 +1,5 @@
 from types import SimpleNamespace
-
 from exc_analyzer.commands import user_a
-
-
 def test_user_a_requires_username(capsys):
     args = SimpleNamespace(username=None)
     user_a.cmd_user_a(args)

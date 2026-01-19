@@ -1,111 +1,149 @@
-# security_score.py
+"""Security score calculation with improved visual output."""
 import requests
-from ..print_utils import Print
+from ..print_utils import print_error, _write_output, safe_print, colorize, Print
 from ..api import api_get, get_auth_header
-
+from ..spinner import spinner
 def cmd_security_score(args):
+    from ..i18n import t
     if not args.repo:
-        Print.error("Missing required argument: <owner/repo>")
-        print("\nUsage: exc security-score <owner/repo>")
-        print("Example: exc security-score torvalds/linux")
-        print("\nCalculates a security score for the repository based on open issues, branch protection, security.md, license, dependabot, code scanning, and more.")
+        print_error(t("commands.shared.missing_repo"))
+        _write_output(f"\n{t('commands.security_score.usage')}")
+        _write_output(f"{t('commands.shared.example_header')} {t('commands.security_score.examples')[0]}")
         return
     headers = get_auth_header()
     repo = args.repo.strip()
-    Print.info(f"Calculating security score for: {repo}")
-    repo_url = f"https://api.github.com/repos/{repo}"
-    repo_data, _ = api_get(repo_url, headers)
+    if "/" not in repo or len(repo.split("/")) != 2:
+        safe_print("")
+        _write_output("")
+        print_error(t("commands.shared.invalid_repo_format"))
+        safe_print("")
+        return
+    with spinner(t("commands.security_score.calculating", repo=repo), color='96'):
+        repo_url = f"https://api.github.com/repos/{repo}"
+        repo_data, _ = api_get(repo_url, headers)
+    safe_print("")
+    _write_output("")
     score = 100
-    table = []
-    # License
+    issues = []  
+    s_present = t("commands.security_score.status.present")
+    s_missing = t("commands.security_score.status.missing")
+    s_enabled = t("commands.security_score.status.enabled")
+    s_disabled = t("commands.security_score.status.disabled")
+    s_yes = t("commands.security_score.status.yes")
+    s_no = t("commands.security_score.status.no")
+    crit_license = t("commands.security_score.criteria.license")
     if not repo_data.get('license'):
         score -= 10
-        table.append(["License", "❌ None", "-10"])
+        issues.append((crit_license, t("commands.security_score.status.none"), -10, False))
     else:
-        table.append(["License", "✔ Present", "0"])
-    # Issues
+        issues.append((crit_license, s_present, 0, True))
+    crit_issues = t("commands.security_score.criteria.issues")
     if not repo_data.get('has_issues'):
         score -= 10
-        table.append(["Issues Enabled", "❌ No", "-10"])
+        issues.append((crit_issues, s_no, -10, False))
     else:
-        table.append(["Issues Enabled", "✔ Yes", "0"])
-    # Wiki
+        issues.append((crit_issues, s_yes, 0, True))
+    crit_wiki = t("commands.security_score.criteria.wiki")
     if not repo_data.get('has_wiki'):
         score -= 5
-        table.append(["Wiki Enabled", "❌ No", "-5"])
+        issues.append((crit_wiki, s_no, -5, False))
     else:
-        table.append(["Wiki Enabled", "✔ Yes", "0"])
-    # Projects
+        issues.append((crit_wiki, s_yes, 0, True))
+    crit_projects = t("commands.security_score.criteria.projects")
     if not repo_data.get('has_projects'):
         score -= 5
-        table.append(["Projects Enabled", "❌ No", "-5"])
+        issues.append((crit_projects, s_no, -5, False))
     else:
-        table.append(["Projects Enabled", "✔ Yes", "0"])
-    # Open issue count
+        issues.append((crit_projects, s_yes, 0, True))
+    crit_open = t("commands.security_score.criteria.open_issues")
     open_issues = repo_data.get('open_issues_count', 0)
     if open_issues > 50:
         score -= 10
-        table.append(["Open Issues", f"{open_issues}", "-10"])
+        issues.append((crit_open, f"{open_issues}", -10, False))
     elif open_issues > 10:
         score -= 5
-        table.append(["Open Issues", f"{open_issues}", "-5"])
+        issues.append((crit_open, f"{open_issues}", -5, False))
     else:
-        table.append(["Open Issues", f"{open_issues}", "0"])
-    # SECURITY.md
+        issues.append((crit_open, f"{open_issues}", 0, True))
+    crit_sec = t("commands.security_score.criteria.security_md")
     sec_url = f"https://api.github.com/repos/{repo}/contents/SECURITY.md"
     sec_resp = requests.get(sec_url, headers=headers)
     if sec_resp.status_code != 200:
         score -= 10
-        table.append(["SECURITY.md", "❌ Missing", "-10"])
+        issues.append((crit_sec, s_missing, -10, False))
     else:
-        table.append(["SECURITY.md", "✔ Present", "0"])
-    # Branch protection (default branch)
+        issues.append((crit_sec, s_present, 0, True))
+    crit_bp = t("commands.security_score.criteria.branch_prot")
     default_branch = repo_data.get('default_branch')
     prot_url = f"https://api.github.com/repos/{repo}/branches/{default_branch}/protection"
     prot_resp = requests.get(prot_url, headers=headers)
     if prot_resp.status_code == 200:
-        table.append(["Branch Protection", "✔ Enabled", "0"])
+        issues.append((crit_bp, s_enabled, 0, True))
     else:
         score -= 10
-        table.append(["Branch Protection", "❌ Not enabled", "-10"])
-    # Dependabot config
+        issues.append((crit_bp, s_disabled, -10, False))
+    crit_dep = t("commands.security_score.criteria.dependabot")
     dep_url = f"https://api.github.com/repos/{repo}/contents/.github/dependabot.yml"
     dep_resp = requests.get(dep_url, headers=headers)
     if dep_resp.status_code == 200:
-        table.append(["Dependabot Config", "✔ Present", "0"])
+        issues.append((crit_dep, s_present, 0, True))
     else:
         score -= 5
-        table.append(["Dependabot Config", "❌ Missing", "-5"])
-    # Code scanning alerts
+        issues.append((crit_dep, s_missing, -5, False))
+    crit_cs = t("commands.security_score.criteria.code_scanning")
     scan_url = f"https://api.github.com/repos/{repo}/code-scanning/alerts"
     scan_resp = requests.get(scan_url, headers=headers)
     if scan_resp.status_code == 200:
         alerts = scan_resp.json()
         if isinstance(alerts, list) and len(alerts) > 0:
             score -= 10
-            table.append(["Code Scanning Alerts", f"{len(alerts)} open", "-10"])
+            issues.append((crit_cs, f"{len(alerts)} {t('commands.security_score.status.open')}", -10, False))
         else:
-            table.append(["Code Scanning Alerts", "0 open", "0"])
+            issues.append((crit_cs, "0", 0, True))
     else:
-        table.append(["Code Scanning Alerts", "N/A", "0"])
-    # Manually draw ASCII grid for table alignment
-    headers_row = ["Criteria", "Status", "Score Impact"]
-    rows = [headers_row] + table
-    col_widths = [max(len(str(row[i])) for row in rows) for i in range(3)]
-    def draw_line():
-        return "+" + "+".join(["-" * (w + 2) for w in col_widths]) + "+"
-    def draw_row(row):
-        return "| " + " | ".join(str(row[i]).ljust(col_widths[i]) for i in range(3)) + " |"
-    print(draw_line())
-    print(draw_row(headers_row))
-    print(draw_line())
-    for row in table:
-        print(draw_row(row))
-        print(draw_line())
-    Print.action(f"Security Score: {score}/100")
+        issues.append((crit_cs, "N/A", 0, True))
+    _print_security_score(repo, score, issues)
+def _print_security_score(repo, score, issues):
+    """Print security score in a visual, user-friendly format."""
+    from ..i18n import t
+    from ..helpers import TablePrinter
     if score >= 90:
-        Print.success("Excellent security hygiene!")
+        score_color = '92'  
+        verdict = t("commands.security_score.verdict.excellent")
+        verdict_color = '92'
     elif score >= 75:
-        Print.info("Good, but can be improved.")
+        score_color = '93'  
+        verdict = t("commands.security_score.verdict.good")
+        verdict_color = '93'
     else:
-        Print.warn("Security posture is weak! Review the issues above.")
+        score_color = '91'  
+        verdict = t("commands.security_score.verdict.weak")
+        verdict_color = '91'
+    safe_print("")
+    safe_print(Print.colorize("═" * 60, '96'))
+    header_text = f"  {t('commands.security_score.score_header')}: {repo}"
+    safe_print(Print.colorize(header_text, '97'))
+    safe_print(Print.colorize("═" * 60, '96'))
+    safe_print("")
+    score_text = f"    {score}/100"
+    safe_print(Print.colorize(score_text, score_color))
+    safe_print(Print.colorize(f"    {verdict}", verdict_color))
+    safe_print("")
+    columns = [
+        {'header': t("commands.security_score.headers.criteria"), 'width': 35},
+        {'header': t("commands.security_score.headers.status"), 'width': 25},
+        {'header': t("commands.security_score.headers.impact"), 'width': 15, 'align': 'right'}
+    ]
+    printer = TablePrinter(columns)
+    printer.print_header()
+    for criteria, status, impact, passed in issues:
+        if passed:
+            color = '92' 
+            impact_str = "" 
+        else:
+            color = '91' 
+            impact_str = f"({impact})" if impact < 0 else ""
+        printer.print_row([criteria, status, impact_str], color_override=color)
+    safe_print("")
+    safe_print(Print.colorize("═" * 60, '96'))
+    safe_print("")

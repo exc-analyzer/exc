@@ -8,61 +8,454 @@
     "language_applied": "Language set to {language}.",
     "lang_option_metavar": "LANGUAGE",
     "min_help": {
-      "key_desc": "# Manage GitHub API key",
-      "migrate_desc": "# Migrate key to OS credential store",
-      "analysis_desc": "# Analyze a repository",
+      "login_desc": "# Authenticate via GitHub",
+      "analysis_desc": "# Analyze a Github repository",
       "user_desc": "# Analyze a GitHub user",
-      "help_hint": "For all commands : exc --help or -h",
-      "detail_hint": "For detailed help: exc <command> --help"
+      "args_repo": "<owner/repo>",
+      "args_user": "<username>",
+      "help_hint": "  For all commands : exc --help or -h",
+      "detail_hint": "  For detailed help: exc <command> --help"
     },
     "full_help": {
-      "title": "EXC Help",
+      "title": "EXC Command Help",
       "common_header": "Common Usage:",
       "security_header": "Security & Intelligence:",
       "general_options_header": "General Options:",
-      "info_hint": "For detailed help: exc <command> --help"
+      "info_hint": "For detailed help:\n  exc <command> --help",
+      "login_logout_usage": "exc login and logout"
     },
     "general_options": {
       "version": "Show version & update info",
       "verbose": "Verbose/debug output (The capital letter \"V\")",
-      "reset": "API Key Reset",
-      "migrate": "Migrate stored key to OS credential store",
-      "lang": "Override language for this run (also saves preference)"
+      "lang": "Override language for this run (also saves preference)",
+      "rate_limit": "Show API rate limit information (available for most commands)"
     },
-    "version_missing": "Version information missing."
+    "version_missing": "Version information missing.",
+    "args": {
+      "owner_repo": "<owner/repo>",
+      "username": "<username>",
+      "file": "<file>",
+      "dork_query": "<dork_query>"
+    }
   },
   "commands": {
     "shared": {
+      "missing_repo": "Missing required argument: <owner/repo>",
+      "missing_args": "Missing required arguments.",
+      "missing_query": "Missing required argument: <dork_query>",
+      "usage_hint": "Example: exc {command} {args}",
+      "permission_denied": "Permission denied.",
+      "api_key_missing": "API key is missing.",
+      "use_key_cmd": "Use: exc login",
+      "scan_complete": "Scan complete.",
+      "scan_cancelled": "Operation cancelled by user.",
+      "error_occurred": "{error}",
+      "repo_not_found": "Repository not found.",
+      "unknown": "Unknown",
+      "anonymous": "Anonymous",
+      "none_value": "Not specified",
+      "missing_owner_repo": "Owner and Repository are Missing.",
+      "invalid_repo_format": "Invalid format. Please use <owner/repo> (e.g., torvalds/linux).",
+      "help_output": "Output file path (auto-generated if omitted)",
+      "help_limit": "Number of recent commits to scan (default: {default})",
+      "help_num": "Number of results to show (max 100)",
+      "fatal_error": "Fatal Error: {error}",
+      "config_saved_keyring": "API key saved to OS credential store.",
+      "config_saved_local": "API key has been saved locally.",
+      "config_perm_warning": "Could not set strict file permissions on this platform. Ensure the key file is protected.",
+      "key_deleted": "API key deleted.",
+      "key_not_found": "No saved API key found.",
+      "output_file_error": "Output file error: {filepath}: {error}",
+      "output_write_error": "Output write error: {error}",
+      "server_error": "Server error: {status}",
+      "server_error_retry": "Server error (attempt {attempt}/{max}). Retrying in {wait}s...",
+      "api_comm_failed": "Failed to communicate with GitHub (HTTP {status}).",
+      "rate_limit_reached": "GitHub API rate limit reached.",
+      "rate_limit_retry": "Retrying automatically in {wait} seconds...",
+      "rate_limit_resets": "Limit resets at {time}.",
+      "rate_limit_exceeded": "GitHub API rate limit exceeded. Please try again later.",
+      "resource_not_found": "The requested user, repository, or resource was not found.",
+      "resource_check_typo": "Please check the username or repository name for typos or existence.",
+      "auth_failed": "Authentication failed.",
+      "auth_check_creds": "Please verify your API token or authentication credentials.",
+      "server_error_http": "Server error occurred (HTTP {status}). Please try again later.",
+      "invalid_response": "Failed to receive a valid response from the server. (HTTP {status})",
+      "key_validation_error": "Key validation error: {error}",
       "example_header": "Example:",
       "examples_header": "Examples:",
       "options_header": "Options:",
       "details_header": "Details:",
       "tips_header": "Tips:",
-      "description_header": "Description:"
+      "description_header": "Description:",
+      "quota_remaining": "Remaining requests: {count}",
+      "quota_unavailable": "Quota information not available"
     },
-    "key": {
-      "desc_short": "# Manage GitHub API key",
-      "usage": "Usage: exc key [API_KEY] [--reset] [--migrate]",
-      "description": "Securely register, migrate, or delete your GitHub API token.",
+    "actions_audit": {
+      "usage": "Usage: exc actions-audit <owner/repo>",
+      "example": "Example: exc actions-audit torvalds/linux",
+      "description": "Analyzes GitHub Actions/CI workflow files for security risks and best practices.",
+      "auditing": "Auditing GitHub Actions workflows in: {repo}",
+      "no_workflows": "No workflows found.",
+      "risky_script": "⚠️ Risky script",
+      "check_exec": "Check for shell/code exec",
+      "uses_latest": "⚠️ Uses @latest",
+      "pin_versions": "Pin versions",
+      "uses_secrets": "⚠️ Uses secrets",
+      "review_secrets": "Review secret usage",
+      "ok": "OK",
+      "no_risk": "No obvious risk",
+      "error_fetch": "Error",
+      "could_not_fetch": "Could not fetch",
+      "headers": {
+        "workflow": "Workflow",
+        "url": "URL",
+        "status": "Status",
+        "note": "Note"
+      },
+      "header": "ACTIONS AUDIT",
+      "stats": "Total {total} workflows found. {risky} risky.",
+      "labels": {
+        "risky": "RISKY",
+        "warning": "WARNING",
+        "ok": "OK",
+        "error": "ERROR",
+        "status": "Status",
+        "note": "Note"
+      },
+      "review_needed": "{count} workflow(s) need review!",
+      "all_safe": "No risky workflows detected.",
+      "desc_short": "# Audit GitHub Actions/CI security",
       "examples": [
-        "exc key                 # Prompt for the token and save it securely",
-        "exc key ghp_xxx         # Provide the token inline (avoids prompt)",
-        "exc key --reset         # Delete the stored token",
-        "exc key --migrate       # Move the token into the OS credential store"
+        "exc actions-audit torvalds/linux"
+      ]
+    },
+    "content_audit": {
+      "usage": "Usage: exc content-audit <owner/repo>",
+      "auditing": "Auditing repo content: {repo}",
+      "files": {
+        "license": "License file",
+        "security": "Security policy",
+        "coc": "Code of Conduct",
+        "contributing": "Contributing Guide",
+        "readme": "README"
+      },
+      "status": {
+        "present": "Present",
+        "missing": "Missing",
+        "too_short": "Too short",
+        "empty": "Empty",
+        "ok": "Good"
+      },
+      "headers": {
+        "type": "Type",
+        "file": "File",
+        "status": "Status",
+        "quality": "Quality"
+      },
+      "header": "CONTENT AUDIT",
+      "stats": "Found {present}/{total} important files.",
+      "missing_list": "Missing files: {files}",
+      "all_present": "All important files are present.",
+      "labels": {
+        "type": "Type",
+        "status": "Status",
+        "quality": "Quality",
+        "ok": "OK",
+        "warn": "WARN",
+        "missing": "MISSING"
+      },
+      "desc_short": "# Repository content audit",
+      "description": "Audits the repository for license, security.md, code of conduct, contributing.md, and documentation quality.",
+      "examples": [
+        "exc content-audit torvalds/linux"
+      ]
+    },
+    "dork_scan": {
+      "searching": "Searching GitHub for: {query}",
+      "total": "Total shown: {count}",
+      "disclaimer": "Use responsibly. You are legally and ethically responsible for the results of this scan.",
+      "none_found": "No results found.",
+      "missing_query": "Search query missing.",
+      "table_header": {
+        "repo": "REPO",
+        "file": "FILE",
+        "link": "LINK",
+        "status": "STAT"
+      },
+      "desc_short": "# GitHub dorking for secrets/configs",
+      "usage": "Usage: exc dork-scan <dork_query> [options]",
+      "description": "Scan public GitHub code for sensitive keywords, secrets, or configuration files using advanced dorking techniques.",
+      "examples": [
+        "exc dork-scan brgkdm",
+        "exc dork-scan --preset secrets -n 20",
+        "exc dork-scan \"AWS_ACCESS_KEY_ID\" --verify",
+        "exc dork-scan --preset aws --export aws_leaks.json",
+        "exc dork-scan --export results.json \"password\" -n 50",
+        "exc dork-scan --list-presets"
       ],
-      "prompt_hint": "If you omit the token argument, EXC will prompt you with hidden input."
+      "options": [
+        "<dork_query>              The search query (can be multiple words, quoted if needed)",
+        "-n, --num N               Number of results to show (default: 10, max: 100)",
+        "-p, --preset PRESET       Use a preset dork list (secrets, config, aws, azure, google, actions)",
+        "--verify                  Download and verify file content (deep dive analysis)",
+        "--list-presets            List all available preset packages",
+        "--export FILE             Export results to JSON or CSV file",
+        "-o, --output              Save output to file (auto-generated filename if omitted)",
+        "-h, --help                Show this help message and exit"
+      ],
+      "details": [
+        "This command allows you to search public GitHub repositories for exposed secrets, API keys, tokens, or sensitive files using custom search queries (dorks).",
+        "Combine keywords in your search query for more precise results."
+      ],
+      "tips": [
+        "Use quotes for multi-word queries (e.g. \"sensitive key\")",
+        "Results include repository, file path, and direct link to the file on GitHub"
+      ],
+      "footer": "For more info: https://github.com/exc-analyzer/exc",
+      "help_preset": "Use a preset dork list (choices: secrets, config, actions...)",
+      "help_verify": "Download and verify file content (deep dive)",
+      "help_list_presets": "List available dork presets",
+      "help_export": "Export results to file (JSON or CSV)",
+      "invalid_preset": "Invalid preset: {preset}. Use --list-presets to see available options.",
+      "searching_spinner": "Searching GitHub...",
+      "long_query_warning": "Warning: Query is very long. GitHub API might ignore some terms.",
+      "verifying_count": "Starting content verification for {count} results...",
+      "verifying_spinner": "Downloading and analyzing content...",
+      "export_success": "Results successfully exported to: {path}",
+      "export_error": "Export error: {error}",
+      "presets_list_header": "Available Dork Presets:",
+      "status": {
+        "verified": "VERIFIED",
+        "potential": "Potential",
+        "suspicious": "Suspicious",
+        "suspicious_small": "Suspicious (Small)",
+        "unverified": "-",
+        "check_failed": "Check Failed",
+        "likely_example": "Likely Example",
+        "no_secrets": "No Secrets Found"
+      },
+      "filtered_count": "{count} clean/safe results were hidden from the list."
+    },
+    "file_history": {
+      "usage": "Usage: exc file-history <owner/repo> <path_to_file>",
+      "header": "[*] Change History for [{filepath}] in [{repo}]",
+      "searching": "Searching for [{filename}] in [{repo}]",
+      "found_at": "File found at: {path}",
+      "not_found": "File '{filename}' not found in repository",
+      "modifications": "\n[!] Last {count} modifications:\n",
+      "desc_short": "# Show file change history",
+      "description": "Displays the full change history of a specific file (commit, author, date, message).",
+      "examples": [
+        "exc file-history torvalds/linux kernel/sched/core.c"
+      ],
+      "options": [
+        "-l, --limit   Number of commits to show (default: 5, max: 50)",
+        "-o, --output  Save output to file"
+      ],
+      "limit_exceeded": "Requested limit ({requested}) cannot exceed maximum {max}.",
+      "table_header": {
+        "sha": "SHA",
+        "date": "DATE",
+        "author": "AUTHOR",
+        "message": "MESSAGE"
+      },
+      "footer": "[INFO] {count} commits listed."
+    },
+    "scan_secrets": {
+      "usage": "Usage: exc scan-secrets <owner/repo> [-l N]",
+      "scanning": "Scanning last {limit} commits in [{repo}] for secrets.",
+      "no_commits": "No commits found",
+      "found": "[!] {type} found in {file}",
+      "secret_found": "{count} secret(s) found.",
+      "commit_info": "Commit: {hash} - {msg}",
+      "author_info": "Author: {author}",
+      "date_info": "Date: {date}",
+      "file_info": "File: {file}",
+      "none_found": "No secrets found in scanned commits",
+      "desc_short": "# Scan for leaked secrets",
+      "description": "Scans the last N commits (default 10) for secrets like API keys, AWS credentials, SSH keys, and tokens.",
+      "examples": [
+        "exc scan-secrets torvalds/linux -l 50"
+      ],
+      "options": [
+        "-l, --limit   Number of recent commits to scan (default: 10)",
+        "-o, --output  Save output to file (auto-generated filename if omitted)"
+      ],
+      "limit_exceeded": "Requested limit ({requested}) cannot exceed maximum {max}.",
+      "table_header": {
+        "type": "TYPE",
+        "date": "DATE",
+        "author": "AUTHOR",
+        "file": "FILE"
+      }
+    },
+    "advanced_secrets": {
+      "usage": "Usage: exc advanced-secrets <owner/repo> [-l N]",
+      "scanning_repo": "Scanning repo files and last {limit} commits for secrets: {repo}",
+      "scanning_files": "Scanning repository files...",
+      "scanning_commits": "Scanning commits...",
+      "headers": {
+        "file": "File",
+        "type": "Type",
+        "url": "URL",
+        "source": "Source"
+      },
+      "output": {
+        "file": "File: {path}",
+        "type": "Type: {type}",
+        "source": "Source"
+      },
+      "total_findings": "Total findings: {count}",
+      "none_found": "No secrets found in scanned files or commits.",
+      "desc_short": "# Advanced secret/config scan",
+      "description": "Scans repository files and the last N commits for a wide range of secret patterns (API keys, tokens, config files, etc.).",
+      "examples": [
+        "exc advanced-secrets torvalds/linux -l 30"
+      ],
+      "options": [
+        "-l, --limit   Number of recent commits to scan (default: 20)",
+        "-o, --output  Save output to file (auto-generated filename if omitted)"
+      ]
+    },
+    "security_score": {
+      "usage": "Usage: exc security-score <owner/repo>",
+      "examples": [
+        "exc security-score torvalds/linux"
+      ],
+      "calculating": "Calculating security score for: {repo}",
+      "score_header": "SECURITY SCORE",
+      "criteria_header": "SECURITY CRITERIA:",
+      "status": {
+        "present": "Present",
+        "missing": "Missing",
+        "enabled": "Enabled",
+        "disabled": "Not enabled",
+        "yes": "Yes",
+        "no": "No",
+        "none": "None",
+        "open": "open"
+      },
+      "criteria": {
+        "license": "License",
+        "issues": "Issues Enabled",
+        "wiki": "Wiki Enabled",
+        "projects": "Projects Enabled",
+        "open_issues": "Open Issues",
+        "security_md": "SECURITY.md",
+        "branch_prot": "Branch Protection",
+        "dependabot": "Dependabot Config",
+        "code_scanning": "Code Scanning Alerts"
+      },
+      "headers": {
+        "criteria": "Criteria",
+        "status": "Status",
+        "impact": "Score Impact"
+      },
+      "result": "Security Score: {score}/100",
+      "verdict": {
+        "excellent": "Excellent security hygiene!",
+        "good": "Good, but can be improved.",
+        "weak": "Security posture is weak! Review the issues above."
+      },
+      "desc_short": "# Repo security scoring",
+      "description": "Calculates a security score for the repository based on open issues, branch protection, security.md, license, dependabot, code scanning, and more."
+    },
+    "logout": {
+      "desc_short": "# Log out and remove API key",
+      "usage": "Usage: exc logout",
+      "description": "- Logs out and removes the stored API key from the system.\n  You will need to use the \"exc login\" command to log in again.\n",
+      "logging_out": "Logging out...",
+      "success": "Logout successful. API key has been REMOVED.",
+      "hint": "You can log in using: exc login",
+      "not_logged_in": "You are not logged in. Please use 'exc login' first."
+    },
+    "login": {
+      "desc_short": "# Authenticate via GitHub",
+      "desc_combined": "# Login / Logout with GitHub (Browser)",
+      "usage": "Usage: exc login",
+      "description": "- You must log in to access features.\n  Redirects you to https://github.com/login/device where you authorize access via GitHub using your one-time code.\n  You will be automatically logged in shortly after access is granted.\n",
+      "init_msg": "Initializing secure GitHub login...",
+      "redirecting": "Redirecting to GitHub via browser...",
+      "already_logged_in": "You are already logged in as {user}.",
+      "already_login_hint": "Use 'exc logout' if you wish to switch accounts.",
+      "otp_code": "First copy your one-time code: {code}",
+      "open_browser": "Press ENTER to open GitHub in your browser...",
+      "waiting": "Waiting for authorization... (Ctrl+C to cancel)",
+      "success": "Authentication successful! Welcome, {user}.",
+      "suggestion": "Let's start the initial analysis using: exc analysis <owner/repo>.",
+      "token_expired": "Token expired. Please try again.",
+      "access_denied": "Access denied by user.",
+      "timeout": "Authentication timed out.",
+      "clipboard_copy": "Code copied to clipboard!",
+      "clipboard_fail": "Could not copy to clipboard, please copy manually.",
+      "cancelled": "Authentication cancelled by user.",
+      "security_disclaimer": "- This tool requests access to repositories for ANALYSIS purposes only.\n- IT DOES NOT PERFORM ANY WRITE, MODIFY, OR TRIGGER OPERATIONS.\n\n- Permissions are managed by GitHub and can be revoked at any time.",
+      "agree_prompt": "Do you want to continue? (y/N): "
+    },
+    "user_anomaly": {
+      "desc_short": "# User activity anomaly detection",
+      "usage": "Usage: exc user-anomaly <github_username>",
+      "description": "Detects unusual activity or anomalies in a user's GitHub activity.",
+      "examples": [
+        "exc user-anomaly octocat"
+      ],
+      "checking": "Checking user activity for: {user}",
+      "fetching_data": "Fetching user data...",
+      "analyzing": "Analyzing anomalies...",
+      "no_activity": "No recent activity found.",
+      "unusual": "Unusual activity: {count} events at hour {hour}",
+      "normal": "No unusual activity detected.",
+      "header": "USER ANOMALY ANALYSIS: {user}",
+      "risk_score": "Risk Score",
+      "risk_low": "LOW RISK",
+      "risk_medium": "MEDIUM RISK",
+      "risk_high": "HIGH RISK",
+      "anomalies_detected": "Detected Anomalies",
+      "no_anomalies": "No anomalies detected. Account appears normal.",
+      "profile_summary": "Profile Summary",
+      "account_age": "Account Age",
+      "total_repos": "Total Repos",
+      "followers_following": "Followers/Following",
+      "fork_ratio": "Fork Ratio",
+      "activity_chart": "Activity Chart (By Time Blocks)",
+      "anomaly": {
+        "new_account_high_activity": "New account ({days} days) with high activity ({repos} repos)",
+        "old_account_no_activity": "Old account but no activity",
+        "suspicious_follow_ratio": "Suspicious follow ratio: {followers} followers / {following} following",
+        "high_fork_ratio": "High fork ratio: {ratio}% ({forks}/{total} repos)",
+        "concentrated_activity": "Concentrated activity: {count} events at hour {hour}:00",
+        "night_activity": "High night activity: {percent}%",
+        "incomplete_profile": "Incomplete profile (possible bot)",
+        "repetitive_events": "Repetitive event type: {percent}% {event_type}",
+        "low_quality_commits": "Low quality commit messages: {percent}% single-word/spam",
+        "random_repo_names": "Random/generated repo names: {count}/{total}",
+        "activity_burst": "Sudden activity burst: {max_events} events/day (avg: {avg_events})",
+        "single_language_focus": "Single language focus: {percent}% {language}",
+        "mostly_empty_repos": "Mostly empty repos: {empty}/{total}"
+      }
+    },
+    "contrib_impact": {
+      "header": "\n[*] Contributor Impact Analysis for {repo}",
+      "formula": "(Score = Total lines added * 0.7 - Total lines deleted * 0.3)",
+      "top_header": "\nTop contributors by impact:",
+      "score_display": "Impact Score: {score}",
+      "stats_display": "Lines added: {adds} | ➖ Lines deleted: {dels}"
     },
     "analysis": {
       "desc_short": "# Analyze a repository",
-      "usage": "Usage: exc analysis <owner/repo>",
+      "usage": "Usage: exc analysis <owner/repo> [-r]",
       "description": "Performs a detailed analysis of a GitHub repository: code quality, security, dependencies, and statistics.",
       "examples": [
-        "exc analysis torvalds/linux"
+        "exc analysis torvalds/linux",
+        "exc analysis microsoft/vscode -r"
+      ],
+      "options": [
+        "-r, --show-rate-limit    Show API rate limit information"
       ]
     },
     "user_a": {
       "desc_short": "# Analyze a GitHub user",
-      "usage": "Usage: exc user-a <github_username>",
+      "usage": "Usage: exc user-a <username>",
       "description": "Inspect a GitHub user's profile, follower stats, and headline repositories.",
       "examples": [
         "exc user-a octocat"
@@ -76,7 +469,7 @@
       "missing_username": "Username missing.",
       "sections": {
         "user_info": "User Information",
-        "top_repos": "User's Top Starred Repositories:"
+        "top_repos": "Top Starred Repositories:"
       },
       "labels": {
         "name": "Name",
@@ -84,73 +477,13 @@
         "bio": "Bio",
         "location": "Location",
         "company": "Company",
-        "account_created": "Account created",
+        "account_created": "Account Created",
         "followers": "Followers",
         "following": "Following",
-        "public_repos": "Public repos",
-        "public_gists": "Public gists"
+        "public_repos": "Public Repos",
+        "public_gists": "Public Gists"
       },
       "completed": "Completed."
-    },
-    "scan_secrets": {
-      "desc_short": "# Scan for leaked secrets",
-      "usage": "Usage: exc scan-secrets <owner/repo> [-l N]",
-      "description": "Scans the last N commits (default 10) for secrets like API keys, AWS credentials, SSH keys, and tokens.",
-      "examples": [
-        "exc scan-secrets torvalds/linux -l 50"
-      ],
-      "options": [
-        "-l, --limit   Number of recent commits to scan (default: 10)"
-      ]
-    },
-    "file_history": {
-      "desc_short": "# Show file change history",
-      "usage": "Usage: exc file-history <owner/repo> <path_to_file>",
-      "description": "Displays the full change history of a specific file (commit, author, date, message).",
-      "examples": [
-        "exc file-history torvalds/linux kernel/sched/core.c"
-      ]
-    },
-    "dork_scan": {
-      "desc_short": "# GitHub dorking for secrets/configs",
-      "usage": "Usage: exc dork-scan <dork_query> [options]",
-      "description": "Scan public GitHub code for sensitive keywords, secrets, or configuration files using advanced dorking techniques.",
-      "examples": [
-        "exc dork-scan brgkdm"
-      ],
-      "options": [
-        "<dork_query>         The search query (can be multiple words, quoted if needed)",
-        "-n, --num N          Number of results to show (default: 10, max: 100)",
-        "-h, --help           Show this help message and exit"
-      ],
-      "details": [
-        "This command allows you to search public GitHub repositories for exposed secrets, API keys, tokens, or sensitive files using custom search queries (dorks).",
-        "You can combine keywords, file extensions, and filename filters for more precise results."
-      ],
-      "tips": [
-        "Use quotes for multi-word queries (e.g. \"sensitive key\")",
-        "Results include repository, file path, and direct link to the file on GitHub"
-      ],
-      "footer": "For more info: https://github.com/exc-analyzer/exc"
-    },
-    "advanced_secrets": {
-      "desc_short": "# Advanced secret/config scan",
-      "usage": "Usage: exc advanced-secrets <owner/repo> [-l N]",
-      "description": "Scans repository files and the last N commits for a wide range of secret patterns (API keys, tokens, config files, etc.).",
-      "examples": [
-        "exc advanced-secrets torvalds/linux -l 30"
-      ],
-      "options": [
-        "-l, --limit   Number of recent commits to scan (default: 20)"
-      ]
-    },
-    "security_score": {
-      "desc_short": "# Repo security scoring",
-      "usage": "Usage: exc security-score <owner/repo>",
-      "description": "Calculates a security score for the repository based on open issues, branch protection, security.md, license, dependabot, code scanning, and more.",
-      "examples": [
-        "exc security-score torvalds/linux"
-      ]
     },
     "commit_anomaly": {
       "desc_short": "# Commit/PR anomaly detection",
@@ -158,31 +491,74 @@
       "description": "Analyzes commit messages and PRs for suspicious or risky activity.",
       "examples": [
         "exc commit-anomaly torvalds/linux"
-      ]
+      ],
+      "analyzing": "Analyzing commit/PR activity for: {repo}",
+      "header": "COMMIT ANOMALIES",
+      "anomalies_found": "Suspicious commits detected:",
+      "found_count": "{count} suspicious commits found",
+      "keywords": "Keywords",
+      "headers": {
+        "sha": "SHA",
+        "commit": "Commit",
+        "message": "Message",
+        "date": "Date"
+      },
+      "none_found": "No suspicious commit messages found."
     },
-    "user_anomaly": {
-      "desc_short": "# User activity anomaly detection",
-      "usage": "Usage: exc user-anomaly <github_username>",
-      "description": "Detects unusual activity or anomalies in a user's GitHub activity.",
-      "examples": [
-        "exc user-anomaly octocat"
-      ]
-    },
-    "content_audit": {
-      "desc_short": "# Audit repo content/docs",
-      "usage": "Usage: exc content-audit <owner/repo>",
-      "description": "Audits the repository for license, security.md, code of conduct, contributing.md, and documentation quality.",
-      "examples": [
-        "exc content-audit torvalds/linux"
-      ]
-    },
-    "actions_audit": {
-      "desc_short": "# Audit GitHub Actions/CI security",
-      "usage": "Usage: exc actions-audit <owner/repo>",
-      "description": "Analyzes GitHub Actions/CI workflow files for security risks and best practices.",
-      "examples": [
-        "exc actions-audit torvalds/linux"
-      ]
+    "analysis_output": {
+      "repo_info": "Repository Information",
+      "languages": "Languages",
+      "commit_stats": "Commit Statistics (Last 100)",
+      "contributors": "Contributors",
+      "issues_prs": "Issues and Pull Requests",
+      "top_committers": "Top Committers (in last 100)",
+      "top_contributors": "Top Contributors",
+      "analyzed_commits": "Analyzed Commits",
+      "total_contributors": "Total Contributors",
+      "open_issues": "Open Issues",
+      "total_prs": "Total PRs",
+      "completed": "Completed.",
+      "labels": {
+        "name": "Name",
+        "desc": "Description",
+        "created": "Created At",
+        "updated": "Last Updated",
+        "stars": "Stars",
+        "forks": "Forks",
+        "default_branch": "Default Branch",
+        "license": "License",
+        "open_issues": "Open Issues"
+      }
     }
+  },
+  "output": {
+    "using_default": "Using default output file: {filepath}",
+    "file_created": "Output file created: {filepath}",
+    "file_error": "Could not open output file {filepath}: {error}",
+    "file_closed_stats": "Output saved to {filepath} ({lines} lines, {size})",
+    "write_failed_continuing": "Warning: Failed to write to output file, continuing without file output"
+  },
+  "time": {
+    "year": "year",
+    "years": "years",
+    "month": "month",
+    "months": "months",
+    "day": "day",
+    "days": "days",
+    "hour": "hour",
+    "hours": "hours",
+    "minute": "minute",
+    "minutes": "minutes",
+    "ago": "ago",
+    "just_now": "just now"
+  },
+  "log_levels": {
+    "warn": "WARNING",
+    "error": "ERROR",
+    "success": "SUCCESS",
+    "info": "INFO",
+    "action": "ACTION",
+    "cancelled": "CANCELLED",
+    "critical_error": "CRITICAL ERROR"
   }
 }

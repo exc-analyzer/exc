@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
 venv/
 env/
 .venv/
@@ -23,7 +24,12 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.pytest_cache/
 pytest_cache/
 *.log
 .DS_Store
 Thumbs.db
+*.tmp
+*.temp
+*.bak
+merge_json.py

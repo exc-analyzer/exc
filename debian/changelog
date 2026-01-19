@@ -1,3 +1,12 @@
+exc-analyzer (1.3.0-1) unstable; urgency=medium
+
+  * Release version 1.3.0.
+  * Update commands: replace 'key' with 'login', add 'security-score'.
+  * Full localization support (TR/EN).
+  * Packaging and test improvements.
+
+ -- EXC Team <exc-analyzer@outlook.com>  Mon, 19 Jan 2026 21:00:00 +0300
+
 exc-analyzer (1.2.1-1) unstable; urgency=medium
 
   * Rebuild packages and PyPI upload to ensure CLI reports 1.2.1.

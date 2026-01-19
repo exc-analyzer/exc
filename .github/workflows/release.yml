@@ -1,0 +1,72 @@
+name: Publish Release
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  pypi-publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # IMPORTANT: Requesting the OIDC token for trusted publishing (if used) or standard token
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+          
+      - name: Build package
+        run: python -m build
+        
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+  build-debian:
+    name: Build & Upload Debian Package
+    runs-on: ubuntu-latest
+    needs: pypi-publish # Try to publish to PyPI first, or run in parallel? Parallel is faster/safer if one fails. Let's run parallel.
+    # Actually, removing 'needs' allows them to run in parallel.
+    permissions:
+      contents: write # Required for uploading assets to release
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Debian Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debhelper dh-python python3-all python3-setuptools python3-wheel python3-build fakeroot
+          
+      - name: Build Debian Package
+        run: |
+          # Build the package using standard Debian tools
+          dpkg-buildpackage -us -uc -b
+          
+          # Move the generated .deb file to a clean directory for upload
+          mkdir -p dist-deb
+          mv ../*.deb dist-deb/
+          
+          echo "DEB_FILE=$(ls dist-deb/*.deb)" >> $GITHUB_ENV
+          
+      - name: Upload .deb to Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist-deb/*.deb

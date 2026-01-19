@@ -116,85 +116,85 @@ def safe_print(text='', **kwargs):
     _write_output(text)
 class Print:
     @staticmethod
-    def success(msg):
+    def success(msg, **kwargs):
         from exc_analyzer.i18n import t
         prefix = t("log_levels.success")
         colored_msg = colorize(f"[{prefix}] {msg}", '92')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"[{prefix}] {msg}")
     @staticmethod
-    def error(msg):
+    def error(msg, **kwargs):
         from exc_analyzer.i18n import t
         prefix = t("log_levels.error")
         colored_msg = colorize(f"[{prefix}] {msg}", '91')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"[{prefix}] {msg}")
     @staticmethod
-    def warn(msg):
+    def warn(msg, **kwargs):
         from exc_analyzer.i18n import t
         prefix = t("log_levels.warn")
         colored_msg = colorize(f"[{prefix}] {msg}", '93')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"[{prefix}] {msg}")
     @staticmethod
-    def info(msg):
+    def info(msg, **kwargs):
         from exc_analyzer.i18n import t
         prefix = t("log_levels.info")
         colored_msg = colorize(f"[{prefix}] {msg}", '96')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"[{prefix}] {msg}")
     @staticmethod
-    def action(msg):
+    def action(msg, **kwargs):
         from exc_analyzer.i18n import t
         prefix = t("log_levels.action")
         colored_msg = colorize(f"[{prefix}] {msg}", '90')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"[{prefix}] {msg}")
     @staticmethod
-    def critical_error(msg):
+    def critical_error(msg, **kwargs):
         from exc_analyzer.i18n import t
         prefix = t("log_levels.critical_error")
         colored_msg = colorize(f"[{prefix}] {msg}", '1;91')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"[{prefix}] {msg}")
     @staticmethod
-    def cancelled(msg):
+    def cancelled(msg, **kwargs):
         from exc_analyzer.i18n import t
         prefix = t("log_levels.cancelled")
         colored_msg = colorize(f"[{prefix}] {msg}", '90')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"[{prefix}] {msg}")
     @staticmethod
-    def link(url):
+    def link(url, **kwargs):
         colored_msg = colorize(url, '94')
         try:
-            print(colored_msg)
+            print(colored_msg, **kwargs)
         except UnicodeEncodeError:
-            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'))
+            print(colored_msg.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(url)
     @staticmethod
-    def hyperlink(text, url):
+    def hyperlink(text, url, **kwargs):
         """Print clickable hyperlink (OSC 8) with shortened text."""
         colored_text = colorize(text, '33')
         if COLOR_ENABLED:
@@ -202,9 +202,9 @@ class Print:
         else:
             link_seq = f"{text} ({url})"
         try:
-            print(link_seq)
+            print(link_seq, **kwargs)
         except UnicodeEncodeError:
-            print(link_seq.encode('utf-8', errors='replace').decode('utf-8'))
+            print(link_seq.encode('utf-8', errors='replace').decode('utf-8'), **kwargs)
         _write_output(f"{text} ({url})")
     @staticmethod
     def colorize(text, color_code):

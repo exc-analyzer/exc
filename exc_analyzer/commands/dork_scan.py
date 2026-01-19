@@ -6,7 +6,7 @@ import time
 import math
 from collections import Counter
 from urllib.parse import quote, unquote
-from ..print_utils import Print, _write_output
+from ..print_utils import Print, _write_output, safe_print, colorize
 from ..api import api_get, get_auth_header
 from ..i18n import t
 from .dork_presets import PRESETS, get_preset_choices
@@ -193,30 +193,28 @@ def _calculate_entropy(text):
         entropy -= probability * math.log2(probability)
     return entropy
 def _print_results(results, verify_enabled=False):
-    columns = [
-        {'header': t("commands.dork_scan.table_header.repo"), 'width': 25, 'color': '94'},
-        {'header': t("commands.dork_scan.table_header.file"), 'width': None, 'color': '97'}, 
-        {'header': t("commands.dork_scan.table_header.link"), 'width': 35, 'color': '33'}
-    ]
-    if verify_enabled:
-        columns.append({'header': t("commands.dork_scan.table_header.status"), 'width': 20, 'color': '92'})
     safe_print("")
-    printer = TablePrinter(columns)
-    printer.print_header()
-    w_repo = columns[0]['_actual_width']
-    w_file = columns[1]['_actual_width']
-    w_link = columns[2]['_actual_width']
-    w_stat = columns[3]['_actual_width'] if verify_enabled else 0
-    for i, res in enumerate(results):
-        display_repo = _truncate(res['repo'], w_repo)
-        display_file = smart_truncate_path(res['path'], w_file)
-        display_link = shorten_display_url(res['url'], w_link)
-        row = [display_repo, display_file, (display_link, res['url'])]
+    _write_output("")
+    for i, res in enumerate(results, 1):
+        # Header for the result item
+        status_part = ""
         if verify_enabled:
-            row.append(_truncate(res['status'], w_stat))
-        style = "2;" if i % 2 == 1 else ""
-        printer.print_row(row, style_prefix=style)
+            status = res.get('status', 'Unknown')
+            color = '92' if status == '200 OK' else '91'
+            status_part = f" [{Print.colorize(status, color)}]"
+        header = f"[+] {Print.colorize(res['repo'], '94')} | {Print.colorize(res['path'], '97')}{status_part}"
+        safe_print(header)
+        _write_output(f"[+] {res['repo']} | {res['path']} {res.get('status', '')}")
+        # Link part with symbolic link look
+        link_line_prefix = "    -> "
+        safe_print(Print.colorize(link_line_prefix, '90'), end="")
+        safe_print(Print.colorize(res['url'], '33'))
+        _write_output(f"    -> {res['url']}")
+        if i < len(results):
+            safe_print("")
+            _write_output("")
     safe_print("")
+    _write_output("")
     Print.info(t("commands.dork_scan.total", count=len(results)))
     Print.warn(t("commands.dork_scan.disclaimer"))
     safe_print("")
@@ -247,6 +245,10 @@ def _list_presets():
         print(f"  - {k:<10} : {examples}")
     print()
 def shorten_display_url(full_url, max_len):
+    """
+    Returns a shortened display text for the URL.
+    The actual hyperlink will use the full URL (passed separately as tuple).
+    """
     try:
        full_url = unquote(full_url)
     except:
@@ -258,7 +260,7 @@ def shorten_display_url(full_url, max_len):
         rest = parts[1]
         sha_parts = rest.split("/", 1)
         filename = sha_parts[1].split("/")[-1] if len(sha_parts) > 1 else "file"
-        prefix = "github.com/.../"
+        prefix = "https://github.com/.../"
         available = max_len - len(prefix)
         if len(filename) > available:
             filename = _truncate(filename, available)
@@ -305,6 +307,4 @@ def _smart_quote_query(query):
         if f"{mod}:" in query:
             return query
     return f'"{query}"'
-def safe_print(msg=""):
-    print(msg)
-    _write_output(msg)
+

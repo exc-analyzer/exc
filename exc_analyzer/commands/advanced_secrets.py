@@ -73,22 +73,10 @@ async def _scan_advanced_secrets_async(repo: str, token: str, commit_limit: int 
                     source_line = f"    {t('commands.advanced_secrets.output.source')}: {source}"
                     safe_print(Print.colorize(source_line, '97'))
                     _write_output(source_line)
-                    display_url = url
-                    if "github.com" in url and len(url) > 60:
-                        for marker in ["/raw/", "/blob/", "/commit/"]:
-                            if marker in url:
-                                parts = url.split(marker)
-                                if len(parts) == 2:
-                                    base = parts[0]
-                                    rest = parts[1]
-                                    if len(rest) > 20:
-                                        display_url = f"{base}{marker}.../{rest.split('/')[-1]}"
-                                        break
-                        if display_url == url: 
-                             display_url = url[:50] + "..." + url[-10:]
-                    indent = "    "
-                    safe_print(indent, end="") 
-                    Print.hyperlink(display_url, url)
+                    link_label = "    -> "
+                    safe_print(Print.colorize(link_label, '90'), end="") 
+                    safe_print(Print.colorize(url, '33'))
+                    _write_output(f"    -> {url}")
                     _write_output(f"    {url}")
                     print()
                     _write_output("")

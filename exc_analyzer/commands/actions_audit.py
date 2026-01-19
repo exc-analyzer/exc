@@ -128,12 +128,10 @@ def _print_audit_results(repo, results):
         else:
             safe_print(Print.colorize(note_line, '96'))
         _write_output(note_line)
-        url_display = result['url']
-        if len(url_display) > 55:
-            url_display = url_display[:52] + "..."
-        url_line = f"         URL: {url_display}"
-        safe_print(Print.colorize(url_line, '90'))
-        _write_output(url_line)
+        link_line_prefix = "         -> "
+        safe_print(Print.colorize(link_line_prefix, '90'), end="")
+        safe_print(Print.colorize(result['url'], '33'))
+        _write_output(f"         -> {result['url']}")
         if i < len(results):
             safe_print("")
             _write_output("")

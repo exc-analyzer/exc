@@ -37,8 +37,6 @@ jobs:
   build-debian:
     name: Build & Upload Debian Package
     runs-on: ubuntu-latest
-    needs: pypi-publish # Try to publish to PyPI first, or run in parallel? Parallel is faster/safer if one fails. Let's run parallel.
-    # Actually, removing 'needs' allows them to run in parallel.
     permissions:
       contents: write # Required for uploading assets to release
     steps:

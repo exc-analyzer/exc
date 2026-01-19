@@ -1,3 +1,9 @@
+exc-analyzer (1.3.1-1) unstable; urgency=medium
+
+  * Documentation update: Improved README structure and clarity.
+
+ -- EXC Team <exc-analyzer@outlook.com>  Sun, 19 Jan 2026 22:58:00 +0300
+
 exc-analyzer (1.3.0-1) unstable; urgency=medium
 
   * Release version 1.3.0.

@@ -52,7 +52,7 @@ jobs:
       - name: Install Debian Build Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y debhelper dh-python python3-all python3-setuptools python3-wheel python3-build fakeroot
+          sudo apt-get install -y build-essential debhelper dh-python python3-all python3-setuptools python3-wheel python3-build pybuild-plugin-pyproject fakeroot
           
       - name: Build Debian Package
         run: |

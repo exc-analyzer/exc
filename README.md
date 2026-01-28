@@ -14,7 +14,6 @@
 - [Installation](#installation)
 - [Authentication](#authentication)
 - [Quick Start](#quick-start)
-- [Command Reference](#command-reference)
 - [Output & Reports](#output--reports)
 - [Localization](#localization)
 - [Troubleshooting](#troubleshooting)
@@ -143,4 +142,4 @@ Switch languages dynamically using `--lang` or the environment variable:
 
 ## License
 
-MIT License. See `LICENSE` file for details.
+MIT License. See [`LICENSE`](https://github.com/exc-analyzer/exc/blob/main/LICENSE) file for details.

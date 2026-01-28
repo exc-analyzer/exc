@@ -234,7 +234,8 @@
         "likely_example": "Likely Example",
         "no_secrets": "No Secrets Found"
       },
-      "filtered_count": "{count} clean/safe results were hidden from the list."
+      "filtered_count": "{count} clean/safe results were hidden from the list.",
+      "export_exists_prompt": "File '{path}' already exists. Overwrite? (y/N) "
     },
     "file_history": {
       "usage": "Usage: exc file-history <owner/repo> <path_to_file>",

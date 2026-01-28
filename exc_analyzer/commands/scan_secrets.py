@@ -151,11 +151,7 @@ def cmd_scan_secrets(args):
         print_error(t("commands.scan_secrets.limit_exceeded", requested=limit, max=50))
         safe_print("")
         return
-    if limit > 50:
-        safe_print("")
-        print_error(t("commands.scan_secrets.limit_exceeded", requested=limit, max=50))
-        safe_print("")
-        return
+
     token = load_key()
     if not token:
         safe_print("")

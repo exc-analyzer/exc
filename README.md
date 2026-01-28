@@ -5,7 +5,7 @@
 [![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc?label=release%20date&labelColor=black&color=blue)](https://github.com/exc-analyzer/exc/releases)
 [![License](https://img.shields.io/pypi/l/exc-analyzer?label=license&labelColor=black&color=blue)](https://pypi.org/project/exc-analyzer/)
 [![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc?label=code%20size&labelColor=black)](https://github.com/exc-analyzer/exc)
-[![Socket Badge](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.1?artifact_id=tar-gz)](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.1?artifact_id=tar-gz)
+[![Socket Badge](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.2?artifact_id=tar-gz)](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.2?artifact_id=tar-gz)
 
 **EXC Analyzer** is a professional command-line tool for advanced GitHub repository intelligence, security auditing, and content analysis. Designed for security researchers, penetration testers, and open-source maintainers, it bridges the gap between simple metadata and deep, actionable insights.
 
@@ -34,7 +34,7 @@
 ### Kali Linux / Debian
 Download the latest `.deb` from [Releases](https://github.com/exc-analyzer/exc/releases) and run:
 ```bash
-sudo dpkg -i exc-analyzer_1.3.0-1_all.deb
+sudo dpkg -i exc-analyzer_1.3.2-1_all.deb
 sudo apt-get install -f  # Fix dependencies if needed
 ```
 
@@ -44,8 +44,8 @@ pip install exc-analyzer
 ```
 *(Requires Python 3.7+)*
 
-## Authentication
-
+## Authentication & Security
+### Authentication
 1.  **Login:**
     ```bash
     exc login
@@ -54,6 +54,26 @@ pip install exc-analyzer
 3.  **Ready:** Paste the code, approve the permissions, and you are done!
 
 The token behaves like a standard GitHub App connection and is stored securely in your OS credential manager.
+
+> [!TIP]
+> You can revoke access at any time from **GitHub → Settings → Applications → Authorized OAuth Apps**.
+
+### Permissions & Privacy
+To provide deep intelligence and security auditing (including private repositories), EXC Analyzer requests the following scopes:
+
+*   `repo` (Full control of private repositories): **Required** to analyze private repositories, check branch protection status, and read security policies.
+*   `workflow` (Update GitHub Action workflows): **Required** to read and audit GitHub Actions workflow files for security risks.
+*   `read:org` / `read:user` / `user:email`: **Required** to fetch profile metadata and organization membership for context.
+
+> [!IMPORTANT]
+> **Passive Analysis Guarantee:** Although the requested scopes technically allow write access, EXC Analyzer is designed as a **read-only intelligence tool**. It does **NOT** modify your code, change settings, or trigger actions.
+
+> [!NOTE]
+> **Token Security:** Your access token is **never logged** to any file. It is held in memory during execution and stored securely in your operating system's credential manager.
+
+### Risk Disclaimer
+*   **Passive Analysis:** This tool is a passive analyzer. It gathers information that is already available via the public GitHub API.
+*   **User Responsibility:** You are responsible for how you use the gathered intelligence. Do not use this tool for unauthorized testing or malicious purposes. The developer is not liable for misuse.
 
 ## Quick Start
 
@@ -82,7 +102,7 @@ exc scan-secrets microsoft/vscode -l 20
 *   **`actions-audit <owner>/<repo>`** - Audit GitHub Actions workflows for dangerous triggers and insecure practices.
 *   **`scan-secrets <owner>/<repo>`** - Fast scan of recent commits for credentials and tokens.
 *   **`advanced-secrets <owner>/<repo>`** - Deep scan of current file contents and history for high-entropy secrets.
-*   **`dork-scan <query>`** - Search GitHub for sensitive sensitive code patterns (dorks). Supports export.
+*   **`dork-scan <query>`** - Search GitHub for sensitive code patterns (dorks). Supports export.
 
 ### Anomaly Detection
 *   **`commit-anomaly <owner>/<repo>`** - Detect suspicious commit times, mass deletions, or unusual messages.

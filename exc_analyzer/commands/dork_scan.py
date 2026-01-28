@@ -7,7 +7,7 @@ import math
 from collections import Counter
 from urllib.parse import quote, unquote
 from ..print_utils import Print, _write_output, safe_print, colorize
-from ..api import api_get, get_auth_header
+from ..api import api_get, get_auth_header, DEFAULT_TIMEOUT
 from ..i18n import t
 from .dork_presets import PRESETS, get_preset_choices
 from ..helpers import TablePrinter, _truncate, truncate_visual, get_visual_width
@@ -100,7 +100,7 @@ def _verify_content(item, headers):
         html_url = item.get('html_url', '')
         if 'github.com' in html_url and '/blob/' in html_url:
             raw_url = html_url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/')
-            resp = requests.get(raw_url)
+            resp = requests.get(raw_url, timeout=DEFAULT_TIMEOUT)
             if resp.status_code == 200:
                 content = resp.text
                 return _analyze_content(content)
@@ -220,7 +220,25 @@ def _print_results(results, verify_enabled=False):
     safe_print("")
 def _export_results(results, filepath):
     """Export results to JSON or CSV"""
+    import os
     try:
+        final_path = filepath
+        if not final_path.lower().endswith('.json') and not final_path.lower().endswith('.csv'):
+             # Default to csv if no extension provided, matching logic below (but logic below adds .csv later, let's keep it consistent)
+             pass
+
+        # Pre-check for CSV extension logic to correctly check existence
+        if not final_path.lower().endswith('.json') and not final_path.lower().endswith('.csv'):
+             final_path += '.csv'
+
+        if os.path.exists(final_path):
+            prompt = t("commands.dork_scan.export_exists_prompt", path=final_path)
+            safe_print(Print.colorize(prompt, '93'), end="")
+            choice = input().lower()
+            if choice not in ['y', 'e', 'yes', 'evet']:
+                Print.cancelled(t("commands.shared.scan_cancelled"))
+                return
+
         if filepath.lower().endswith('.json'):
             with open(filepath, 'w', encoding='utf-8') as f:
                 json.dump(results, f, indent=2, ensure_ascii=False)

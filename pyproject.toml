@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "exc-analyzer"
-version = "1.3.1"
+version = "1.3.2"
 description = "Powerful Python tool for in-depth GitHub analysis, designed for multiple platforms and still in development."
 readme = "README.md"
 requires-python = ">=3.7"
@@ -18,10 +18,8 @@ authors = [
 dependencies = [
     "requests",
     "aiohttp>=3.8.0",
-    "toml",
     "packaging",
     "colorama",
-    "tabulate",
     "importlib_resources",
     "keyring"
 ]

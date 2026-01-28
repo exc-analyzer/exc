@@ -2,7 +2,7 @@
 import requests
 import re
 from ..print_utils import Print, _write_output, safe_print
-from ..api import get_auth_header
+from ..api import get_auth_header, DEFAULT_TIMEOUT
 from ..spinner import spinner
 def cmd_actions_audit(args):
     from ..i18n import t
@@ -22,7 +22,7 @@ def cmd_actions_audit(args):
         return
     with spinner(t("commands.actions_audit.auditing", repo=repo), color='96'):
         url = f"https://api.github.com/repos/{repo}/contents/.github/workflows"
-        resp = requests.get(url, headers=headers)
+        resp = requests.get(url, headers=headers, timeout=DEFAULT_TIMEOUT)
         if resp.status_code != 200:
             print()
             _write_output("")
@@ -34,7 +34,7 @@ def cmd_actions_audit(args):
             wf_url = wf.get('download_url')
             name = wf.get('name') or wf.get('path')
             try:
-                content = requests.get(wf_url, timeout=8).text
+                content = requests.get(wf_url, timeout=DEFAULT_TIMEOUT).text
                 risky = bool(re.search(r'(curl|wget|bash|sh|powershell|python|node)', content, re.I))
                 secrets = bool(re.search(r'secret', content, re.I))
                 uses_latest = bool(re.search(r'@latest', content, re.I))

@@ -14,6 +14,7 @@ from typing import Optional, Tuple
 import sys
 import json
 from exc_analyzer.constants import CLIENT_ID, DEVICE_CODE_URL, ACCESS_TOKEN_URL, AUTH_SCOPES
+DEFAULT_TIMEOUT = 10
 CACHE_TTL_SECONDS = 30
 MAX_RATE_LIMIT_WAIT = 60
 MAX_API_RETRIES = 3

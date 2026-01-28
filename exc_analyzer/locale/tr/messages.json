@@ -230,7 +230,8 @@
         "likely_example": "Muhtemelen Örnek",
         "no_secrets": "Sır Bulunamadı"
       },
-      "filtered_count": "{count} temiz/güvenli sonuç listeden gizlendi."
+      "filtered_count": "{count} temiz/güvenli sonuç listeden gizlendi.",
+      "export_exists_prompt": "'{path}' dosyası zaten mevcut. Üzerine yazılsın mı? (e/H) "
     },
     "file_history": {
       "usage": "Kullanım: exc file-history <sahip/depo> <dosya_yolu>",

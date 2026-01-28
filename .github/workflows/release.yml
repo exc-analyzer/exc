@@ -69,14 +69,20 @@ jobs:
         with:
           files: dist-deb/*.deb
           body: |
-            # EXC Analyzer v1.3.0
+            # EXC Analyzer v1.3.2
             
-            ## 🎉 What's New
+            ## 🛡️ Security & Privacy
+            - **Transparent Scopes:** Completely revised README to transparently list all requested permissions (`repo`, `workflow`) and their specific necessity.
+            - **Enhanced Log Security:** Expanded log masking to protect all GitHub token types (`ghp_`, `gho_`, `github_pat_`, etc.).
+            - **Passive Analysis Guarantee:** Explicitly documented that the tool operates in a read-only manner despite write-capable scopes.
             
-            - **New Command**: `login` - Replaces the old `key` command with a more user-friendly authentication flow
-            - **Security Score**: New `security-score` command to evaluate repository security posture
-            - **Full Localization**: Complete Turkish and English language support with persistent locale preferences
-            - **Improved Packaging**: Enhanced Debian packaging and test coverage
+            ## ⚡ Stability & Performance
+            - **Network Timeouts:** Added global timeout protection to prevent hanging on unresponsive network requests during scans.
+            - **Dependency Cleanup:** Removed unused `toml` and `tabulate` dependencies for a lighter footprint.
+            
+            ## ✨ Improvements
+            - **Overwrite Protection:** `dork-scan --export` now asks for confirmation before overwriting existing files.
+            - **Documentation:** Added clear "Risk Disclaimer" and access revocation instructions.
             
             ## 📦 Installation
             
@@ -87,18 +93,12 @@ jobs:
             
             ### Debian/Kali Linux
             ```bash
-            sudo dpkg -i exc-analyzer_1.3.0-1_all.deb
+            sudo dpkg -i exc-analyzer_1.3.2-1_all.deb
             sudo apt-get install -f
             ```
             
-            ## 📝 Changelog
-            
-            - Update commands: replace 'key' with 'login', add 'security-score'
-            - Full localization support (TR/EN)
-            - Packaging and test improvements
-            
             ## 🔗 Links
             
-            - [PyPI Package](https://pypi.org/project/exc-analyzer/1.3.0/)
+            - [PyPI Package](https://pypi.org/project/exc-analyzer/)
             - [Documentation](https://github.com/exc-analyzer/exc#readme)
             - [Report Issues](https://github.com/exc-analyzer/exc/issues)

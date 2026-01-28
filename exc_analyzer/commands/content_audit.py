@@ -2,7 +2,7 @@
 import requests
 import base64
 from ..print_utils import Print, _write_output, safe_print
-from ..api import get_auth_header
+from ..api import get_auth_header, DEFAULT_TIMEOUT
 from ..spinner import spinner
 from ..i18n import t
 def cmd_content_audit(args):
@@ -34,7 +34,7 @@ def cmd_content_audit(args):
         s_ok = t("commands.content_audit.status.ok")
         for fname, desc in files:
             url = f"https://api.github.com/repos/{repo}/contents/{fname}"
-            resp = requests.get(url, headers=headers)
+            resp = requests.get(url, headers=headers, timeout=DEFAULT_TIMEOUT)
             if resp.status_code == 200:
                 content = resp.json().get('content', '')
                 if content:

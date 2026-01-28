@@ -1,7 +1,7 @@
 """Security score calculation with improved visual output."""
 import requests
 from ..print_utils import print_error, _write_output, safe_print, colorize, Print
-from ..api import api_get, get_auth_header
+from ..api import api_get, get_auth_header, DEFAULT_TIMEOUT
 from ..spinner import spinner
 def cmd_security_score(args):
     from ..i18n import t
@@ -67,7 +67,7 @@ def cmd_security_score(args):
         issues.append((crit_open, f"{open_issues}", 0, True))
     crit_sec = t("commands.security_score.criteria.security_md")
     sec_url = f"https://api.github.com/repos/{repo}/contents/SECURITY.md"
-    sec_resp = requests.get(sec_url, headers=headers)
+    sec_resp = requests.get(sec_url, headers=headers, timeout=DEFAULT_TIMEOUT)
     if sec_resp.status_code != 200:
         score -= 10
         issues.append((crit_sec, s_missing, -10, False))
@@ -76,7 +76,7 @@ def cmd_security_score(args):
     crit_bp = t("commands.security_score.criteria.branch_prot")
     default_branch = repo_data.get('default_branch')
     prot_url = f"https://api.github.com/repos/{repo}/branches/{default_branch}/protection"
-    prot_resp = requests.get(prot_url, headers=headers)
+    prot_resp = requests.get(prot_url, headers=headers, timeout=DEFAULT_TIMEOUT)
     if prot_resp.status_code == 200:
         issues.append((crit_bp, s_enabled, 0, True))
     else:
@@ -84,7 +84,7 @@ def cmd_security_score(args):
         issues.append((crit_bp, s_disabled, -10, False))
     crit_dep = t("commands.security_score.criteria.dependabot")
     dep_url = f"https://api.github.com/repos/{repo}/contents/.github/dependabot.yml"
-    dep_resp = requests.get(dep_url, headers=headers)
+    dep_resp = requests.get(dep_url, headers=headers, timeout=DEFAULT_TIMEOUT)
     if dep_resp.status_code == 200:
         issues.append((crit_dep, s_present, 0, True))
     else:
@@ -92,7 +92,7 @@ def cmd_security_score(args):
         issues.append((crit_dep, s_missing, -5, False))
     crit_cs = t("commands.security_score.criteria.code_scanning")
     scan_url = f"https://api.github.com/repos/{repo}/code-scanning/alerts"
-    scan_resp = requests.get(scan_url, headers=headers)
+    scan_resp = requests.get(scan_url, headers=headers, timeout=DEFAULT_TIMEOUT)
     if scan_resp.status_code == 200:
         alerts = scan_resp.json()
         if isinstance(alerts, list) and len(alerts) > 0:

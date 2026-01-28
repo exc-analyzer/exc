@@ -13,7 +13,7 @@ def test_cmd_security_score_flags_risks(monkeypatch, capsys):
     }
     monkeypatch.setattr(security_score, "get_auth_header", lambda: {"Authorization": "token fake"})
     monkeypatch.setattr(security_score, "api_get", lambda url, headers: (repo_data, {}))
-    def fake_requests_get(url, headers=None):
+    def fake_requests_get(url, headers=None, **kwargs):
         class Response:
             def __init__(self, status_code, payload=None):
                 self.status_code = status_code

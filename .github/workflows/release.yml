@@ -69,7 +69,7 @@ jobs:
         with:
           files: dist-deb/*.deb
           body: |
-            # EXC Analyzer v1.3.2
+            # EXC Analyzer Release
             
             ## 🛡️ Security & Privacy
             - **Transparent Scopes:** Completely revised README to transparently list all requested permissions (`repo`, `workflow`) and their specific necessity.
@@ -93,7 +93,7 @@ jobs:
             
             ### Debian/Kali Linux
             ```bash
-            sudo dpkg -i exc-analyzer_1.3.2-1_all.deb
+            sudo dpkg -i exc-analyzer_*_all.deb
             sudo apt-get install -f
             ```
             

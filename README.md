@@ -5,7 +5,7 @@
 [![Release Date](https://img.shields.io/github/release-date/exc-analyzer/exc?label=release%20date&labelColor=black&color=blue)](https://github.com/exc-analyzer/exc/releases)
 [![License](https://img.shields.io/pypi/l/exc-analyzer?label=license&labelColor=black&color=blue)](https://pypi.org/project/exc-analyzer/)
 [![Code Size](https://img.shields.io/github/languages/code-size/exc-analyzer/exc?label=code%20size&labelColor=black)](https://github.com/exc-analyzer/exc)
-[![Socket Badge](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.2?artifact_id=tar-gz)](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.2?artifact_id=tar-gz)
+[![Socket Badge](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.3?artifact_id=tar-gz)](https://badge.socket.dev/pypi/package/exc-analyzer/1.3.3?artifact_id=tar-gz)
 
 **EXC Analyzer** is a professional command-line tool for advanced GitHub repository intelligence, security auditing, and content analysis. Designed for security researchers, penetration testers, and open-source maintainers, it bridges the gap between simple metadata and deep, actionable insights.
 
@@ -34,7 +34,7 @@
 ### Kali Linux / Debian
 Download the latest `.deb` from [Releases](https://github.com/exc-analyzer/exc/releases) and run:
 ```bash
-sudo dpkg -i exc-analyzer_1.3.2-1_all.deb
+sudo dpkg -i exc-analyzer_1.3.3-1_all.deb
 sudo apt-get install -f  # Fix dependencies if needed
 ```
 

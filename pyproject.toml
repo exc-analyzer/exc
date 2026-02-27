@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "exc-analyzer"
+version = "1.3.2"
+description = "Powerful Python tool for in-depth GitHub analysis, designed for multiple platforms and still in development."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+
+authors = [
+    { name = "EXC", email = "exc-analyzer@outlook.com" },
+    { name = "brgkdm", email = "brgkdm@proton.me" }
+]
+
+dependencies = [
+    "requests",
+    "aiohttp>=3.8.0",
+    "packaging",
+    "colorama",
+    "importlib_resources",
+    "keyring"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+    "Intended Audience :: Developers"
+]
+
+keywords = ["github", "security", "audit", "scanner", "developer-tools", "exc-analyzer"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "responses>=0.25"
+]
+
+[urls]
+Homepage = "https://exc-analyzer.web.app/"
+Repository = "https://github.com/exc-analyzer/exc"
+
+[project.scripts]
+exc = "exc_analyzer.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["exc_analyzer*"]
+exclude = ["merge_json.py", "tests*", "scripts*"]
+
+[tool.setuptools.package-data]
+"exc_analyzer" = ["exc-analyzer.png", "locale/*/*.json"]

@@ -1,0 +1,108 @@
+name: Feature request
+description: Propose an improvement for EXC Analyzer
+title: "[Feature]: "
+labels:
+  - enhancement
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion.
+        Please focus on the problem and measurable expected behavior.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What user/developer pain does this solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the expected behavior.
+      placeholder: |
+        CLI example:
+        exc <command> [options]
+    validations:
+      required: true
+
+  - type: textarea
+    id: value
+    attributes:
+      label: Why this helps EXC
+      description: Security, usability, reliability, contributor experience, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: Existing workaround or other design ideas.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - analysis
+        - dork-scan
+        - security-score
+        - login/auth
+        - output/reporting
+        - i18n
+        - docs
+        - CI/devex
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Breaking change risk
+      options:
+        - low
+        - medium
+        - high
+    validations:
+      required: true
+
+  - type: dropdown
+    id: security_impact
+    attributes:
+      label: Security/privacy impact
+      options:
+        - none
+        - low
+        - medium
+        - high
+        - unsure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      options:
+        - label: Expected output/behavior is clearly defined
+          required: true
+        - label: Edge cases are listed
+          required: true
+        - label: Backward compatibility is considered
+          required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      placeholder: Mockups, examples, links, references.
+    validations:
+      required: false

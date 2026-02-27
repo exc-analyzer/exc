@@ -1,0 +1,3 @@
+exc_analyzer/exc-analyzer.png usr/share/pixmaps/
+debian/exc-analyzer.desktop usr/share/applications/
+scripts/exc-gui-launcher usr/lib/exc-analyzer/

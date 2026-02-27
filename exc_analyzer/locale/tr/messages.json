@@ -1,0 +1,565 @@
+{
+  "cli": {
+    "verbose_enabled": "Ayrıntılı (verbose) kip etkinleştirildi.",
+    "unknown_args": "Tanımsız argümanlar: {args}",
+    "invalid_command": "[!] Geçersiz komut.",
+    "invalid_command_suggestion": "[?] Bunu mu demek istediniz: exc {command}?",
+    "language_not_available": "'{lang}' dili kullanılabilir değil. {fallback} diline dönülüyor.",
+    "language_applied": "Dil {language} olarak ayarlandı.",
+    "lang_option_metavar": "DIL",
+    "min_help": {
+      "login_desc": "# GitHub ile oturum aç",
+      "analysis_desc": "# Bir GitHub deposunu analiz et",
+      "user_desc": "# Bir GitHub kullanıcısını analiz et",
+      "args_repo": "<sahip/depo>",
+      "args_user": "<kullanıcı_adı>",
+      "help_hint": "  Tüm komutlar için: exc --help veya -h",
+      "detail_hint": "  Detaylı yardım:    exc <komut> --help"
+    },
+    "full_help": {
+      "title": "EXC Komut Yardımı",
+      "common_header": "Temel Kullanım:",
+      "security_header": "Güvenlik & İstihbarat:",
+      "general_options_header": "Genel Seçenekler:",
+      "info_hint": "Detaylı yardım için:\n  exc <komut> --help",
+      "login_logout_usage": "exc login ve logout"
+    },
+    "general_options": {
+      "version": "Sürümü ve güncelleme bilgilerini göster",
+      "verbose": "Ayrıntılı/hata ayıklama çıktısı (büyük \"V\")",
+      "lang": "Bu çalıştırmada dili değiştir (tercihi de kaydeder)",
+      "rate_limit": "API kota bilgisini göster (çoğu komutta kullanılabilir)"
+    },
+    "version_missing": "Sürüm bilgisi bulunamadı.",
+    "args": {
+      "owner_repo": "<sahip/depo>",
+      "username": "<kullanıcı_adı>",
+      "file": "<dosya>",
+      "dork_query": "<dork_sorgusu>"
+    }
+  },
+  "commands": {
+    "shared": {
+      "missing_repo": "Gerekli argüman eksik: <owner/repo>",
+      "missing_args": "Gerekli argümanlar eksik.",
+      "missing_query": "Gerekli argüman eksik: <dork_query>",
+      "usage_hint": "Örnek: exc {command} {args}",
+      "permission_denied": "Erişim reddedildi (Permission denied).",
+      "api_key_missing": "API anahtarı eksik.",
+      "keyring_required": "Güvenli işletim sistemi kimlik kasası zorunludur. Keyring desteği olmadan token saklama devre dışıdır.",
+      "keyring_required_hint": "Desteklenen bir sistem keyring arka ucunu kurup yapılandırın, sonra: exc login",
+      "keyring_required_faq": "SSS: https://github.com/exc-analyzer/exc?tab=readme-ov-file#faq",
+      "use_key_cmd": "Kullanım: exc login",
+      "scan_cancelled": "İşlem kullanıcı tarafından iptal edildi.",
+      "error_occurred": "{error}",
+      "repo_not_found": "Depo bulunamadı.",
+      "unknown": "Bilinmiyor",
+      "anonymous": "Anonim",
+      "none_value": "Belirtilmemiş",
+      "missing_owner_repo": "Depo sahibi ve adı eksik.",
+      "invalid_repo_format": "Geçersiz format. Lütfen <sahip/depo> şeklinde kullanın (örn. torvalds/linux).",
+      "help_output": "Çıktı dosyası yolu (belirtilmezse otomatik oluşturulur)",
+      "help_limit": "Taranacak son commit sayısı (varsayılan: {default})",
+      "help_num": "Gösterilecek sonuç sayısı (maks 100)",
+      "fatal_error": "Kritik Hata: {error}",
+      "config_saved_keyring": "API anahtarı işletim sistemi kasasına kaydedildi.",
+      "config_saved_local": "API anahtarı yerel dosyaya kaydedildi.",
+      "config_perm_warning": "Sıkı dosya izinleri ayarlanamadı. Dosyanın korunduğundan emin olun.",
+      "key_deleted": "API anahtarı silindi.",
+      "key_not_found": "Kayıtlı API anahtarı bulunamadı.",
+      "output_file_error": "Çıktı dosyası hatası: {filepath}: {error}",
+      "output_write_error": "Çıktı yazma hatası: {error}",
+      "server_error": "Sunucu hatası: {status}",
+      "server_error_retry": "Sunucu hatası (deneme {attempt}/{max}). {wait} sn sonra tekrar deneniyor...",
+      "api_comm_failed": "GitHub ile iletişim kurulamadı (HTTP {status}).",
+      "rate_limit_reached": "GitHub API hız sınırına ulaşıldı.",
+      "rate_limit_retry": "{wait} saniye içinde otomatik olarak tekrar denenecek...",
+      "rate_limit_resets": "Sınır şu tarihte sıfırlanacak: {time}",
+      "rate_limit_exceeded": "GitHub API hız sınırı aşıldı. Lütfen daha sonra tekrar deneyin.",
+      "resource_not_found": "İstenen kullanıcı veya depo bulunamadı.",
+      "resource_check_typo": "Lütfen kullanıcı adını veya depo adını kontrol edin.",
+      "auth_failed": "Kimlik doğrulama başarısız.",
+      "auth_check_creds": "Lütfen API anahtarınızı kontrol edin.",
+      "server_error_http": "Sunucu hatası oluştu (HTTP {status}). Lütfen daha sonra tekrar deneyin.",
+      "invalid_response": "Sunucudan geçerli bir yanıt alınamadı. (HTTP {status})",
+      "key_validation_error": "Anahtar doğrulama hatası: {error}",
+      "example_header": "Örnek:",
+      "examples_header": "Örnekler:",
+      "options_header": "Seçenekler:",
+      "details_header": "Detaylar:",
+      "tips_header": "İpuçları:",
+      "description_header": "Açıklama:",
+      "quota_remaining": "Kalan istek hakkı: {count}",
+      "quota_unavailable": "Kota bilgisi mevcut değil",
+      "rate_guard_wait": "Düşük {kind} kota koruması aktif (kalan: {remaining}). Rate limit'e takılmamak için ~{wait} sn bekleniyor."
+    },
+    "actions_audit": {
+      "usage": "Kullanım: exc actions-audit <sahip/depo>",
+      "auditing": "GitHub Actions iş akışları denetleniyor: {repo}",
+      "no_workflows": "İş akışı bulunamadı.",
+      "risky_script": "Riskli komut dosyası",
+      "uses_latest": "@latest kullanıyor",
+      "uses_secrets": "Secret kullanıyor",
+      "ok": "Güvenli",
+      "error_fetch": "Getirilemedi",
+      "check_exec": "Komut çalıştırma kontrolü gerekli",
+      "pin_versions": "Sürümleri sabitle",
+      "review_secrets": "Secret kullanımını gözden geçir",
+      "no_risk": "Risk tespit edilmedi",
+      "could_not_fetch": "İçerik getirilemedi",
+      "review_needed": "{count} iş akışı inceleme gerektiriyor",
+      "all_safe": "Tüm iş akışları güvenli görünüyor.",
+      "labels": {
+        "risky": "RİSKLİ",
+        "warning": "UYARI",
+        "ok": "TAMAM",
+        "error": "HATA",
+        "status": "Durum",
+        "note": "Not"
+      },
+      "header": "ACTIONS DENETİMİ",
+      "stats": "Toplam {total} iş akışı bulundu. {risky} tanesi riskli.",
+      "headers": {
+        "workflow": "İş Akışı",
+        "url": "URL",
+        "status": "Durum",
+        "note": "Not"
+      },
+      "desc_short": "# GitHub Actions/CI güvenlik denetimi",
+      "example": "Örnek: exc actions-audit torvalds/linux",
+      "description": "GitHub Actions iş akışlarını güvenlik riskleri açısından denetler."
+    },
+    "content_audit": {
+      "usage": "Kullanım: exc content-audit <sahip/depo>",
+      "auditing": "Depo içerik denetimi: {repo}",
+      "files": {
+        "license": "Lisans dosyası",
+        "security": "Güvenlik politikası",
+        "coc": "Davranış Kuralları",
+        "contributing": "Katkı Kılavuzu",
+        "readme": "README"
+      },
+      "status": {
+        "present": "Mevcut",
+        "missing": "Eksik",
+        "too_short": "Çok kısa",
+        "empty": "Boş",
+        "ok": "İyi"
+      },
+      "headers": {
+        "type": "Tip",
+        "file": "Dosya",
+        "status": "Durum",
+        "quality": "Kalite"
+      },
+      "header": "İÇERİK DENETİMİ",
+      "stats": "{total} önemli dosyadan {present} tanesi bulundu.",
+      "missing_list": "Eksik dosyalar: {files}",
+      "all_present": "Tüm önemli dosyalar mevcut.",
+      "labels": {
+        "type": "Tip",
+        "status": "Durum",
+        "quality": "Kalite",
+        "ok": "TAMAM",
+        "warn": "UYARI",
+        "missing": "EKSİK"
+      },
+      "desc_short": "# Depo içerik denetimi",
+      "description": "Lisans, security.md, davranış kuralları, contributing.md ve dokümantasyon kalitesini denetler.",
+      "examples": [
+        "exc content-audit torvalds/linux"
+      ]
+    },
+    "dork_scan": {
+      "searching": "GitHub üzerinde aranıyor: {query}",
+      "total": "Gösterilen toplam: {count}",
+      "disclaimer": "Sorumlu kullanın. Bu taramanın sonuçlarından yasal ve etik olarak siz sorumlusunuz.",
+      "none_found": "Sonuç bulunamadı.",
+      "missing_query": "Arama sorgusu eksik.",
+      "table_header": {
+        "repo": "REPO",
+        "file": "DOSYA",
+        "link": "BAĞLANTI",
+        "status": "STAT"
+      },
+      "desc_short": "# GitHub dork taraması",
+      "usage": "Kullanım: exc dork-scan <dork_sorgusu> [seçenekler]",
+      "description": "GitHub üzerindeki herkese açık kodlarda kritik anahtar kelime, sır veya yapılandırma dosyalarını arar.",
+      "examples": [
+        "exc dork-scan brgkdm",
+        "exc dork-scan --preset secrets -n 20",
+        "exc dork-scan \"AWS_ACCESS_KEY_ID\" --verify",
+        "exc dork-scan --preset aws --export aws_leaks.json",
+        "exc dork-scan --export results.json \"password\" -n 50",
+        "exc dork-scan --list-presets"
+      ],
+      "options": [
+        "<dork_sorgusu>            Arama ifadesi (birden çok kelime için tırnak kullanın)",
+        "-n, --num N               Gösterilecek sonuç sayısı (varsayılan: 10, en fazla: 100)",
+        "-p, --preset PAKET        Hazır dork paketi kullan (secrets, config, aws, azure, google, actions)",
+        "--verify                  Bulunan dosyaların içeriğini indir ve doğrula (derin analiz)",
+        "--list-presets            Mevcut hazır paketleri listele",
+        "--export DOSYA            Sonuçları JSON veya CSV olarak kaydet",
+        "-o, --output              Çıktıyı dosyaya kaydet (atlanırsa dosya adı otomatik üretilir)",
+        "-h, --help                Bu yardım metnini göster"
+      ],
+      "details": [
+        "Bu komut; özel sorgular (dork) ile açığa çıkan sırları, API anahtarlarını veya hassas dosyaları bulmanıza yardım eder.",
+        "Arama sorgunuzda anahtar kelimeleri birleştirerek sonuçları hassaslaştırabilirsiniz."
+      ],
+      "tips": [
+        "Birden fazla kelime için tırnak kullanın (örn. \"sensitive key\")",
+        "Sonuçlarda depo adı, dosya yolu ve GitHub bağlantısı yer alır"
+      ],
+      "footer": "Daha fazla bilgi: https://github.com/exc-analyzer/exc",
+      "help_preset": "Hazır dork paketi kullan (secenekler: secrets, config, actions...)",
+      "help_verify": "Sonuçların içeriğini indir ve doğrula (derin analiz)",
+      "help_list_presets": "Mevcut dork paketlerini listele",
+      "help_export": "Sonuçları dosyaya aktar (JSON veya CSV)",
+      "invalid_preset": "Geçersiz paket: {preset}. Mevcut paketleri görmek için --list-presets kullanın.",
+      "searching_spinner": "GitHub üzerinde aranıyor...",
+      "long_query_warning": "Uyarı: Çok uzun sorgu. GitHub API bazı terimleri yok sayabilir.",
+      "verifying_count": "{count} sonuç için içerik doğrulaması başlatılıyor...",
+      "verifying_spinner": "İçerikler indiriliyor ve analiz ediliyor...",
+      "export_success": "Sonuçlar başarıyla dışa aktarıldı: {path}",
+      "export_error": "Dışa aktarma hatası: {error}",
+      "presets_list_header": "Mevcut Dork Paketleri:",
+      "status": {
+        "verified": "DOĞRULANDI",
+        "potential": "Olası",
+        "suspicious": "Şüpheli",
+        "suspicious_small": "Şüpheli (Küçük)",
+        "unverified": "-",
+        "check_failed": "Kontrol Edilemedi",
+        "likely_example": "Muhtemelen Örnek",
+        "no_secrets": "Sır Bulunamadı"
+      },
+      "filtered_count": "{count} temiz/güvenli sonuç listeden gizlendi.",
+      "export_exists_prompt": "'{path}' dosyası zaten mevcut. Üzerine yazılsın mı? (e/H) "
+    },
+    "file_history": {
+      "usage": "Kullanım: exc file-history <sahip/depo> <dosya_yolu>",
+      "header": "[*] [{repo}] içindeki [{filepath}] için Değişim Geçmişi",
+      "searching": "[{repo}] içinde [{filename}] aranıyor",
+      "found_at": "Dosya bulundu: {path}",
+      "not_found": "'{filename}' dosyası depoda bulunamadı",
+      "modifications": "\n[!] Son {count} değişiklik:\n",
+      "desc_short": "# Dosya değişim geçmişini göster",
+      "description": "Belirli bir dosyanın tüm değişim geçmişini (commit, yazar, tarih, mesaj) listeler.",
+      "examples": [
+        "exc file-history torvalds/linux kernel/sched/core.c"
+      ],
+      "options": [
+        "-l, --limit   Gösterilecek commit sayısı (varsayılan: 5, maks: 50)",
+        "-o, --output  Çıktıyı dosyaya kaydet"
+      ],
+      "limit_exceeded": "İstenen limit ({requested}) maksimum sınır olan {max}'den büyük olamaz.",
+      "table_header": {
+        "sha": "SHA",
+        "date": "TARİH",
+        "author": "YAZAR",
+        "message": "MESAJ"
+      },
+      "footer": "[BİLGİ] {count} commit listelendi."
+    },
+    "scan_secrets": {
+      "usage": "Kullanım: exc scan-secrets <sahip/depo> [-l N]",
+      "scanning": "[{repo}] için son {limit} commit taranıyor...",
+      "no_commits": "Commit bulunamadı",
+      "found": "[!] {file} dosyasında {type} bulundu",
+      "secret_found": "{count} sır tespit edildi.",
+      "commit_info": "Commit: {hash} - {msg}",
+      "author_info": "Yazar: {author}",
+      "date_info": "Tarih: {date}",
+      "file_info": "Dosya: {file}",
+      "none_found": "Taranan commitlerde sır bulunamadı",
+      "desc_short": "# Sızan anahtarları tara",
+      "description": "Son N commit'i (varsayılan 10) API anahtarları, AWS kimlikleri, SSH anahtarları ve benzeri sırlar için tarar.",
+      "examples": [
+        "exc scan-secrets torvalds/linux -l 50"
+      ],
+      "options": [
+        "-l, --limit   Tarancak commit sayısı (varsayılan: 10)",
+        "-o, --output  Çıktıyı dosyaya kaydet (atlanırsa dosya adı otomatik üretilir)"
+      ],
+      "limit_exceeded": "İstenen limit ({requested}) maksimum sınır olan {max}'den büyük olamaz.",
+      "table_header": {
+        "type": "TİP",
+        "date": "TARİH",
+        "author": "YAZAR",
+        "file": "DOSYA"
+      }
+    },
+    "advanced_secrets": {
+      "usage": "Kullanım: exc advanced-secrets <sahip/depo> [-l N]",
+      "scanning_repo": "Depo dosyaları ve son {limit} commit taranıyor: {repo}",
+      "scanning_files": "Depo dosyaları taranıyor...",
+      "scanning_commits": "Commitler taranıyor...",
+      "headers": {
+        "file": "Dosya",
+        "type": "Tip",
+        "url": "URL",
+        "source": "Kaynak"
+      },
+      "output": {
+        "file": "Dosya: {path}",
+        "type": "Tip: {type}",
+        "source": "Kaynak"
+      },
+      "total_findings": "Toplam bulgu: {count}",
+      "none_found": "Taranan dosya veya commitlerde sır bulunamadı.",
+      "desc_short": "# Gelişmiş sır taraması",
+      "description": "Depo dosyalarını ve son N commit'i geniş secret desenlerine karşı tarar.",
+      "examples": [
+        "exc advanced-secrets torvalds/linux -l 30"
+      ],
+      "options": [
+        "-l, --limit   Tarancak commit sayısı (varsayılan: 20)",
+        "-o, --output  Çıktıyı dosyaya kaydet (atlanırsa dosya adı otomatik üretilir)"
+      ]
+    },
+    "security_score": {
+      "usage": "Kullanım: exc security-score <sahip/depo>",
+      "examples": [
+        "exc security-score torvalds/linux"
+      ],
+      "calculating": "Güvenlik skoru hesaplanıyor: {repo}",
+      "score_header": "GÜVENLİK SKORU",
+      "criteria_header": "GÜVENLİK KRİTERLERİ:",
+      "status": {
+        "present": "Mevcut",
+        "missing": "Eksik",
+        "enabled": "Etkin",
+        "disabled": "Devre Dışı",
+        "yes": "Evet",
+        "no": "Hayır",
+        "none": "Yok",
+        "open": "açık"
+      },
+      "criteria": {
+        "license": "Lisans",
+        "issues": "Issue'lar",
+        "wiki": "Wiki",
+        "projects": "Projeler",
+        "open_issues": "Açık Issue'lar",
+        "security_md": "SECURITY.md",
+        "branch_prot": "Dal Koruması",
+        "dependabot": "Dependabot Ayarı",
+        "code_scanning": "Kod Tarama Uyarıları"
+      },
+      "headers": {
+        "criteria": "Kriter",
+        "status": "Durum",
+        "impact": "Puan Etkisi"
+      },
+      "result": "Güvenlik Skoru: {score}/100",
+      "verdict": {
+        "excellent": "Mükemmel güvenlik hijyeni!",
+        "good": "İyi, ancak geliştirilebilir.",
+        "weak": "Güvenlik duruşu zayıf! Yukarıdaki sorunları inceleyin."
+      },
+      "desc_short": "# Depo güvenlik puanlaması",
+      "description": "Açık issue'lar, branch koruması, security.md, lisans, dependabot, code scanning ve daha fazlasını inceleyerek güvenlik puanı hesaplar."
+    },
+    "logout": {
+      "desc_short": "# Çıkış yap ve anahtarı sil",
+      "usage": "Kullanım: exc logout",
+      "description": "- GitHub oturumunu kapatır ve kayıtlı API anahtarını sistemden siler.\n  Tekrar \"exc login\" komutunu kullanarak giriş yapmanız gerekmektedir.\n",
+      "logging_out": "Çıkış yapılıyor...",
+      "success": "Çıkış başarılı. API anahtarı SİLİNDİ.",
+      "hint": "Giriş yapmak için şunu kullanın: exc login",
+      "not_logged_in": "Henüz giriş yapmadınız. Lütfen önce 'exc login' komutunu kullanın."
+    },
+    "login": {
+      "desc_short": "# GitHub ile Giriş Yap (Tarayıcı)",
+      "desc_combined": "# GitHub ile Giriş Yap / Çıkış Yap (Tarayıcı)",
+      "usage": "Kullanım: exc login",
+      "description": "- Özelliklere erişmek için giriş yapmanız gerekmektedir.\n  Sizi https://github.com/login/device adresine yönlendirir ve tek seferlik kodunuzu kullanarak GitHub üzerinden erişim izini verirsiniz. Erişim izini verildikten kısa süre sonra otomatik olarak giriş yapmış olucaksınız.\n",
+      "init_msg": "GitHub ile güvenli giriş başlatılıyor...",
+      "redirecting": "GitHub Tarayıcı Yönlendirmesi Yapılıyor...",
+      "already_logged_in": "Zaten {user} olarak giriş yapmış durumdasınız.",
+      "already_login_hint": "Hesap değiştirmek isterseniz önce 'exc logout' kullanın.",
+      "otp_code": "Önce tek seferlik kodunuzu kopyalayın: {code}",
+      "open_browser": "Tarayıcıda GitHub'ı açmak için ENTER'a basın...",
+      "waiting": "Yetkilendirme bekleniyor... (İptal için CTRL+C)",
+      "success": "Giriş başarılı! Hoşgeldin, {user}.",
+      "suggestion": "İlk analizi başlatmak için şunu kullanın: exc analysis <sahip/depo>",
+      "token_expired": "Token süresi doldu. Lütfen tekrar deneyin.",
+      "access_denied": "Erişim kullanıcı tarafından reddedildi.",
+      "timeout": "Giriş işlemi zaman aşımına uğradı.",
+      "clipboard_copy": "Kod panoya kopyalandı!",
+      "clipboard_fail": "Panoya kopyalanamadı, lütfen manuel kopyalayın.",
+      "cancelled": "Giriş işlemi kullanıcı tarafından iptal edildi.",
+      "security_disclaimer": "- Bu araç analiz amacıyla GitHub hesabınıza erişim ister.\n- Hiçbir yazma, değiştirme veya tetikleme işlemi yapılmaz.\n\n- Yetkiler GitHub tarafından yönetilir ve dilediğiniz zaman iptal edilebilir.",
+      "agree_prompt": "Devam etmek istiyor musunuz? (e/H): "
+    },
+    "user_anomaly": {
+      "desc_short": "# Kullanıcı anomali tespiti",
+      "usage": "Kullanım: exc user-anomaly <github_kullanıcı_adı>",
+      "description": "Bir kullanıcının GitHub etkinliğindeki olağandışı hareketleri tespit eder.",
+      "examples": [
+        "exc user-anomaly octocat"
+      ],
+      "checking": "{user} için kullanıcı etkinliği kontrol ediliyor",
+      "fetching_data": "Kullanıcı verileri çekiliyor...",
+      "analyzing": "Anomaliler analiz ediliyor...",
+      "no_activity": "Yakın zamanda etkinlik bulunamadı.",
+      "unusual": "Olağandışı etkinlik: Saat {hour} civarında {count} olay",
+      "normal": "Olağandışı bir etkinlik tespit edilmedi.",
+      "header": "KULLANICI ANOMALİ ANALİZİ: {user}",
+      "risk_score": "Risk Skoru",
+      "risk_low": "DÜŞÜK RİSK",
+      "risk_medium": "ORTA RİSK",
+      "risk_high": "YÜKSEK RİSK",
+      "anomalies_detected": "Tespit Edilen Anomaliler",
+      "no_anomalies": "Anomali tespit edilmedi. Hesap normal görünüyor.",
+      "profile_summary": "Profil Özeti",
+      "account_age": "Hesap Yaşı",
+      "total_repos": "Toplam Repo",
+      "followers_following": "Takipçi/Takip",
+      "fork_ratio": "Fork Oranı",
+      "activity_chart": "Aktivite Grafiği (Zaman Bloklarına Göre)",
+      "anomaly": {
+        "new_account_high_activity": "Yeni hesap ({days} gün) yüksek aktivite ({repos} repo)",
+        "old_account_no_activity": "Eski hesap ama hiç aktivite yok",
+        "suspicious_follow_ratio": "Şüpheli takip oranı: {followers} takipçi / {following} takip",
+        "high_fork_ratio": "Yüksek fork oranı: %{ratio} ({forks}/{total} repo)",
+        "concentrated_activity": "Yoğunlaşmış aktivite: {count} olay saat {hour}:00'te",
+        "night_activity": "Gece aktivitesi yüksek: %{percent}",
+        "incomplete_profile": "Profil bilgileri eksik (bot olabilir)",
+        "repetitive_events": "Tekrarlayıcı olay türü: %{percent} {event_type}",
+        "low_quality_commits": "Düşük kaliteli commit mesajları: %{percent} tek kelime/spam",
+        "random_repo_names": "Rastgele/otomatik repo isimleri: {count}/{total}",
+        "activity_burst": "Ani aktivite patlaması: {max_events} olay/gün (ortalama: {avg_events})",
+        "single_language_focus": "Tek dil yoğunlaşması: %{percent} {language}",
+        "mostly_empty_repos": "Boş/minimal repolar: {empty}/{total}"
+      }
+    },
+    "contrib_impact": {
+      "header": "\n[*] {repo} için Katılımcı Etki Analizi",
+      "formula": "(Skor = Eklenen satır * 0.7 - Silinen satır * 0.3)",
+      "top_header": "\nEtkisine göre en iyi katılımcılar:",
+      "score_display": "Etki Skoru: {score}",
+      "stats_display": "Eklenen: {adds} | ➖ Silinen: {dels}"
+    },
+    "analysis": {
+      "desc_short": "# Bir deposu analiz et",
+      "usage": "Kullanım: exc analysis <sahip/depo> [-r]",
+      "description": "Bir GitHub deposunu kod kalitesi, güvenlik, bağımlılıklar ve istatistikler açısından inceler.",
+      "examples": [
+        "exc analysis torvalds/linux",
+        "exc analysis microsoft/vscode -r"
+      ],
+      "options": [
+        "-r, --show-rate-limit    API kota bilgisini göster"
+      ]
+    },
+    "user_a": {
+      "desc_short": "# GitHub kullanıcısını analiz et",
+      "usage": "Kullanım: exc user-a <kullanıcı_adı>",
+      "description": "Bir GitHub kullanıcısının profilini, takipçi verilerini ve öne çıkan depolarını inceler.",
+      "examples": [
+        "exc user-a octocat"
+      ],
+      "details": [
+        "- Profil metaverilerini çeker (bio, şirket, konum)",
+        "- Öne çıkan depoları ve katkı serilerini gösterir",
+        "- Anomali kontrolü için son etkinlikleri öne çıkarır"
+      ],
+      "tip": "İpucu: Kullanıcı adını GitHub'daki haliyle girin.",
+      "missing_username": "Kullanıcı adı eksik.",
+      "sections": {
+        "user_info": "Kullanıcı Bilgileri",
+        "top_repos": "En Çok Yıldızlanan Depolar:"
+      },
+      "labels": {
+        "name": "Ad",
+        "username": "Kullanıcı adı",
+        "bio": "Bio",
+        "location": "Konum",
+        "company": "Şirket",
+        "account_created": "Hesap Oluşturma",
+        "followers": "Takipçi",
+        "following": "Takip Edilen",
+        "public_repos": "Açık Repo",
+        "public_gists": "Açık Gist"
+      },
+      "completed": "Tamamlandı."
+    },
+    "commit_anomaly": {
+      "desc_short": "# Commit/PR anomali analizi",
+      "usage": "Kullanım: exc commit-anomaly <sahip/depo>",
+      "description": "Commit mesajlarını ve PR'ları şüpheli veya riskli etkinlikler için inceler.",
+      "examples": [
+        "exc commit-anomaly torvalds/linux"
+      ],
+      "analyzing": "Commit/PR etkinliği analiz ediliyor: {repo}",
+      "header": "COMMIT ANOMALİLERİ",
+      "anomalies_found": "Şüpheli commitler tespit edildi:",
+      "found_count": "{count} şüpheli commit bulundu",
+      "keywords": "Anahtar kelimeler",
+      "headers": {
+        "sha": "SHA",
+        "commit": "Commit",
+        "message": "Mesaj",
+        "date": "Tarih"
+      },
+      "none_found": "Şüpheli commit mesajı bulunamadı."
+    },
+    "analysis_output": {
+      "repo_info": "Depo Bilgileri",
+      "languages": "Diller",
+      "commit_stats": "Commit İstatistikleri (Son 100)",
+      "contributors": "Katılımcılar",
+      "issues_prs": "Issue'lar ve Pull Request'ler",
+      "top_committers": "En Çok Commit Atanlar (Son 100)",
+      "top_contributors": "En Çok Katkıda Bulunanlar",
+      "analyzed_commits": "İncelenen Commitler",
+      "total_contributors": "Toplam Katılımcı",
+      "open_issues": "Açık Issue'lar",
+      "total_prs": "Toplam PR",
+      "completed": "Tamamlandı.",
+      "labels": {
+        "name": "Ad",
+        "desc": "Açıklama",
+        "created": "Oluşturulma",
+        "updated": "Son Güncelleme",
+        "stars": "Yıldız",
+        "forks": "Fork",
+        "default_branch": "Varsayılan Dal",
+        "license": "Lisans",
+        "open_issues": "Açık Issue"
+      }
+    }
+  },
+  "output": {
+    "using_default": "Varsayılan çıktı dosyası kullanılıyor: {filepath}",
+    "file_created": "Çıktı dosyası oluşturuldu: {filepath}",
+    "file_error": "Çıktı dosyası açılamadı {filepath}: {error}",
+    "file_closed_stats": "Çıktı kaydedildi: {filepath} ({lines} satır, {size})",
+    "write_failed_continuing": "Uyarı: Dosyaya yazma başarısız oldu, dosya çıktısı olmadan devam ediliyor"
+  },
+  "time": {
+    "year": "yıl",
+    "years": "yıl",
+    "month": "ay",
+    "months": "ay",
+    "day": "gün",
+    "days": "gün",
+    "hour": "saat",
+    "hours": "saat",
+    "minute": "dakika",
+    "minutes": "dakika",
+    "ago": "önce",
+    "just_now": "az önce"
+  },
+  "log_levels": {
+    "warn": "UYARI",
+    "error": "HATA",
+    "success": "BAŞARILI",
+    "info": "BILGI",
+    "action": "ISLEM",
+    "cancelled": "İPTAL EDİLDİ",
+    "critical_error": "KRİTİK HATA"
+  }
+}

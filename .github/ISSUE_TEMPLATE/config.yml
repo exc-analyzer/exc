@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation & FAQ
+    url: https://github.com/exc-analyzer/exc?tab=readme-ov-file#faq
+    about: Check setup, keyring, and troubleshooting guidance before filing an issue.
+  - name: Security-sensitive report
+    url: https://github.com/exc-analyzer/exc/issues/new?labels=security,triage
+    about: For potentially sensitive findings, avoid posting secrets/tokens and include minimal reproducible details.

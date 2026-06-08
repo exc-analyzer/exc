@@ -204,3 +204,5 @@ If that backend is missing, locked, or inaccessible in your environment, token s
 ## License
 
 MIT License. See [`LICENSE`](https://github.com/exc-analyzer/exc/blob/main/LICENSE) file for details.
+
+Developed by Berat Gökdemir (brgkdm)

@@ -76,17 +76,19 @@ jobs:
             # EXC Analyzer Release
             
             ## 🛡️ Security & Privacy
-            - **Transparent Scopes:** Completely revised README to transparently list all requested permissions (`repo`, `workflow`) and their specific necessity.
-            - **Enhanced Log Security:** Expanded log masking to protect all GitHub token types (`ghp_`, `gho_`, `github_pat_`, etc.).
-            - **Passive Analysis Guarantee:** Explicitly documented that the tool operates in a read-only manner despite write-capable scopes.
+            - **Keyring-Only Credentials:** Token storage now requires OS credential vault support (no local/plaintext fallback).
+            - **Secure Migration Path:** Legacy local token artifacts are migrated to keyring and cleaned up safely.
+            - **Hardened Error Paths:** Critical auth and storage failures now fail fast with clear guidance.
             
             ## ⚡ Stability & Performance
-            - **Network Timeouts:** Added global timeout protection to prevent hanging on unresponsive network requests during scans.
-            - **Dependency Cleanup:** Removed unused `toml` and `tabulate` dependencies for a lighter footprint.
+            - **Proactive Low-Quota Guard:** REST and GraphQL requests slow down intelligently when quota is critically low.
+            - **GraphQL Efficiency:** Added short TTL query cache and cost/remaining/reset telemetry tracking.
+            - **Adaptive Fetching:** Async pagination now adjusts request windows based on available quota.
             
             ## ✨ Improvements
-            - **Overwrite Protection:** `dork-scan --export` now asks for confirmation before overwriting existing files.
-            - **Documentation:** Added clear "Risk Disclaimer" and access revocation instructions.
+            - **Unified Network Layer:** `dork-scan` and `content-audit` now use shared safe HTTP helpers for consistent timeout/cache handling.
+            - **Verbose Rate Diagnostics:** Added optional wait telemetry to explain proactive throttling decisions.
+            - **Maintenance Cleanup:** Broad quality pass across exceptions, lint issues, and command reliability.
             
             ## 📦 Installation
             

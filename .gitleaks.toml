@@ -1,0 +1,21 @@
+# EXC Analyzer - gitleaks yapilandirmasi
+# Varsayilan kural setini kullanir; sadece gercek sir olmayan yollari haric tutar.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Test fixture'lari ve git takibinde olmayan yerel dizinler"
+paths = [
+  # Testlerdeki sahte token'lar (ghp_1234..., ghp_1111...) gercek sir degil
+  '''tests/.*\.py''',
+  # Yerel sanal ortam ve uretim ciktilari - repoda yok, CI'da hic olusmaz
+  '''\.venv/.*''',
+  '''venv/.*''',
+  '''build/.*''',
+  '''dist/.*''',
+  '''dist-deb/.*''',
+  '''\.ruff_cache/.*''',
+  '''\.pytest_cache/.*''',
+  '''.*\.egg-info/.*''',
+]

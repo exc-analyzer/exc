@@ -334,7 +334,9 @@
         "yes": "Evet",
         "no": "Hayır",
         "none": "Yok",
-        "open": "açık"
+        "open": "açık",
+        "unknown": "Bilinmiyor",
+        "not_configured": "Kurulu değil"
       },
       "criteria": {
         "license": "Lisans",
@@ -359,7 +361,8 @@
         "weak": "Güvenlik duruşu zayıf! Yukarıdaki sorunları inceleyin."
       },
       "desc_short": "# Depo güvenlik puanlaması",
-      "description": "Açık issue'lar, branch koruması, security.md, lisans, dependabot, code scanning ve daha fazlasını inceleyerek güvenlik puanı hesaplar."
+      "description": "Açık issue'lar, branch koruması, security.md, lisans, dependabot, code scanning ve daha fazlasını inceleyerek güvenlik puanı hesaplar.",
+      "not_scored_note": "{count} kriter puanlamaya dahil edilmedi; nedeni her satırın durumunda yazıyor."
     },
     "logout": {
       "desc_short": "# Çıkış yap ve anahtarı sil",

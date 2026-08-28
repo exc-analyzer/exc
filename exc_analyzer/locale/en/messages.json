@@ -338,7 +338,9 @@
         "yes": "Yes",
         "no": "No",
         "none": "None",
-        "open": "open"
+        "open": "open",
+        "unknown": "Unknown",
+        "not_configured": "Not configured"
       },
       "criteria": {
         "license": "License",
@@ -363,7 +365,8 @@
         "weak": "Security posture is weak! Review the issues above."
       },
       "desc_short": "# Repo security scoring",
-      "description": "Calculates a security score for the repository based on open issues, branch protection, security.md, license, dependabot, code scanning, and more."
+      "description": "Calculates a security score for the repository based on open issues, branch protection, security.md, license, dependabot, code scanning, and more.",
+      "not_scored_note": "{count} criteria were left out of the score; the reason is shown in each row's status."
     },
     "logout": {
       "desc_short": "# Log out and remove API key",

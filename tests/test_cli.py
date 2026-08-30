@@ -13,7 +13,16 @@ def test_cli_help(capsys):
             main_cli()
         assert e.value.code == 0
         out, err = capsys.readouterr()
-        assert "EXC ANALYZER" in out or "Common Usage" in out
+        # Baslik ceviriliyor, komut adlari cevrilmiyor.
+        #
+        # Bu satir once "EXC ANALYZER" / "Common Usage" ariyordu ve testi
+        # gelistiricinin dil tercihine bagimli kiliyordu: `exc --lang tr`
+        # calistirmis biri "[+] EXC Komut Yardimi" gorur ve test kirilir.
+        # CI'da varsayilan Ingilizce oldugu icin orada gecip yerelde
+        # kaliyordu. Ayni dosyadaki test_cli_no_args zaten dogru deseni
+        # kullaniyor: cevrilmeyen komut adlarina bakiyor.
+        assert "exc login" in out
+        assert "exc analysis" in out
 def test_cli_version(capsys):
     with patch.object(sys, 'argv', ["exc", "--version"]):
         with pytest.raises(SystemExit) as e:

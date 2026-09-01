@@ -4,15 +4,8 @@ from ..print_utils import print_error, _write_output, safe_print, Print
 from ..api import api_get, get_auth_header, DEFAULT_TIMEOUT
 from ..spinner import spinner
 
-
 def _content_exists(repo, headers, paths):
-    """Check whether any of ``paths`` exists in the repository.
-
-    Returns True if found, False if every path answered 404, and None when a
-    response we cannot interpret (permissions, transport) got in the way.
-    Distinguishing "absent" from "unreadable" matters: only the former is a
-    real finding.
-    """
+    """Return True if found, False if every path 404s, None if unreadable."""
     saw_unexpected = False
     for path in paths:
         url = f"https://api.github.com/repos/{repo}/contents/{path}"
@@ -26,7 +19,6 @@ def _content_exists(repo, headers, paths):
         if resp.status_code != 404:
             saw_unexpected = True
     return None if saw_unexpected else False
-
 
 def cmd_security_score(args):
     from ..i18n import t
@@ -56,8 +48,6 @@ def cmd_security_score(args):
     s_disabled = t("commands.security_score.status.disabled")
     s_unknown = t("commands.security_score.status.unknown")
     s_not_configured = t("commands.security_score.status.not_configured")
-    # Yalnizca kimlikli isteklerde gelir. Korumanin gercekten kapali mi yoksa
-    # bize kapali mi oldugunu ayirmanin tek guvenilir yolu bu alan.
     is_admin = bool((repo_data.get('permissions') or {}).get('admin'))
     s_yes = t("commands.security_score.status.yes")
     s_no = t("commands.security_score.status.no")
@@ -95,9 +85,6 @@ def cmd_security_score(args):
         issues.append((crit_open, f"{open_issues}", -5, False))
     else:
         issues.append((crit_open, f"{open_issues}", 0, True))
-    # GitHub recognises a security policy in the repository root, under
-    # .github/ and under docs/. Checking only the root reports a missing
-    # policy for repositories that do have one.
     crit_sec = t("commands.security_score.criteria.security_md")
     has_security = _content_exists(
         repo,
@@ -111,17 +98,6 @@ def cmd_security_score(args):
     else:
         score -= 10
         issues.append((crit_sec, s_missing, -10, False))
-    # The branch protection endpoint is only readable by repository admins.
-    # Treating every non-200 as "not enabled" penalises every repository the
-    # caller does not own: `exc security-score torvalds/linux` reported the
-    # kernel's main branch as unprotected purely because we cannot read it.
-    #
-    # Measured against the live API: GitHub does NOT return a descriptive
-    # "Branch not protected" message here. Both an unprotected branch and an
-    # unreadable one answer 404 "Not Found", so the message cannot tell them
-    # apart. The repository's own `permissions.admin` flag can: with admin
-    # rights a 404 really does mean no protection; without them the endpoint
-    # is simply closed to us and the criterion is left unscored.
     crit_bp = t("commands.security_score.criteria.branch_prot")
     default_branch = repo_data.get('default_branch')
     prot_url = f"https://api.github.com/repos/{repo}/branches/{default_branch}/protection"
@@ -149,10 +125,6 @@ def cmd_security_score(args):
     else:
         score -= 5
         issues.append((crit_dep, s_missing, -5, False))
-    # Code scanning alerts are not public either. Previously an unreadable
-    # response was recorded as "N/A" but still counted as a pass, which quietly
-    # rewarded repositories we simply could not inspect. Code scanning is
-    # optional, so not having it is reported but never penalised.
     crit_cs = t("commands.security_score.criteria.code_scanning")
     scan_url = f"https://api.github.com/repos/{repo}/code-scanning/alerts"
     try:
@@ -171,7 +143,6 @@ def cmd_security_score(args):
     else:
         issues.append((crit_cs, s_unknown, 0, None))
     _print_security_score(repo, score, issues)
-
 
 def _print_security_score(repo, score, issues):
     """Print security score in a visual, user-friendly format."""
@@ -208,7 +179,6 @@ def _print_security_score(repo, score, issues):
     printer.print_header()
     for criteria, status, impact, passed in issues:
         if passed is None:
-            # Unknown: shown but deliberately not scored either way.
             color = '90'
             impact_str = ""
         elif passed:

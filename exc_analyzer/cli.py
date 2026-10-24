@@ -13,11 +13,9 @@ from exc_analyzer.commands.analysis import cmd_analysis
 from exc_analyzer.commands.user_a import cmd_user_a
 from exc_analyzer.commands.scan_secrets import cmd_scan_secrets
 from exc_analyzer.commands.file_history import cmd_file_history
-from exc_analyzer.commands.dork_scan import cmd_dork_scan
 from exc_analyzer.commands.advanced_secrets import cmd_advanced_secrets
 from exc_analyzer.commands.security_score import cmd_security_score
 from exc_analyzer.commands.commit_anomaly import cmd_commit_anomaly
-from exc_analyzer.commands.user_anomaly import cmd_user_anomaly
 from exc_analyzer.commands.content_audit import cmd_content_audit
 from exc_analyzer.commands.actions_audit import cmd_actions_audit
 class SilentArgumentParser(argparse.ArgumentParser):
@@ -35,11 +33,9 @@ class SilentArgumentParser(argparse.ArgumentParser):
                 'analysis': ['a', 'ana', 'analys', 'analyzis', 'analiz', 'anlys', 'anyl', 'anali', 'analy'],
                 'scan-secrets': ['scan', 'secrets', 'scn', 'scret', 'scrt', 'ss', 's-scan', 'scretscan', 'secscan'],
                 'file-history': ['file', 'fileh', 'flhist', 'histfile', 'fh', 'filehist', 'filehis', 'f-history'],
-                'dork-scan': ['dork', 'dorkscan', 'drk', 'ds', 'dscan', 'dorks', 'd-sc'],
                 'advanced-secrets': ['advsec', 'advsecrets', 'advscrt', 'as', 'adv-s', 'advs', 'advsercet'],
                 'security-score': ['secscore', 'sscore', 'sec-score', 'securiscore', 'securityscor', 'ssec', 'securscore'],
                 'commit-anomaly': ['commanom', 'commitanom', 'c-anom', 'c-anomaly', 'ca', 'cm-anom', 'comm-anom'],
-                'user-anomaly': ['useranom', 'usranom', 'u-anom', 'user-anom', 'ua', 'useranomaly'],
                 'content-audit': ['audit', 'contentaudit', 'cntaudit', 'caudit', 'cnt-aud', 'cont-audit'],
                 'actions-audit': ['workflow-audit', 'waudit', 'actaudit', 'actionaudit', 'wf-audit', 'wkaudit']
             }
@@ -159,8 +155,6 @@ def print_full_help():
         ("exc file-history", f"{arg('owner_repo')} {arg('file')}", "commands.file_history.desc_short"),
     ]
     sec_cmds = [
-        ("exc user-anomaly", arg("username"), "commands.user_anomaly.desc_short"),
-        ("exc dork-scan", arg("dork_query"), "commands.dork_scan.desc_short"),
         ("exc advanced-secrets", arg("owner_repo"), "commands.advanced_secrets.desc_short"),
         ("exc security-score", arg("owner_repo"), "commands.security_score.desc_short"),
         ("exc commit-anomaly", arg("owner_repo"), "commands.commit_anomaly.desc_short"),
@@ -414,32 +408,6 @@ def main_cli():
             options_key="commands.file_history.options"
         )
     file_parser.set_defaults(func=cmd_file_history, help_func=file_help)
-    dork_parser = subparsers.add_parser(
-        "dork-scan",
-        description="Scan GitHub for sensitive keywords or patterns (dorking).",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        add_help=False
-    )
-    dork_parser.add_argument("query", nargs="*", help=argparse.SUPPRESS)
-    dork_parser.add_argument("-n", "--num", type=int, default=10, help=t("commands.shared.help_num"))
-    dork_parser.add_argument("-p", "--preset", help=t("commands.dork_scan.help_preset")) 
-    dork_parser.add_argument("--verify", action="store_true", help=t("commands.dork_scan.help_verify"))
-    dork_parser.add_argument("--list-presets", action="store_true", help=t("commands.dork_scan.help_list_presets"))
-    dork_parser.add_argument("--export", metavar="FILE", help=t("commands.dork_scan.help_export"))
-    dork_parser.add_argument("-o", "--output", nargs='?', const='', help=t("commands.shared.help_output"))
-    dork_parser.add_argument("-r", "--show-rate-limit", action="store_true", help=argparse.SUPPRESS)
-    dork_parser.add_argument("-h", "--help", action="store_true", help=argparse.SUPPRESS)
-    def dork_help(args):
-        HelpPrinter.print_help(
-            "commands.dork_scan.usage",
-            "commands.dork_scan.description",
-            examples_key="commands.dork_scan.examples",
-            options_key="commands.dork_scan.options",
-            details_key="commands.dork_scan.details",
-            tips_key="commands.dork_scan.tips",
-            footer_key="commands.dork_scan.footer"
-        )
-    dork_parser.set_defaults(func=cmd_dork_scan, help_func=dork_help)
     advsec_parser = subparsers.add_parser(
         "advanced-secrets",
         description="Scan repo for a wide range of secret patterns.",
@@ -493,23 +461,6 @@ def main_cli():
             examples_key="commands.commit_anomaly.examples"
         )
     commanom_parser.set_defaults(func=cmd_commit_anomaly, help_func=commanom_help)
-    useranom_parser = subparsers.add_parser(
-        "user-anomaly",
-        description="Detect unusual activity in a user's GitHub activity.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        add_help=False
-    )
-    useranom_parser.add_argument("username", nargs="?", help=argparse.SUPPRESS)
-    useranom_parser.add_argument("-o", "--output", nargs='?', const='', help=t("commands.shared.help_output"))
-    useranom_parser.add_argument("-r", "--show-rate-limit", action="store_true", help=argparse.SUPPRESS)
-    useranom_parser.add_argument("-h", "--help", action="store_true", help=argparse.SUPPRESS)
-    def useranom_help(args):
-        HelpPrinter.print_help(
-            "commands.user_anomaly.usage",
-            "commands.user_anomaly.description",
-            examples_key="commands.user_anomaly.examples"
-        )
-    useranom_parser.set_defaults(func=cmd_user_anomaly, help_func=useranom_help)
     content_parser = subparsers.add_parser(
         "content-audit",
         description="Audit repo for license, security.md, docs, etc.",
@@ -558,9 +509,6 @@ def main_cli():
             args.help_func(args)
         else:
             print_full_help()
-    if args.command == "dork-scan" and not args.query and not getattr(args, 'preset', None) and not getattr(args, 'list_presets', False):
-        print_error(t("commands.dork_scan.missing_query"))
-        sys.exit(1)
     if hasattr(args, 'func'):
         try:
             output_file = getattr(args, 'output', None)

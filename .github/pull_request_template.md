@@ -15,7 +15,6 @@ Describe what changed and why.
 
 - Affected area(s):
   - [ ] analysis
-  - [ ] dork-scan
   - [ ] security-score
   - [ ] login/auth/keyring
   - [ ] output/reporting

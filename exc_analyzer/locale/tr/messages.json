@@ -34,15 +34,13 @@
     "args": {
       "owner_repo": "<sahip/depo>",
       "username": "<kullanıcı_adı>",
-      "file": "<dosya>",
-      "dork_query": "<dork_sorgusu>"
+      "file": "<dosya>"
     }
   },
   "commands": {
     "shared": {
       "missing_repo": "Gerekli argüman eksik: <owner/repo>",
       "missing_args": "Gerekli argümanlar eksik.",
-      "missing_query": "Gerekli argüman eksik: <dork_query>",
       "usage_hint": "Örnek: exc {command} {args}",
       "permission_denied": "Erişim reddedildi (Permission denied).",
       "api_key_missing": "API anahtarı eksik.",
@@ -169,73 +167,6 @@
       "examples": [
         "exc content-audit torvalds/linux"
       ]
-    },
-    "dork_scan": {
-      "searching": "GitHub üzerinde aranıyor: {query}",
-      "total": "Gösterilen toplam: {count}",
-      "disclaimer": "Sorumlu kullanın. Bu taramanın sonuçlarından yasal ve etik olarak siz sorumlusunuz.",
-      "none_found": "Sonuç bulunamadı.",
-      "missing_query": "Arama sorgusu eksik.",
-      "table_header": {
-        "repo": "REPO",
-        "file": "DOSYA",
-        "link": "BAĞLANTI",
-        "status": "STAT"
-      },
-      "desc_short": "# GitHub dork taraması",
-      "usage": "Kullanım: exc dork-scan <dork_sorgusu> [seçenekler]",
-      "description": "GitHub üzerindeki herkese açık kodlarda kritik anahtar kelime, sır veya yapılandırma dosyalarını arar.",
-      "examples": [
-        "exc dork-scan brgkdm",
-        "exc dork-scan --preset secrets -n 20",
-        "exc dork-scan \"AWS_ACCESS_KEY_ID\" --verify",
-        "exc dork-scan --preset aws --export aws_leaks.json",
-        "exc dork-scan --export results.json \"password\" -n 50",
-        "exc dork-scan --list-presets"
-      ],
-      "options": [
-        "<dork_sorgusu>            Arama ifadesi (birden çok kelime için tırnak kullanın)",
-        "-n, --num N               Gösterilecek sonuç sayısı (varsayılan: 10, en fazla: 100)",
-        "-p, --preset PAKET        Hazır dork paketi kullan (secrets, config, aws, azure, google, actions)",
-        "--verify                  Bulunan dosyaların içeriğini indir ve doğrula (derin analiz)",
-        "--list-presets            Mevcut hazır paketleri listele",
-        "--export DOSYA            Sonuçları JSON veya CSV olarak kaydet",
-        "-o, --output              Çıktıyı dosyaya kaydet (atlanırsa dosya adı otomatik üretilir)",
-        "-h, --help                Bu yardım metnini göster"
-      ],
-      "details": [
-        "Bu komut; özel sorgular (dork) ile açığa çıkan sırları, API anahtarlarını veya hassas dosyaları bulmanıza yardım eder.",
-        "Arama sorgunuzda anahtar kelimeleri birleştirerek sonuçları hassaslaştırabilirsiniz."
-      ],
-      "tips": [
-        "Birden fazla kelime için tırnak kullanın (örn. \"sensitive key\")",
-        "Sonuçlarda depo adı, dosya yolu ve GitHub bağlantısı yer alır"
-      ],
-      "footer": "Daha fazla bilgi: https://github.com/exc-analyzer/exc",
-      "help_preset": "Hazır dork paketi kullan (secenekler: secrets, config, actions...)",
-      "help_verify": "Sonuçların içeriğini indir ve doğrula (derin analiz)",
-      "help_list_presets": "Mevcut dork paketlerini listele",
-      "help_export": "Sonuçları dosyaya aktar (JSON veya CSV)",
-      "invalid_preset": "Geçersiz paket: {preset}. Mevcut paketleri görmek için --list-presets kullanın.",
-      "searching_spinner": "GitHub üzerinde aranıyor...",
-      "long_query_warning": "Uyarı: Çok uzun sorgu. GitHub API bazı terimleri yok sayabilir.",
-      "verifying_count": "{count} sonuç için içerik doğrulaması başlatılıyor...",
-      "verifying_spinner": "İçerikler indiriliyor ve analiz ediliyor...",
-      "export_success": "Sonuçlar başarıyla dışa aktarıldı: {path}",
-      "export_error": "Dışa aktarma hatası: {error}",
-      "presets_list_header": "Mevcut Dork Paketleri:",
-      "status": {
-        "verified": "DOĞRULANDI",
-        "potential": "Olası",
-        "suspicious": "Şüpheli",
-        "suspicious_small": "Şüpheli (Küçük)",
-        "unverified": "-",
-        "check_failed": "Kontrol Edilemedi",
-        "likely_example": "Muhtemelen Örnek",
-        "no_secrets": "Sır Bulunamadı"
-      },
-      "filtered_count": "{count} temiz/güvenli sonuç listeden gizlendi.",
-      "export_exists_prompt": "'{path}' dosyası zaten mevcut. Üzerine yazılsın mı? (e/H) "
     },
     "file_history": {
       "usage": "Kullanım: exc file-history <sahip/depo> <dosya_yolu>",
@@ -395,48 +326,6 @@
       "cancelled": "Giriş işlemi kullanıcı tarafından iptal edildi.",
       "security_disclaimer": "- Bu araç analiz amacıyla GitHub hesabınıza erişim ister.\n- Hiçbir yazma, değiştirme veya tetikleme işlemi yapılmaz.\n\n- Yetkiler GitHub tarafından yönetilir ve dilediğiniz zaman iptal edilebilir.",
       "agree_prompt": "Devam etmek istiyor musunuz? (e/H): "
-    },
-    "user_anomaly": {
-      "desc_short": "# Kullanıcı anomali tespiti",
-      "usage": "Kullanım: exc user-anomaly <github_kullanıcı_adı>",
-      "description": "Bir kullanıcının GitHub etkinliğindeki olağandışı hareketleri tespit eder.",
-      "examples": [
-        "exc user-anomaly octocat"
-      ],
-      "checking": "{user} için kullanıcı etkinliği kontrol ediliyor",
-      "fetching_data": "Kullanıcı verileri çekiliyor...",
-      "analyzing": "Anomaliler analiz ediliyor...",
-      "no_activity": "Yakın zamanda etkinlik bulunamadı.",
-      "unusual": "Olağandışı etkinlik: Saat {hour} civarında {count} olay",
-      "normal": "Olağandışı bir etkinlik tespit edilmedi.",
-      "header": "KULLANICI ANOMALİ ANALİZİ: {user}",
-      "risk_score": "Risk Skoru",
-      "risk_low": "DÜŞÜK RİSK",
-      "risk_medium": "ORTA RİSK",
-      "risk_high": "YÜKSEK RİSK",
-      "anomalies_detected": "Tespit Edilen Anomaliler",
-      "no_anomalies": "Anomali tespit edilmedi. Hesap normal görünüyor.",
-      "profile_summary": "Profil Özeti",
-      "account_age": "Hesap Yaşı",
-      "total_repos": "Toplam Repo",
-      "followers_following": "Takipçi/Takip",
-      "fork_ratio": "Fork Oranı",
-      "activity_chart": "Aktivite Grafiği (Zaman Bloklarına Göre)",
-      "anomaly": {
-        "new_account_high_activity": "Yeni hesap ({days} gün) yüksek aktivite ({repos} repo)",
-        "old_account_no_activity": "Eski hesap ama hiç aktivite yok",
-        "suspicious_follow_ratio": "Şüpheli takip oranı: {followers} takipçi / {following} takip",
-        "high_fork_ratio": "Yüksek fork oranı: %{ratio} ({forks}/{total} repo)",
-        "concentrated_activity": "Yoğunlaşmış aktivite: {count} olay saat {hour}:00'te",
-        "night_activity": "Gece aktivitesi yüksek: %{percent}",
-        "incomplete_profile": "Profil bilgileri eksik (bot olabilir)",
-        "repetitive_events": "Tekrarlayıcı olay türü: %{percent} {event_type}",
-        "low_quality_commits": "Düşük kaliteli commit mesajları: %{percent} tek kelime/spam",
-        "random_repo_names": "Rastgele/otomatik repo isimleri: {count}/{total}",
-        "activity_burst": "Ani aktivite patlaması: {max_events} olay/gün (ortalama: {avg_events})",
-        "single_language_focus": "Tek dil yoğunlaşması: %{percent} {language}",
-        "mostly_empty_repos": "Boş/minimal repolar: {empty}/{total}"
-      }
     },
     "contrib_impact": {
       "header": "\n[*] {repo} için Katılımcı Etki Analizi",

@@ -12,9 +12,7 @@ def test_analysis_i18n_keys():
         assert t("commands.security_score.criteria.license") == "Lisans"
         assert t("commands.scan_secrets.no_commits") == "Commit bulunamadı"
         assert t("commands.content_audit.files.readme") == "README"
-        assert t("commands.dork_scan.none_found") == "Sonuç bulunamadı."
         assert t("commands.commit_anomaly.headers.sha") == "SHA"
-        assert t("commands.user_anomaly.no_activity") == "Yakın zamanda etkinlik bulunamadı."
         assert t("commands.contrib_impact.formula") == "(Skor = Eklenen satır * 0.7 - Silinen satır * 0.3)"
     finally:
         set_language('en')

@@ -24,7 +24,6 @@
 
 *   **Intelligence Gathering:** Deep-dive into repository metadata, contributor impact, and historical anomalies.
 *   **Security Auditing:** Score repository security posture, audit GitHub Actions workflows, and scan for secrets in commits/files.
-*   **Dork Scanning:** Powerfully search public code using GitHub dorks to find sensitive exposures.
 *   **User Profiling:** Analyze user activity patterns, potential anomalies, and contributions.
 *   **Smart Rate-Limiting:** Handles API quotas automatically with intelligent pausing and retries.
 *   **Localization:** Localization is currently available in English and Turkish, but the infrastructure is ready to expand to a wider range of languages ​​through community contributions.
@@ -83,12 +82,7 @@ To provide deep intelligence and security auditing (including private repositori
 ```bash
 exc analysis torvalds/linux
 ```
-**2. Search for Sensitive Data (Dorks) (User's responsibility):**
-```bash
-exc dork-scan "filename:config.php 'db_password'"
-```
-
-**3. Scan for Secrets:**
+**2. Scan for Secrets:**
 ```bash
 exc scan-secrets microsoft/vscode -l 20
 ```
@@ -104,11 +98,9 @@ exc scan-secrets microsoft/vscode -l 20
 *   **`actions-audit <owner>/<repo>`** - Audit GitHub Actions workflows for dangerous triggers and insecure practices.
 *   **`scan-secrets <owner>/<repo>`** - Fast scan of recent commits for credentials and tokens.
 *   **`advanced-secrets <owner>/<repo>`** - Deep scan of current file contents and history for high-entropy secrets.
-*   **`dork-scan <query>`** - Search GitHub for sensitive code patterns (dorks). Supports export.
 
 ### Anomaly Detection
 *   **`commit-anomaly <owner>/<repo>`** - Detect suspicious commit times, mass deletions, or unusual messages.
-*   **`user-anomaly <username>`** - Identify irregular activity spikes or behavioral outliers for a user.
 
 ### Content Audit
 *   **`content-audit <owner>/<repo>`** - Check for essential community standards (LICENSE, CODE_OF_CONDUCT, CONTRIBUTING.md).
@@ -126,7 +118,6 @@ Most commands support the `-o` or `--output` flag to save results to a file:
 exc analysis owner/repo -o
 
 # Save to a specific file
-exc dork-scan "password" -o results.txt
 ```
 
 ## Localization

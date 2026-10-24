@@ -52,7 +52,6 @@ body:
       label: Affected area
       options:
         - analysis
-        - dork-scan
         - security-score
         - login/auth
         - output/reporting

@@ -34,15 +34,13 @@
     "args": {
       "owner_repo": "<owner/repo>",
       "username": "<username>",
-      "file": "<file>",
-      "dork_query": "<dork_query>"
+      "file": "<file>"
     }
   },
   "commands": {
     "shared": {
       "missing_repo": "Missing required argument: <owner/repo>",
       "missing_args": "Missing required arguments.",
-      "missing_query": "Missing required argument: <dork_query>",
       "usage_hint": "Example: exc {command} {args}",
       "permission_denied": "Permission denied.",
       "api_key_missing": "API key is missing.",
@@ -173,73 +171,6 @@
       "examples": [
         "exc content-audit torvalds/linux"
       ]
-    },
-    "dork_scan": {
-      "searching": "Searching GitHub for: {query}",
-      "total": "Total shown: {count}",
-      "disclaimer": "Use responsibly. You are legally and ethically responsible for the results of this scan.",
-      "none_found": "No results found.",
-      "missing_query": "Search query missing.",
-      "table_header": {
-        "repo": "REPO",
-        "file": "FILE",
-        "link": "LINK",
-        "status": "STAT"
-      },
-      "desc_short": "# GitHub dorking for secrets/configs",
-      "usage": "Usage: exc dork-scan <dork_query> [options]",
-      "description": "Scan public GitHub code for sensitive keywords, secrets, or configuration files using advanced dorking techniques.",
-      "examples": [
-        "exc dork-scan brgkdm",
-        "exc dork-scan --preset secrets -n 20",
-        "exc dork-scan \"AWS_ACCESS_KEY_ID\" --verify",
-        "exc dork-scan --preset aws --export aws_leaks.json",
-        "exc dork-scan --export results.json \"password\" -n 50",
-        "exc dork-scan --list-presets"
-      ],
-      "options": [
-        "<dork_query>              The search query (can be multiple words, quoted if needed)",
-        "-n, --num N               Number of results to show (default: 10, max: 100)",
-        "-p, --preset PRESET       Use a preset dork list (secrets, config, aws, azure, google, actions)",
-        "--verify                  Download and verify file content (deep dive analysis)",
-        "--list-presets            List all available preset packages",
-        "--export FILE             Export results to JSON or CSV file",
-        "-o, --output              Save output to file (auto-generated filename if omitted)",
-        "-h, --help                Show this help message and exit"
-      ],
-      "details": [
-        "This command allows you to search public GitHub repositories for exposed secrets, API keys, tokens, or sensitive files using custom search queries (dorks).",
-        "Combine keywords in your search query for more precise results."
-      ],
-      "tips": [
-        "Use quotes for multi-word queries (e.g. \"sensitive key\")",
-        "Results include repository, file path, and direct link to the file on GitHub"
-      ],
-      "footer": "For more info: https://github.com/exc-analyzer/exc",
-      "help_preset": "Use a preset dork list (choices: secrets, config, actions...)",
-      "help_verify": "Download and verify file content (deep dive)",
-      "help_list_presets": "List available dork presets",
-      "help_export": "Export results to file (JSON or CSV)",
-      "invalid_preset": "Invalid preset: {preset}. Use --list-presets to see available options.",
-      "searching_spinner": "Searching GitHub...",
-      "long_query_warning": "Warning: Query is very long. GitHub API might ignore some terms.",
-      "verifying_count": "Starting content verification for {count} results...",
-      "verifying_spinner": "Downloading and analyzing content...",
-      "export_success": "Results successfully exported to: {path}",
-      "export_error": "Export error: {error}",
-      "presets_list_header": "Available Dork Presets:",
-      "status": {
-        "verified": "VERIFIED",
-        "potential": "Potential",
-        "suspicious": "Suspicious",
-        "suspicious_small": "Suspicious (Small)",
-        "unverified": "-",
-        "check_failed": "Check Failed",
-        "likely_example": "Likely Example",
-        "no_secrets": "No Secrets Found"
-      },
-      "filtered_count": "{count} clean/safe results were hidden from the list.",
-      "export_exists_prompt": "File '{path}' already exists. Overwrite? (y/N) "
     },
     "file_history": {
       "usage": "Usage: exc file-history <owner/repo> <path_to_file>",
@@ -399,48 +330,6 @@
       "cancelled": "Authentication cancelled by user.",
       "security_disclaimer": "- This tool requests access to repositories for ANALYSIS purposes only.\n- IT DOES NOT PERFORM ANY WRITE, MODIFY, OR TRIGGER OPERATIONS.\n\n- Permissions are managed by GitHub and can be revoked at any time.",
       "agree_prompt": "Do you want to continue? (y/N): "
-    },
-    "user_anomaly": {
-      "desc_short": "# User activity anomaly detection",
-      "usage": "Usage: exc user-anomaly <github_username>",
-      "description": "Detects unusual activity or anomalies in a user's GitHub activity.",
-      "examples": [
-        "exc user-anomaly octocat"
-      ],
-      "checking": "Checking user activity for: {user}",
-      "fetching_data": "Fetching user data...",
-      "analyzing": "Analyzing anomalies...",
-      "no_activity": "No recent activity found.",
-      "unusual": "Unusual activity: {count} events at hour {hour}",
-      "normal": "No unusual activity detected.",
-      "header": "USER ANOMALY ANALYSIS: {user}",
-      "risk_score": "Risk Score",
-      "risk_low": "LOW RISK",
-      "risk_medium": "MEDIUM RISK",
-      "risk_high": "HIGH RISK",
-      "anomalies_detected": "Detected Anomalies",
-      "no_anomalies": "No anomalies detected. Account appears normal.",
-      "profile_summary": "Profile Summary",
-      "account_age": "Account Age",
-      "total_repos": "Total Repos",
-      "followers_following": "Followers/Following",
-      "fork_ratio": "Fork Ratio",
-      "activity_chart": "Activity Chart (By Time Blocks)",
-      "anomaly": {
-        "new_account_high_activity": "New account ({days} days) with high activity ({repos} repos)",
-        "old_account_no_activity": "Old account but no activity",
-        "suspicious_follow_ratio": "Suspicious follow ratio: {followers} followers / {following} following",
-        "high_fork_ratio": "High fork ratio: {ratio}% ({forks}/{total} repos)",
-        "concentrated_activity": "Concentrated activity: {count} events at hour {hour}:00",
-        "night_activity": "High night activity: {percent}%",
-        "incomplete_profile": "Incomplete profile (possible bot)",
-        "repetitive_events": "Repetitive event type: {percent}% {event_type}",
-        "low_quality_commits": "Low quality commit messages: {percent}% single-word/spam",
-        "random_repo_names": "Random/generated repo names: {count}/{total}",
-        "activity_burst": "Sudden activity burst: {max_events} events/day (avg: {avg_events})",
-        "single_language_focus": "Single language focus: {percent}% {language}",
-        "mostly_empty_repos": "Mostly empty repos: {empty}/{total}"
-      }
     },
     "contrib_impact": {
       "header": "\n[*] Contributor Impact Analysis for {repo}",
